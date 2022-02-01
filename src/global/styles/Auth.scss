@@ -1,0 +1,219 @@
+.Register{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 150px 0;
+
+    .title-tag{
+
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        width: 40%;
+        
+        h1{
+            font-size: 21px;
+            letter-spacing: -1px;
+            font-family: 'Code Next', sans-serif;
+            margin-left: 30px;
+        }
+    }
+
+
+    form{
+        margin: 0 auto;
+        width: 40%;
+        overflow: hidden;
+        margin-top: 30px;
+
+        input, textarea{
+            width: 100%;
+            height: 50px;
+            border: none;
+            background: transparent;
+            outline: none;
+        }
+
+        input::placeholder{
+            color: #140876;
+            font-family: 'Poppins';
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        input:focus input::placeholder{
+            color: aqua;
+        }
+
+        .icon-form{
+            width: 50px;
+            height: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            color: #140876;
+            border-right: 1px solid rgba($color: #140876, $alpha: .2);
+            margin-right: 10px;
+
+        }
+
+        .field-data{
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 20px 0;
+
+            .inputArea{
+                width: 100%;
+                display: flex;
+                align-items: center;
+
+                label{
+                    position: absolute;
+                }
+            }
+
+            .half-type{
+                display: flex;
+                width: 49%;
+                align-items: center;
+            }
+
+            .full-type{
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            .half-type, .full-type{
+                border-radius: 5px;
+                background-color: #f0f6ff;
+                padding: 5px 0;
+            }
+
+            &.field-idea{
+                flex-direction: column;
+                align-items: flex-start;
+                font-family: 'Poppins', sans-serif;
+                margin-bottom: 50px;
+
+                .question-tag{
+                    margin-bottom: 15px;
+                    color: #140876;
+                    font-family: 'Poppins';
+                    font-weight: bold;
+                    font-size: 15px;
+
+                    span{
+                        font-weight: 300;
+                        color: #999;
+                    }
+                    
+                }
+
+                .upload{
+                    cursor: pointer;
+                    padding: 16px 25px !important;
+                    font-size: 14px;
+                }
+
+                textarea{
+
+                    padding: 10px 15px;
+                    font-size: 14px;
+                    line-height: 24px;
+                    font-family: 'Poppins', sans-serif;
+                    height: max-content;
+                    resize: none;
+
+                }
+
+            }
+        }
+
+        .submit-btn{
+            background-color: #43D57F;
+            padding: 18px 0;
+            border-radius: 5px;
+            margin-top: 20px;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            color: #fff;
+            font-size: 15px;
+            cursor: pointer;
+            width: 100%;
+            border: none;
+        }
+
+        .login-trigger{
+
+            margin-top: 40px;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
+            text-align: center;
+
+            .login-btn{
+                text-decoration: none;
+                color: #140876;
+                font-weight: bold;
+            }
+
+        }
+    }
+}
+
+
+@media (max-width : 1024px){
+
+    .Register {
+        form{
+            width: 60%;
+        }
+    }
+
+}
+
+@media (max-width : 768px){
+
+
+    .Register {
+
+        .title-tag{
+
+            width: 80%;
+        }
+
+        form{
+            width: 80%;
+        }
+    }
+
+}
+
+@media (max-width : 425px){
+
+    .Register {
+
+        padding: 130px 0;
+
+        .title-tag{
+
+            width: 90%;
+            flex-direction: column;
+
+            h1{
+                margin-left: 0px;
+                margin-top: 30px;
+                text-align: center;
+            }
+        }
+
+        form{
+            width: 90%;
+        }
+    }
+
+}

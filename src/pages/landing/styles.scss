@@ -1,0 +1,715 @@
+.homearea{
+
+    display: flex;
+    padding: 50px 12%;
+    height: 100vh;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    justify-content: space-between;
+
+    .textArea{
+
+        width: 45%;
+        margin-top: 90px;
+
+        .main-text{
+
+            font-family: 'Code Next';
+            font-size: 60px;
+            line-height: 64px;
+            letter-spacing: -1.44px;
+            color: #150033;
+
+        }
+
+        .sub-text{
+            margin: 30px 0;
+            font-size: 16px;
+            width: 80%;
+            line-height: 28px;
+            font-weight: 400;
+            color: #777;
+        }
+
+        .lasric-form{
+
+            h1{
+                font-size: 14px;
+                margin-bottom: 20px;
+            }
+
+            width: 100%;
+
+            .getstarted{
+
+                display: flex;
+
+                input{
+                    padding: 20px;
+                    outline: none;
+                    border-radius: 8px 0 0 8px;
+                    border: 1px solid rgba($color: #000000, $alpha: .2);
+                    width: 65%;
+                }
+
+                button{
+                    outline: none;
+                    background-color: #000;
+                    border-color: #000;
+                    border-radius: 0 8px 8px 0;
+                    color: #fff;
+                    padding: 0 30px;
+                    cursor: pointer;
+                    font-weight: bold;
+                }
+            }
+
+        }
+
+        .awardee-action{
+            margin-top: 50px;
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+
+            .pulse{
+                position: relative;
+
+
+                .blop{
+                    background-color: #f1b143ce;
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 50%;
+                    position: absolute;
+                    animation: pulse 1s infinite ease-in-out;
+                    transform: translate(-50%, -50%);
+                }
+
+                .solid{
+                    background-color: #F1B043;
+                    height: 45px;
+                    width: 45px;
+                    border-radius: 50%;
+                    position: absolute;
+                    transform: translate(-50%, -50%);
+                }
+
+                .playbtn{
+                    overflow: hidden;
+                    height: 20px;
+                    width: 20px;
+                    position: absolute;
+                    color: #fff;
+                    transform: translate(-50%, -50%);
+
+                    img{
+                        width: 100%;
+                    }
+                }
+            }
+
+            .inform{
+                margin-left: 60px;
+
+                h1{
+                    font-size: 12px;
+                    margin-bottom: 10px;
+                }
+
+                p{
+                    width: 58%;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+    .right-landing{
+
+        width: 45%;
+        position: relative;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: -50px;
+
+        .photo-awardee{
+
+            height: 400px;
+            width: 350px;
+            overflow: hidden;
+            border-radius: 15px;
+            display: flex;
+            align-items: flex-end;
+            
+            img{
+                width: 100%;
+                transform: scale(2);
+            }
+
+        }
+
+        .anim-lottie{
+            position: absolute;
+            top: 350px;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .side-info{
+            position: absolute;
+            background-color: #fff;
+            width: 73%;
+            font-size: 28px;
+            font-family: 'Code Next';
+            text-align: right;
+            line-height: 33px;
+            left: -24%;
+            margin-top: 380px;
+            padding: 30px;
+            border-radius: 30px;
+            color: #150033;
+
+            .awardee-author{
+                font-size: 14px;
+                text-align: left;
+                line-height: 20px;
+                color: #777;
+                border-left: 1px solid rgba($color: #000000, $alpha: .2);
+                padding-left: 20px;
+                margin-left: 80px;
+                margin-top: 20px;
+            }
+
+        }
+
+    }
+
+}
+
+.log{
+
+    height: 50px;
+    width: 50px;
+
+    img{
+        width: 100%;
+    }
+
+}
+
+.logos{
+    display: flex;
+}
+
+.partners{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    background-color: #f9f9f9;
+    padding: 20px 12%;
+    justify-content: space-between;
+
+    p{
+        font-size: 14px;
+    }
+
+    .log{
+        margin-left: 40px;
+    }
+}
+
+.videoplayer{
+    width: 100%;
+    padding: 0 12%;
+    margin: 50px 0;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .text{
+
+        width: 45%;
+
+        h1{
+            font-size: 45px;
+            font-family: 'Code Next';
+            line-height: 50px;
+            width: 80%;
+        }
+
+        p{
+            font-size: 16px;
+            width: 70%;
+            margin-top: 30px;
+            color: #777;
+        }
+    }
+
+    .player{
+        overflow: hidden;
+        height: 350px;
+        width: 550px;
+        border-radius: 20px;
+
+        video{
+            height: 100%;
+        }
+
+    }
+    
+}
+
+.build{
+    background-color: #150033;
+    color: #fff;
+    padding: 0 12%;
+    height: max-content;
+    display: flex;
+    overflow: hidden;
+    align-items: center;
+
+    .tip{
+        width: 50%;
+
+        h1{
+
+            font-size: 45px;
+            font-family: 'Code Next';
+            line-height: 50px;
+        }
+
+        p{
+            margin-top: 45px;
+            width: 78%;
+            line-height: 25px;
+        }
+    }
+
+    .anim-lottie{
+        width: 50%;
+    }
+}
+
+
+.featuredTech{
+
+    width: 100%;
+    padding: 70px 12%;
+
+    .title{
+        font-size: 45px;
+        font-family: 'Code Next';
+        line-height: 50px;
+    }
+
+    .photo{
+        width: 100%;
+        height: 450px;
+        background-color: yellow;
+        overflow: hidden;
+        margin: 50px 0;
+        border-radius: 10px;
+
+        img{
+            width: 100%;
+        }
+    }
+
+    .info-actions{
+
+        display: flex;
+        height: 80px;
+        margin-bottom: 50px;
+        align-items: center;
+
+        .info{
+            height: max-content;
+
+            .heading{
+                display: flex;
+                text-transform: uppercase;
+                font-weight: bold;
+                font-size: 12px;
+                align-items: center;
+
+                .icon-A{
+                    margin-right: 10px;
+                    height: 18px;
+                    width: 18px;
+
+                    img{
+                        width: 100%;
+                    }
+                }
+            }
+
+            .comapany_name{
+                margin-top: 10px;
+                font-size: 28px;
+                font-weight: bold;
+            }
+            
+            
+        }
+
+        .info:last-child{
+
+            .comapany_name{
+
+                a{
+                    color: royalblue;
+                }
+
+            }
+
+        }
+
+        .line-space{
+            height: 100%;
+            width: 1px;
+            background-color: rgba($color: #000000, $alpha: .1);
+            margin: 0 50px;
+        }
+
+    }
+
+    .body-text{
+
+        font-size: 15px;
+        line-height: 33px;
+        margin-top: 50px;
+    }
+
+}
+
+.applyA{
+    width: 100%;
+    padding: 0px 12%;
+    height: 200px;
+    background-color: #150033;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .applybtn{
+        background-color: #43D57F;
+        padding: 15px 25px;
+        font-size: 12px;
+        border-radius: 10px;
+        font-weight: bold;
+        margin-left: 40px;
+    }
+}
+
+.themes{
+
+    width: 100%;
+    padding: 75px 12%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1{
+        font-size: 16px;
+        font-weight: normal;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .theme-card{
+
+        width: 200px;
+        height: 200px;
+        background-color: #fff;
+        box-shadow: 0 3px 30px rgba($color: #000000, $alpha: .03);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        margin-bottom: 15px;
+
+        .abbrv{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 30px;
+            height: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 15px;
+        }
+
+        .iconify{
+
+            background-color: #F7F7FC;
+            width: 60px;
+            height: 60px;
+            padding: 10px;
+            border-radius:100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img{
+                width: 60%;
+            }
+
+        }
+
+        .textin{
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+    }
+
+    .cardArea{
+
+        display: flex;
+        justify-content: center;
+        margin-top: 70px;
+        width : 630px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+    }
+
+}
+
+.about{
+    padding: 150px 12%;
+
+    .head-area{
+        font-size: 55px;
+        font-family: 'Code Next' !important;
+        line-height: 63px;
+        width: 95%;
+        margin-bottom: 50px;
+        color: #150033;
+
+        span{
+
+            font-weight: bold;
+            font-family: 'Code Next' !important;
+            color: #43D57F;
+
+        }
+    }
+
+    .subhead{
+
+        font-size: 18px;
+        color: #999;
+        line-height: 35px;
+        margin-bottom: 50px;
+        width: 90%;
+    }
+
+    .vision-mission{
+        display: flex;
+        margin-bottom: 50px;
+
+        .vision, .mission{
+            width: 40%;
+
+            .h1{
+                font-weight: bold;
+                font-size: 18px;
+                margin-bottom: 20px;
+            }
+
+            p{
+                line-height: 30px;
+                color: #999;
+            }
+        }
+
+        .vision{
+            margin-right: 40px;
+        }
+    }
+
+    .line-tap{
+
+        width: 100%;
+        height: 1px;
+        background-color: whitesmoke;
+        margin-bottom: 50px;
+        display: flex;
+        align-items: center;
+
+        .pint{
+            background-color: #F88B2D;
+            width: 80px;
+            height: 2px;
+            border-radius: 100px;
+
+            &:last-child{
+                margin-left: calc(40% - 40px);
+            }
+        }
+
+    }
+
+    .headInterest{
+
+        padding: 100px 0;
+
+        h1{
+            text-align: center;
+            font-size: 42px;
+            font-family: 'Code Next';
+        }
+        
+        .areas{
+            margin-top: 70px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            
+            .area-icon{
+                height: 70px;
+                width: 70px;
+
+                img{
+                    width: 100%;
+                }
+            }
+
+            .AREA{
+                font-size: 18px;
+                font-weight: bold;
+            }
+        }
+
+        .area{
+
+            background-color: #FFF;
+            width: 32%;
+            position: relative;
+            padding: 20px;
+            box-shadow: 5px 10px 20px rgba($color: #000000, $alpha: .04);
+            margin-bottom: 20px;
+
+            p{
+                font-size: 14px;
+                margin-top: 30px;
+                line-height: 25px;
+                color: #333;
+            }
+
+            .tag-part{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+    }
+
+    .whygive{
+        
+        h1{
+            text-align: center;
+            font-size: 42px;
+            font-family: 'Code Next';
+            margin-bottom: 30px;
+        }
+
+        .reason{
+
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+
+            .content{
+
+                width: 48%;
+
+                .heading{
+                    font-family: 'Code Next';
+                    font-size: 40px;
+                    margin-bottom: 20px;
+                    line-height: 45px;
+                }
+
+                p{
+                    line-height: 30px;
+                }
+
+            }
+
+        }
+
+    }
+}
+
+.callups{
+    display: flex;
+    justify-content: center;
+
+    .call{
+        margin-right: 30px;
+    }
+}
+
+
+@keyframes pulse {
+
+ 0%{
+    height: 45px;
+    width: 45px;
+    opacity: 1;
+ }
+
+ 50%{
+    
+    height: 80px;
+    width: 80px;
+    opacity: 0;
+
+ }
+
+ 100%{
+    opacity: 0;
+ }
+
+}
+
+@media (max-width: 768px) {
+
+    .homearea{
+
+        padding-top: 10px !important;
+        
+        .textArea, .right-landing{
+            width: 100%;
+        }
+
+        .textArea{
+            margin-top: 10px;
+        }
+
+        .right-landing{
+            margin-top: 400px !important;
+            position: relative;
+            height: 100%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            margin-top: 450px;
+        }
+    }
+
+}

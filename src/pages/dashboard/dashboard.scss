@@ -1,0 +1,168 @@
+.dashboard{
+    display: flex;
+    padding: 140px 12%;
+    align-items: flex-start;
+
+    h1{
+        font-size: 21px;
+        margin-bottom: 40px;
+    }
+
+    .statArea{
+
+        .stats{
+
+            margin-right: 40px;
+
+            .stat{
+                height: 120px;
+                width: 250px;
+                background-color: #f9f9f9;
+                box-shadow: 10px 15px 15px rgba($color: #000000, $alpha: 0.03);
+                margin-right: 10px;
+                border-radius: 10px;
+                padding: 20px;
+                position: relative;
+                color: #fff;
+                margin: 10px 0;
+
+                .title{
+                    font-size: 14px;
+                    color:#000;
+                }
+
+                .stat-value{
+                    font-size: 21px;
+                    font-weight: bold;
+                    position: absolute;
+                    right: 15px;
+                    bottom: 15px;
+                    height: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 100%;
+                    width: 40px;
+                    color: #fff;
+                }
+            }
+        }
+    }
+
+    .listApplications{
+
+        .apps{
+            .application_card{
+                background-color: #fff;
+                width: 500px;
+                display: flex;
+                height: 180px;
+                border-radius: 10px;
+                position: relative;
+                overflow: hidden;
+
+                .contentful{
+                    width: 270px;
+                    padding: 0 10px;
+                }
+
+                .title{
+                    font-size: 16px;
+                    font-weight: bold;
+                    
+                    padding: 20px;
+
+                    .tagwe{
+                        font-size: 14px;
+                        font-weight: normal;
+                        margin-bottom: 10px;
+                        color: #777;
+                    }
+                }
+
+                .statusApp{
+
+                    font-size: 15px;
+                    
+                    .tagwep{
+                        font-size: 14px;
+                        font-weight: normal;
+                        color: #777;
+                    }
+
+                    padding: 0 20px;
+                }
+
+                .viewapp{
+                    position: absolute;
+                    right: 0;
+                    bottom: 0;
+                    margin: 20px 30px ;
+                    font-size: 14px;
+                    font-weight: bold;
+                }
+
+                .img{
+                    width: 180px;
+                    overflow: hidden;
+                    height: 180px;
+                    background-color: slategray;
+                    display: flex;
+
+                    align-items: center;
+                    justify-content: center;
+
+                    img{
+                        height: 100%;
+                    }
+                }
+            }
+        }
+}}
+
+
+@media (max-width: 768px){
+
+    .dashboard{
+        flex-direction: column;
+        padding: 140px 5%;
+
+        .statArea{
+            width: 100%;
+            .stats{
+                margin: 0 ;
+                width: 100%;
+    
+                .stat{
+                    width: 100% ;
+                }
+            }
+        }
+
+        .listApplications{
+            margin-top: 30px;
+
+            .apps{
+                .application_card{
+                    flex-direction: column;
+                    height: max-content;
+                    width: 300px;
+                    padding-bottom: 25px;
+
+                    .img{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+    }
+
+    .empty{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 300px;
+        height: 200px;
+    }
+
+}
