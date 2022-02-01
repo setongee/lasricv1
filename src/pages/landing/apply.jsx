@@ -29,7 +29,7 @@ const Apply = ({data}) => {
 
                         <div className="foot-area">
 
-                            <div className="close">Closes : 30/05/2022</div>
+                            <div className="close">Closes : 18/02/2022</div>
                             <div className="applyBTN" onClick={ () => setModalState(true) } >Apply</div>
                             
                         </div>
