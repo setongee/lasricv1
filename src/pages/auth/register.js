@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import '../../global/styles/Auth.scss'
 import '../../global/styles/fragments.scss'
 import {Link} from 'react-router-dom'
 import { setDocument } from '../../api/firebase/auth';
-//import BackButton from '../../fragments/BackButton';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
-const Register = ({history}) => {
+const Register = () => {
 
     const initialState = {
         lastname : '',
@@ -31,6 +30,18 @@ const Register = ({history}) => {
     const [data, setData] = useState(dataSubmitted);
     const [success, setSuccess] = useState(false)
 
+    useEffect(() => {
+        
+        const emailOnly = localStorage.getItem('emailOnly')
+
+        if(emailOnly !== null) {
+            setData({...data, email : emailOnly})
+        }
+
+    }, []);
+
+    console.log(data)
+
     const handleSubmit = async e => {
       
         e.preventDefault();
@@ -45,8 +56,6 @@ const Register = ({history}) => {
             .then((userCredential) => {
 
                 const user = userCredential.user;
-
-                const application = [];
 
                 setDocument(user.uid, lastname, firstname, email, phone)
                 

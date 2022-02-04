@@ -6,7 +6,7 @@ const Council = () => {
 
         <div className="councilFrame">
 
-            <iframe src="https://lasric.lagosstate.gov.ng/people" frameborder="10"></iframe>
+            <iframe src="https://lasric.lagosstate.gov.ng/people" frameBorder="0"></iframe>
 
         </div>
     );

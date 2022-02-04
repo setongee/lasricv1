@@ -34,7 +34,7 @@ const Callup = () => {
             <div className="callups">
             {
                 callup.length ? 
-                    callup.map ((data, index) => <Apply key = {index} data = {data} /> )
+                    callup.map ((data, index) => <Apply key = {index} data = {data}/> )
                 : null
             }
             </div>

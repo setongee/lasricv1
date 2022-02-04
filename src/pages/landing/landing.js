@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useState} from 'react';
 import SethAnimation from '../../components/lottie/seth-animation';
 import awardee from '../../assets/svg/aishaRaheem.jpeg'
 import play from '../../assets/svg/play.svg'
@@ -18,13 +18,43 @@ import secure from '../../assets/svg/secure.svg'
 import gradCap from '../../assets/svg/gradCap.svg'
 import chart from '../../assets/svg/chart.svg'
 
+import { useNavigate } from "react-router-dom";
+
 const Landing = () => {
+
+    let navigate = useNavigate();
+
+    const [email, setEmail] = useState("")
+
+    //set onChange event for landing email registration
+
+    const handleChange = (e) => {
+        setEmail(e.target.value)
+    }
+
+    //setup when the email from homepage is corrected
+
+    const handleEmailOnlyRegister = async e => {
+
+        e.preventDefault();
+
+        if ( email !== "" ) {
+            
+            await localStorage.setItem('emailOnly', email);
+
+        }
+
+        await navigate('/register');
+
+    }
+
+
     return (
 
 
         <div className="landing">
 
-            <div className="homearea">
+            <div className="homearea darkMode">
 
                 <div className="textArea">
 
@@ -40,9 +70,9 @@ const Landing = () => {
 
                         <h1>Get Started Today.</h1>
 
-                        <form className="getstarted">
+                        <form className="getstarted" onSubmit = {handleEmailOnlyRegister} >
 
-                            <input type="email" placeholder='Enter your email address' />
+                            <input type="email" placeholder='Enter your email address' onChange={handleChange} />
                             <button type='submit'> Register </button>
                             
                         </form>
@@ -160,14 +190,14 @@ const Landing = () => {
 
                     <div className="info">
                         <div className="heading"> <div className="icon-A"> <img src={flame} alt="icon packs" /> </div> Sector</div>
-                        <div className="comapany_name">Agriculture Technology</div>
+                        <div className="comapany_name">Agriculture</div>
                     </div>
 
                     <div className="line-space"></div>
 
                     <div className="info">
                         <div className="heading"> <div className="icon-A"> <img src={web} alt="icon packs" /> </div> Website</div>
-                        <div className="comapany_name"> <a href="https://www.boom.com" target="_blank" >www.farmz.com.ng</a> </div>
+                        <div className="comapany_name"> <a href="https://www.farmz2u.com/" target="_blank" >www.farmz.com.ng</a> </div>
                     </div>
                     
 

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Link } from "react-router-dom";
+import React, {useState, useEffect} from 'react';
+import { Link, useLocation } from "react-router-dom";
 
 //styles import
 import './header.scss'
@@ -26,9 +26,57 @@ const Header = ({user}) => {
 
     }
 
+    const [isBurgerOpen, setIsBurgerOpen] = useState(false)
+
+    const {pathname} = useLocation();
+
+    useEffect(() => {
+        setIsBurgerOpen(false)
+    }, [pathname]);
+
     return (
 
-        <div className="header">
+    <div className="reg">
+
+    {/* // Mobile support */}
+    
+    <div className="header desktop">
+
+        <div className="logo"> 
+        
+            <img src={LasricLogo} alt="lasric logo" />
+        
+        </div>
+
+        <div className="menulist">
+
+            <Link to={routes.home}>Home</Link>
+            <Link to={routes.about}>About</Link>
+            <Link to={routes.council}>Council</Link>
+
+        </div>
+
+        <div className="auth-area">
+
+            {
+                user.uid && user.uid !== undefined ? <div className="account">
+                    <Link to="/dashboard">Dashboard</Link>
+                    <i className="fi fi-rr-angle-small-down"></i>
+                </div> : <div className="account">
+                <Link to="/login">Login</Link>
+                <i className="fi fi-rr-angle-small-down"></i>
+            </div>
+            }
+
+            <div className="line-div"></div>
+
+            <Link to="/apply" className="act-btn" >Apply </Link>
+
+        </div>
+
+    </div>
+
+        <div className="header mobile">
 
             <div className="logo"> 
             
@@ -36,37 +84,55 @@ const Header = ({user}) => {
             
             </div>
 
-            <div className="menulist">
+            <div className="menuicon" onClick={() => setIsBurgerOpen(true)}>
+                <i className="fi fi-rr-menu-burger"></i>
+            </div>
+
+
+
+            {
+                isBurgerOpen ? (
+
+                    <div className="menu">
+
+            <div className="menuicon" onClick={() => setIsBurgerOpen(false)}>
+                <i className="fi fi-rr-menu-burger"></i>
+            </div>
+
+                <div className="menulist">
 
                 <Link to={routes.home}>Home</Link>
                 <Link to={routes.about}>About</Link>
                 <Link to={routes.council}>Council</Link>
 
-            </div>
-
-            <div className="auth-area">
-
-                <div className="alert">
-                    <img src={bell} alt="bell icon" />
                 </div>
 
-                {
-                    user.uid ? <div className="account">
-                        <Link to="/dashboard">Dashboard</Link>
+                <div className="auth-area">
+
+                    {
+                        user.uid && user.uid !== undefined ? <div className="account">
+                            <Link to="/dashboard">Dashboard</Link>
+                            <i className="fi fi-rr-angle-small-down"></i>
+                        </div> : <div className="account">
+                        <Link to="/login">Login</Link>
                         <i className="fi fi-rr-angle-small-down"></i>
-                    </div> : <div className="account">
-                    <Link to="/login">Login</Link>
-                    <i className="fi fi-rr-angle-small-down"></i>
+                    </div>
+                    }
+
+                    <div className="line-div"></div>
+
+                    <Link to="/apply" className="act-btn" >Apply </Link>
+
                 </div>
-                }
-
-                <div className="line-div"></div>
-
-                <Link to="/apply" className="act-btn" >Apply</Link>
 
             </div>
+
+                ) : null
+            }
 
         </div>
+        
+    </div>
 
     );
 }

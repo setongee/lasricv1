@@ -2,11 +2,12 @@
 
     display: flex;
     padding: 50px 12%;
-    height: 100vh;
     align-items: center;
     position: relative;
     width: 100%;
+    height: 100vh;
     justify-content: space-between;
+
 
     .textArea{
 
@@ -230,6 +231,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    overflow: hidden;
 
     .text{
 
@@ -310,7 +312,6 @@
     .photo{
         width: 100%;
         height: 450px;
-        background-color: yellow;
         overflow: hidden;
         margin: 50px 0;
         border-radius: 10px;
@@ -691,25 +692,425 @@
 
     .homearea{
 
-        padding-top: 10px !important;
+        padding-top: 150px !important;
+        flex-direction: column-reverse;
+        height: 100%;
         
         .textArea, .right-landing{
             width: 100%;
         }
 
         .textArea{
-            margin-top: 10px;
+            margin-top: 100px;
         }
 
         .right-landing{
-            margin-top: 400px !important;
+            margin-top: 0px !important;
             position: relative;
             height: 100%;
-            display: none;
             align-items: center;
             justify-content: center;
-            margin-top: 450px;
+
+            .anim-lottie{
+                top: 200px;
+            }
+
+            .side-info{
+                margin-top: 0px;
+                font-size: 24px;
+                padding: 20px 25px;
+                line-height: 30px;
+                left: 0;
+                bottom: -70px;
+                width: 320px;
+
+                .awardee-author{
+                    margin-left: 10px;
+                    padding-left: 10px;
+                    margin-top: 10px;
+                }
+            }
+        }
+
+        
+    }
+
+    .videoplayer{
+        flex-direction: column;
+        padding: 0 12%;
+        height: max-content;
+        
+        .text{
+            width: 100%;
+
+            h1{
+                font-size: 37px;
+                line-height: 45px;
+                width: 100%;
+            }
+
+            p{
+                margin-top: 20px;
+                width: 80%;
+                line-height: 25px;
+                font-size: 14px;
+            }
+        }
+
+        .player{
+            width: 100%;
+            height: max-content;
+            margin-top: 30px;
+            border-radius: 10px;
+
+            video {
+                width: 100%;
+                height: max-content;
+            }
         }
     }
+
+    .build{
+        flex-direction: column;
+        padding: 50px 5%;
+        padding-bottom: 0px;
+
+        .tip{
+            width: 100%;
+
+            h1{
+                font-size: 35px;
+                line-height: 40px;
+            }
+
+            p{
+                margin-top: 25px;
+                font-size: 14px;
+                width: 100%;
+            }
+        }
+
+        .anim-lottie{
+            width: 100%;
+            height: max-content;
+            overflow: hidden;
+            position: relative;
+            margin-top: -100px;
+            display:flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+    }
+
+    .featuredTech{
+        padding: 50px 5%;
+
+        .title{
+            font-size: 37px;
+            line-height: 44px;
+        }
+
+        .photo{
+            height: 230px;
+            border-radius: 0px;
+            margin-bottom: 15px;
+        }
+
+        .info-actions{
+            
+            height: auto;
+            margin-bottom: 0px;
+            overflow: scroll !important;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+    
+            .comapany_name{
+                font-size: 14px !important;
+            }
+            .info{
+                background-color: #fff;
+                box-shadow: 3px 5px 30px rgba($color: #000000, $alpha: .04);
+                padding: 15px;
+                margin-bottom: 10px;
+                margin-right: 10px;
+                padding-right: 50px;
+            }
+
+            .line-space{
+                margin: 0px;
+                display: none;
+            }
+        }
+
+        .body-text{
+            margin-top: 20px;
+        }
+    }
+
+    .applyA{
+        flex-direction: column;
+        padding: 50px 5%;
+        text-align: center;
+        height: auto;
+        
+        .applybtn{
+            margin-top: 40px;
+            width: 100%;
+            margin-left: 0px;
+        }
+    }
+
+    .themes{
+
+        padding: 75px 5%;
+
+        .theme-card{
+            margin: 5px;
+            width: 45%;
+            height: 170px;
+        }
+
+        .cardArea{
+            justify-content: center;
+            width: 100%;
+        }
+
+    }
+
+}
+
+@media (max-width: 425px) {
+
+    .homearea{
+
+        padding-top: 150px !important;
+        flex-direction: column;
+        padding: 50px 5%;
+        overflow: hidden;
+        padding-bottom: 100px;
+        
+        .textArea, .right-landing{
+            width: 100%;
+        }
+
+        .textArea{
+            margin-top: 0px;
+            width: 100% !important;
+
+            .main-text{
+                font-size: 45px;
+                line-height: 53px;
+            }
+
+            .sub-text{
+                width: 90%;
+                font-size: 15px;
+            }
+        }
+
+        .right-landing{
+            margin-top: 50px !important;
+            position: relative;
+            height: 100%;
+            align-items: center;
+            justify-content: center;
+
+            .photo-awardee{
+                height: 300px;
+                width: 300px;
+            }
+
+            .anim-lottie{
+                top: -350px;
+                opacity: 0.5;
+                z-index: -1;
+            }
+
+            .side-info{
+                margin-top: 0px;
+                font-size: 21px;
+                padding: 20px 25px;
+                line-height: 25px;
+                left: 0;
+                bottom: -70px;
+                width: 280px;
+
+                .awardee-author{
+                    margin-left: 10px;
+                    padding-left: 10px;
+                    margin-top: 10px;
+                    font-size: 12px;
+                    line-height: 18px;
+                }
+            }
+        }
+
+        .awardee-action{
+            display: none !important;
+        }
+    }
+
+    .partners{
+        
+        p{
+            display: none;
+        }
+
+        .log{
+            margin-left: 0px;
+        }
+
+        .logos{
+            justify-content: space-between;
+            width: 100%;
+        }
+    }
+
+    .videoplayer{
+        flex-direction: column;
+        padding: 0 5%;
+        height: max-content;
+        
+        .text{
+            width: 100%;
+
+            h1{
+                font-size: 37px;
+                line-height: 45px;
+                width: 100%;
+            }
+
+            p{
+                margin-top: 20px;
+                width: 80%;
+                line-height: 25px;
+                font-size: 14px;
+            }
+        }
+
+        .player{
+            width: 100%;
+            height: 200px;
+            margin-top: 30px;
+            border-radius: 10px;
+
+            video {
+                width: 100%;
+                height: max-content;
+            }
+        }
+    }
+
+    .build{
+        flex-direction: column;
+        padding: 50px 5%;
+        padding-bottom: 0px;
+
+        .tip{
+            width: 100%;
+
+            h1{
+                font-size: 35px;
+                line-height: 40px;
+            }
+
+            p{
+                margin-top: 25px;
+                font-size: 14px;
+                width: 100%;
+            }
+        }
+
+        .anim-lottie{
+            width: 100%;
+            height: 300px;
+            overflow: hidden;
+            position: relative;
+            
+            display:flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    .featuredTech{
+        padding: 50px 5%;
+
+        .title{
+            font-size: 37px;
+            line-height: 44px;
+        }
+
+        .photo{
+            height: 230px;
+            border-radius: 0px;
+            margin-bottom: 15px;
+        }
+
+        .info-actions{
+            
+            height: auto;
+            margin-bottom: 0px;
+            overflow: scroll !important;
+
+            &::-webkit-scrollbar {
+                display: none;
+            }
+    
+            .comapany_name{
+                font-size: 14px !important;
+            }
+            .info{
+                background-color: #fff;
+                box-shadow: 3px 5px 30px rgba($color: #000000, $alpha: .04);
+                padding: 15px;
+                margin-bottom: 10px;
+                margin-right: 10px;
+                padding-right: 50px;
+            }
+
+            .line-space{
+                margin: 0px;
+                display: none;
+            }
+        }
+
+        .body-text{
+            margin-top: 20px;
+        }
+    }
+
+    .applyA{
+        flex-direction: column;
+        padding: 50px 5%;
+        text-align: center;
+        height: auto;
+        
+        .applybtn{
+            margin-top: 40px;
+            width: 100%;
+            margin-left: 0px;
+        }
+    }
+
+    .themes{
+
+        padding: 75px 5%;
+
+        .theme-card{
+            margin: 5px;
+            width: 45%;
+            height: 170px;
+        }
+
+        .cardArea{
+            justify-content: center;
+            width: 100%;
+        }
+
+    }
+
 
 }
