@@ -67,13 +67,23 @@ export const createStemApplication = async (callid, userid, formData, track) => 
     await updateUserApplication(userid, `LASRIC_${callid}_${userid}`, track, callid);
 }
 
-export const submitStemApplication = async (appid, callid, userid) => {
+export const submitStemApplication = async (appid, callid, userid, track, firstname, lastname) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
     const documentRef = doc(db, "applications", appid);
     await updateDoc(documentRef, { "submitted" : true });
+
     await updateCallupApplications(callid, `LASRIC_${callid}_${userid}`);
+
+    await addToSubmitted(callid, userid, track, firstname, lastname);
+
+}
+
+const addToSubmitted = async (callid, userid, track, firstname, lastname) => {
+
+    await setDoc(doc(db, "submittedApplications", `LASRIC_${callid}_${userid}`), {...data.application, uid : userid , track, firstname, lastname, dateSubmitted : new Date, avgGrade : '0', gradedBy : [], status : 'pending'  } )
+
 
 }
 

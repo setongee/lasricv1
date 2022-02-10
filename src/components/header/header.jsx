@@ -15,14 +15,22 @@ const Header = ({user}) => {
         //pages
         home : '/',
         about : '/about',
-        council : '/council',
+        people : '/people',
         beneficiaries : '/beneficiaries',
 
         //auth
         registers : '/register',
         login : '/login',
         dashboard : '/dashboard',
-        events : '/events'
+        events : '/events',
+
+        //Council Member
+        council : {
+
+            login : '/login',
+            dashboard : '/dashboard',
+
+        }
 
     }
 
@@ -36,7 +44,7 @@ const Header = ({user}) => {
 
     return (
 
-    <div className="reg">
+    <div className="reg" style = {{display : user.type !== "user" ? 'none' : "flex"}}>
 
     {/* // Mobile support */}
     
@@ -52,7 +60,7 @@ const Header = ({user}) => {
 
             <Link to={routes.home}>Home</Link>
             <Link to={routes.about}>About</Link>
-            <Link to={routes.council}>Council</Link>
+            <Link to={routes.people}>Council</Link>
 
         </div>
 
@@ -103,7 +111,7 @@ const Header = ({user}) => {
 
                 <Link to={routes.home}>Home</Link>
                 <Link to={routes.about}>About</Link>
-                <Link to={routes.council}>Council</Link>
+                <Link to={routes.people}>Council</Link>
 
                 </div>
 

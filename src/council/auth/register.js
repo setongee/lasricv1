@@ -2,10 +2,10 @@ import React, {useState, useEffect} from 'react';
 import '../../global/styles/Auth.scss'
 import '../../global/styles/fragments.scss'
 import {Link} from 'react-router-dom'
-import { setDocument } from '../../api/firebase/auth';
+import {setDocument } from '../../api/firebase/auth';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
 
-const Register = () => {
+const CouncilRegister = () => {
 
     const initialState = {
         lastname : '',
@@ -14,7 +14,8 @@ const Register = () => {
         firstname : '',
         address : '',
         password : '',
-        password2 : ''
+        password2 : '',
+        track : []
     }
 
     const dataSubmitted = {
@@ -24,7 +25,8 @@ const Register = () => {
         firstname : '',
         address : '',
         password : '',
-        password2 : ''
+        password2 : '',
+        track : []
     }
 
     const [data, setData] = useState(dataSubmitted);
@@ -57,14 +59,14 @@ const Register = () => {
 
                 const user = userCredential.user;
 
-                setDocument(user.uid, lastname, firstname, email, phone, "user")
+                setDocument(user.uid, lastname, firstname, email, phone, 'council')
                 
                 setSuccess(true);
 
                 setTimeout(async () => {
 
                     setSuccess(false); 
-                    window.location.href = "/apply"
+                    //window.location.href = "/apply"
 
                 }, 3500);
 
@@ -162,23 +164,7 @@ const Register = () => {
                     </div>
 
 
-                </div>
-
-                <div className="field-data">
-
-
-                    <div className="full-type">
-
-                        <div className="icon-form"><i className="fi fi-rr-smartphone"></i></div>
-                            
-                        <div className="inputArea">
-                            <input type="text" placeholder = 'Enter Phone' required name = 'phone' onChange = {handleChange} value = {data.phone}/>
-                        </div>
-
-                    </div>
-
-
-                </div>
+                </div>               
 
                 <div className="field-data">
 
@@ -220,4 +206,4 @@ const Register = () => {
     );
 }
 
-export default Register;
+export default CouncilRegister;

@@ -15,6 +15,7 @@ function App() {
   const [authenticate, setAuthenticate] = useState(false)
   const [currentUser, setCurrentUser] = useState({})
   const [uid, setUID] = useState('');
+  const [track, setTrack] = useState("users")
 
   const auth = getAuth();
   onAuthStateChanged(auth, (user) => {
@@ -22,6 +23,7 @@ function App() {
       if (user) {
         setAuthenticate(true)
         setUID(user.uid)
+        setTrack(user.displayName)
         //onSnapshot(doc(db, "users", user.uid), setChangedAuth(!changedAuth));
   
 
@@ -37,14 +39,13 @@ function App() {
     
     if(uid !== '') {
 
-    onSnapshot(doc(db, "users", uid), (doc) => {
-        setCurrentUser(doc.data());
-    });
+      onSnapshot(doc(db, "users", uid), (doc) => {
+          setCurrentUser(doc.data());
+      });
 
     }
     
-  }, [uid, authenticate])
-
+  }, [uid, authenticate, track])
 
   return (
     

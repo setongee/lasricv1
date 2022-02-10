@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import {Routes, Route} from 'react-router-dom'
+import {Routes, Route, useNavigate} from 'react-router-dom'
 
 import Landing from '../pages/landing/landing';
 import About from '../pages/landing/about';
@@ -26,18 +26,29 @@ import StemTitle from '../pages/application/stemTitle';
 import InnovationTitle from '../pages/application/innovation-title';
 
 import Council from './council';
+import Redirect from './redirect';
 
-
+import CouncilLogin from '../council/auth/login';
+import CouncilRegister from '../council/auth/register';
+import CouncilDashboard from '../council/dashboard/dashboard';
+import All from '../council/dashboard/all';
+import Pending from '../council/dashboard/pending';
+import Graded from '../council/dashboard/graded';
+import Gradeapplication from '../council/dashboard/gradeApplication';
+import Interview from '../council/dashboard/interview';
 
 const Router = ({user}) => {
 
+    const Navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState({});
 
-    useEffect(() => {
+    useEffect( () => {
         
         setCurrentUser(user)
+        
 
-    }, [user]);
+    }, [user] );
+
 
     return (
 
@@ -45,16 +56,20 @@ const Router = ({user}) => {
 
             <Route path = "/"> 
 
+
+            <Route path = 'register2' element = {<CouncilRegister/>} > </Route>
+
                 <Route index element = {<Landing/>} />
                 <Route path = 'about' element = {<About/>} />
                 <Route path = 'register' element = {<Register/>} />
                 <Route path = 'login' element = {<Login/>} />
                 <Route path = 'apply' element = {<Callup/>} />
-                <Route path = 'dashboard' element = { Object.keys(currentUser).length ? <Dashboard currentUser = {user} /> : <Login/>  } />
-                <Route path = 'council' element = {<Council/>} />
+                <Route path = 'dashboard' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <Dashboard currentUser = {user} /> : <Login/>  } />
+                <Route path = 'people' element = {<Council/>} />
+                <Route path = 'council' element = {<Redirect navigator = '/council/dashboard/applications/all'/>} />
 
 
-                <Route path = 'application/innovation/:callid' element = { Object.keys(currentUser).length ? <InnovationTitle currentUser = {user} /> : <Login/>  }>
+                <Route path = 'application/innovation/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <InnovationTitle currentUser = {user} /> : <Login/> }>
 
                     <Route path = 'personal' element = {<Innovation currentUser = {user} />} />
                     <Route path = 'vision' element = {<Innovation2 currentUser = {user} />} />
@@ -66,7 +81,7 @@ const Router = ({user}) => {
 
                 </Route>
 
-                <Route path = 'application/stem/:callid' element = { Object.keys(currentUser).length ? <StemTitle currentUser = {user} /> : <Login/>  }>
+                <Route path = 'application/stem/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <StemTitle currentUser = {user} /> : <Login/>  }>
 
                     <Route path = 'personal' element = {<Stem1 currentUser = {user} />} />
                     <Route path = 'problem' element = {<Stem2 currentUser = {user} />} />
@@ -75,6 +90,19 @@ const Router = ({user}) => {
                     <Route path = 'scalability' element = {<Stem5 currentUser = {user}/>} />
                     <Route path = 'experience' element = {<Stem6 currentUser = {user}/>} />
 
+
+                </Route>
+
+                <Route path = 'council/dashboard/applications' element = { Object.keys(currentUser).length && currentUser.type === "council" ? <CouncilDashboard user = {currentUser}/> : <CouncilLogin/>  } >
+
+                    <Route path = 'all' element = {<All councilProfile = {currentUser}/>} />
+                    <Route path = 'pending' element = {<Pending councilProfile = {currentUser}/>} />
+
+                    <Route path = 'graded' element = {<Graded councilProfile = {currentUser}/>} />
+
+                    <Route path = 'interviewbucket' element = {<Interview councilProfile = {currentUser}/>} />
+
+                    <Route path = 'grade/:appid' element = {< Gradeapplication councilProfile = {currentUser} /> } />
 
                 </Route>
                 

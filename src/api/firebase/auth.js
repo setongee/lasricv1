@@ -4,7 +4,7 @@ import { db } from "./config";
 import { data } from "./new-data";
 
 
-export const setDocument = async ( uid, lastname, firstname, email, phone ) => {
+export const setDocument = async ( uid, lastname, firstname, email, phone, type ) => {
 
     await setDoc(doc(db, "users", uid), {
 
@@ -15,7 +15,27 @@ export const setDocument = async ( uid, lastname, firstname, email, phone ) => {
         applications : {
             cohort4 : []
         },
-        uid : uid
+        uid : uid,
+        type : type,
+
+    });
+
+   if (type === 'council') {
+    setCouncilDocument(uid, lastname, firstname, email, type)
+   }
+
+}
+
+export const setCouncilDocument = async ( uid, lastname, firstname, email, type ) => {
+
+    await setDoc(doc(db, "council", uid), {
+
+        lastname : lastname,
+        firstname : firstname,
+        email : email,
+        type : type,
+        uid : uid,
+        track : []
 
     });
 
@@ -23,24 +43,19 @@ export const setDocument = async ( uid, lastname, firstname, email, phone ) => {
 
 export const getUser = async (uid) => {
 
-    if(uid !== '') {
-
-        const docRef = doc(db, "users", uid);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-
-            return docSnap.data()
+    const docRef = doc(db, "council", uid);
     
-        } else {
-    
-            console.log("No such document!");
-    
-        }
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+
+        return docSnap.data()
+
     } else {
-        return {}
-    }
 
+        console.log("No such document!");
+
+    }
 }
 
 

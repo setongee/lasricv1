@@ -1,5 +1,5 @@
 import React,{useState, useEffect} from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { signOut, getAuth } from 'firebase/auth';
 import { doc, onSnapshot } from "firebase/firestore"
 import { db } from '../../api/firebase/config';
@@ -99,9 +99,11 @@ const InnovationTitle = ({currentUser}) => {
     const pageDetect = useLocation().pathname
     const callupid = pageDetect.split("/")[3]
     const paramValue = pageDetect.split("/")[4]
+    const track = pageDetect.split("/")[2]
     const [active, setActive] = useState('');
     const [submitReady, setSubmitReady] = useState(false);
     const [data, setData] = useState(false)
+    const Navigate = useNavigate()
 
     const appid = `LASRIC_${callupid}_${currentUser.uid}`
 
@@ -258,7 +260,7 @@ const InnovationTitle = ({currentUser}) => {
     const submitTheApplication = () => {
         
         //console.log("Application Submitted");
-        submitApplication(appid, callupid, currentUser.uid);
+        submitApplication(appid, callupid, currentUser.uid, track, currentUser.firstname, currentUser.lastname).then(() => Navigate('/dashboard'))
 
     }
 

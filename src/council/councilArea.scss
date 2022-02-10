@@ -1,0 +1,271 @@
+.council_heading{
+    display: flex;
+    padding: 10px 12%;
+    height: 80px;
+    background-color: #fff;
+    border-bottom: 1px solid whitesmoke;
+    position: fixed;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+
+    .logo-lasric{
+        width: 130px;
+
+        img{
+            width: 100%;
+        }
+    }
+
+    .main-menu{
+        display: flex;
+        align-items: center;
+        
+        a{
+            display: flex;
+            margin: 0 20px;
+            font-size: 12px;
+
+            .number{
+                font-weight: bold;
+            }
+        }
+    }
+
+    .closingPart{
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+
+        .callupsID{
+            font-weight: bold;
+        }
+
+        .shortLine{
+            height: 20px;
+            width: 1px;
+            background-color: rgba($color: #000000, $alpha: 0.2);
+            margin: 0 30px;
+        }
+
+        .accounts{
+            padding: 15px 25px;
+            background-color: crimson;
+            color: #fff;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+    }
+
+}
+
+.nameSpace{
+
+    padding: 120px 12%;
+    padding-bottom: 40px;
+
+    h1{
+        font-size: 28px;
+        margin-top: 2px;
+    }
+}
+
+.applications-council{
+    padding: 0 12%;
+    padding-bottom: 100px;
+
+    .tableHeaders{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .tableHead{
+            width: 200px;
+            font-size: 14px;
+
+
+            &:last-child{
+                width : 100px
+            }
+
+            &:first-child{
+                width: 300px;
+            }
+
+            &.avarta{
+                display: flex;
+                align-items: center;
+
+                .cardMe{
+                    margin-right: 20px;
+                    font-weight: bold;
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 100%;
+                    background-color: teal;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    color: #fff;
+                }
+            }
+        }
+
+        &.itshead{
+            background-color: #fff;
+            border-bottom: 1px solid rgba($color: #000000, $alpha: 0.1);
+            padding-bottom: 10px;
+            font-weight: bold;
+            margin-bottom: 30px;
+
+            padding: 20px 25px;
+        }
+
+        &.information{
+            margin: 15px 0;
+            background-color: #fff;
+            box-shadow: 0 3px 20px rgba($color: #000000, $alpha: 0.04);
+            border-radius: 5px;
+            cursor: pointer;
+            padding: 15px 25px;
+            transition: all 0.3s ease-in-out;
+
+            &:hover{
+                background-color: #f9f9f9;
+                box-shadow: none;
+            }
+        }
+    }
+}
+
+.no-data-state{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+    p{
+        font-size: 14px;
+        font-weight: bold;
+    }
+}
+
+.gradingApplication{
+    padding: 0 12%;
+    padding-bottom: 100px;
+    display: flex;
+
+    .liveScore{
+        width: 25%;
+        height: 500px;
+        background-color: #fff;
+        box-shadow: 3px 5px 20px rgba($color: #000000, $alpha: 0.05);
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border-radius: 8px;
+        position: fixed;
+        top: 80px;
+
+        .user-profile, .score{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .user-profile{
+            .init{
+                width: 100px;
+                height: 100px;
+                background-color: #000;
+                border-radius: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 30px;
+                font-weight: bold;
+                margin-bottom: 20px;
+                color: #fff;
+            }
+
+            margin-bottom: 30px;
+        }
+
+        .score{
+            margin: 10px 0;
+            h1{
+                font-size: 70px;
+            }
+        }
+
+        .activity{
+            position: absolute;
+            bottom: 50px;
+            font-size: 14px;
+            background-color: rgb(7, 136, 136);
+            padding: 20px 40px;
+            border-radius: 100px;
+            color: #fff;
+            font-weight: bold;
+
+        }
+
+        
+
+        
+    }
+
+    .applicationStem{
+
+
+        margin-left: 50px;
+        
+        .tabArea{
+            display: flex;
+            position: fixed;
+            margin-top: -150px;
+            left: 39%;
+            background-color: #fff;
+            padding: 20px;
+            width: 100%;
+
+            .tab{
+                margin-right: 15px;
+                font-size: 14px;
+                padding: 20px 25px;
+                background-color: #f9f9f9;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+    
+        }
+    }
+
+}
+
+.gradingPart{
+    width: 70%;
+    margin-left: 29%
+}
+
+.council-wrap{
+    padding: 0 !important;
+    width: 1100px !important;
+    padding : 20px 0;
+    padding-bottom: 100px !important;
+    padding-top: 20px !important;
+    margin-top: -80px !important;
+}
+
+.showSheet{
+    display: block !important;
+}
+
+.action{
+    background-color: #f60 !important;
+    color: #fff;
+    font-weight: bold;
+}
