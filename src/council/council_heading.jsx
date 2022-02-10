@@ -1,9 +1,14 @@
 import React from 'react';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { signOut, getAuth } from 'firebase/auth';
 
 import LasricLogo from '.././assets/svg/lasric_logo.svg'
 
 const CouncilHeading = () => {
+
+    const Navigate = useNavigate()
+
+    const authState = getAuth()
 
     const baseurl = '/council/dashboard/applications'
 
@@ -32,7 +37,7 @@ const CouncilHeading = () => {
 
                 <div className="shortLine"></div>
 
-                <div className="accounts">
+                <div className="accounts" onClick={ () => { signOut(authState); window.location.reload(); } } >
                     Logout
                 </div>
 
