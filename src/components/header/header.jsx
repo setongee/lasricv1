@@ -44,7 +44,7 @@ const Header = ({user}) => {
 
     return (
 
-    <div className="reg" style = {{display : user.type !== "user" ? 'none' : "flex"}}>
+    <div className="reg" >
 
     {/* // Mobile support */}
     
