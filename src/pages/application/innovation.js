@@ -14,16 +14,16 @@ const Innovation = ({currentUser}) => {
     const [form1, setForm1] = useState({});
     const [uploadFiles, setuploadFiles] = useState([])
     const [loader, setLoader] = useState(true);
-    const [errors, setErrors] = useState([]);
     const [stat, setStat] = useState('pending')
 
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
+    const callupid = pageDetect.split("/")[3];
+    const track = pageDetect.split("/")[2];
 
     let navigate = useNavigate();
 
-    //useeffect important
-
+    //useEffect important
+    
     const userid = currentUser.uid
     const appid = `LASRIC_${callupid}_${userid}`
 
@@ -45,8 +45,6 @@ const Innovation = ({currentUser}) => {
     }, []);
 
     //useeffect important
-
-
     const handleChange = (e) => {
   
         const {id, value} = e.target;
@@ -63,17 +61,19 @@ const Innovation = ({currentUser}) => {
     
     const handleFiles = (e) => {
 
-        console.log('filees');
         const id = e.target.id
         const value = e.target.value
 
         const chk = uploadFiles.find(data => data.filename === `LASRIC_${id}.pdf`) || [];
-        
-        if (chk.length === 0) {
 
-            setuploadFiles([...uploadFiles, { filename : `LASRIC_${id}.pdf`, target : e.target.files[0] } ] )
+        console.log(chk);
+        
+        if (!chk.length > 0) {
+
+            setuploadFiles( [...uploadFiles, { filename : `LASRIC_${id}.pdf`, target : e.target.files[0] } ] )
 
         } else {
+
             uploadFiles.find(( data, index ) => {
 
                 if(data.filename === `LASRIC_${id}.pdf`){
@@ -81,8 +81,7 @@ const Innovation = ({currentUser}) => {
                 }
     
             })
-        }
-        
+        }       
         
         setForm1(data => {
 
@@ -124,6 +123,7 @@ const Innovation = ({currentUser}) => {
         const inputForm = Array.from(inputs);
         const selectForm = Array.from(select);
         
+        
         const inputError = inputForm.filter((item) => {
 
             return item.value === ""
@@ -136,6 +136,7 @@ const Innovation = ({currentUser}) => {
 
         })
 
+        inputError.length && selectError ? alert("errors") : successSubmit();
         successSubmit();
 
     }
@@ -144,11 +145,9 @@ const Innovation = ({currentUser}) => {
 
         await handleFileUpload()
 
-        
-
         if(stat === 'pending') {
 
-            await createApplication(callupid, userid, form1).then(()=>{
+            await createApplication(callupid, userid, form1, track ).then(()=>{
                 
                 window.localStorage.setItem("appid", true)
     
@@ -467,9 +466,17 @@ const Innovation = ({currentUser}) => {
                         </label>
                         <input required type="text" id="rev12" onChange={handleChange} value = {form1.rev12} placeholder='Please Enter...'/>
                     </div>
-                    <button id="form-proceed" onClick={handleSubmit}>
-                        Proceed
-                    </button>
+
+                    {
+                        stat === "pending" ? 
+                        <button id="form-proceed" onClick={handleSubmit}>
+                            Proceed
+                        </button> :
+                        <button id="form-proceed completed" style={{backgroundColor : "green"}} onClick={(e) => e.preventDefault()} >
+                            Submitted
+                        </button>
+                    }
+
                     </form>
                 </div>
                 </div>

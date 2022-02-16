@@ -4,7 +4,7 @@ import { data } from "./new-data";
 
 export const createApplication = async (callid, userid, formData, track) => {
 
-    await setDoc(doc(db, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, 
+    await setDoc(doc(db, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`,  
     
     data : {
 

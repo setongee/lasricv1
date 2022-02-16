@@ -110,25 +110,28 @@ const InnovationTitle = ({currentUser}) => {
     const [status, setStatus] = useState(dummy)
 
     const blend = (dat) => {
+
         setStatus(dat.data);
-        setData(dat.submitted)
+        setData(dat.submitted);
+
     }
 
+    console.log('hello');
 
     useEffect(() => {
 
-        const unsub = onSnapshot(doc(db, "applications", appid), (doc) => {
+        onSnapshot(doc(db, "applications", appid), (doc) => {
 
-            blend(doc.data())
+            if ( doc.exists() ) {
+
+                blend(doc.data())
+
+            }
      
          });
-
-         return unsub;
          
 
     }, []);
-
-    //console.log(status)
 
     useEffect(() => {
         if ( status.personal.status === 'completed' && status.vision.status === 'completed' && status.economics.status === 'completed' && status.milestones.status === 'completed'  && status.proposition.status === 'completed' && status.organization.status === 'completed' ) {
