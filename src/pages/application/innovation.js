@@ -109,8 +109,6 @@ const Innovation = ({currentUser}) => {
         const value = e.target.value
 
         const chk = uploadFiles.find(data => data.filename === `LASRIC_${id}.pdf`) || [];
-
-        console.log(chk);
         
         if (!chk.length > 0) {
 
@@ -139,8 +137,6 @@ const Innovation = ({currentUser}) => {
             
         })
     }
-
-    console.log(uploadFiles);
 
     const handleChooseFile = (e) => {
 
@@ -193,7 +189,7 @@ const Innovation = ({currentUser}) => {
 
         })
 
-        successSubmit();
+        inputError.length && selectError.length ? alert("Sorry Errors, Fill All Inputs") : successSubmit();
 
     }
 
