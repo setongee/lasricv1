@@ -116,8 +116,6 @@ const InnovationTitle = ({currentUser}) => {
 
     }
 
-    console.log('hello');
-
     useEffect(() => {
 
         onSnapshot(doc(db, "applications", appid), (doc) => {
@@ -144,8 +142,6 @@ const InnovationTitle = ({currentUser}) => {
         setActive(paramValue);
         
     }, [paramValue]);
-
-    console.log(paramValue);
 
     switch (active) {
         
@@ -255,14 +251,13 @@ const InnovationTitle = ({currentUser}) => {
             break;
     }
 
-
-    //console.log(status)
-
     //()=> { signOut(authState); window.location.reload()
+
+
+console.log(currentUser.uid)
 
     const submitTheApplication = () => {
         
-        //console.log("Application Submitted");
         submitApplication(appid, callupid, currentUser.uid, track, currentUser.firstname, currentUser.lastname).then(() => Navigate('/dashboard'))
 
     }

@@ -11,7 +11,44 @@ import { updatePersonalApplication } from '../../api/firebase/handleSubmits';
 
 const Innovation = ({currentUser}) => {
 
-    const [form1, setForm1] = useState({});
+    const Data = {
+
+        age: "",
+        annualReturns: "",
+        bankConfirmation : "",
+        bizModel: "",
+        bizStage: "",
+        cacCert: "",
+        cacForm7: "",
+        cacMemorandum: "",
+        cacPost: "",
+        company: "",
+        companyDate: "",
+        companySector: "",
+        criminalRecord: "",
+        gender: "",
+        idCard: "",
+        lasricGrant: "",
+        lawsuit: "",
+        lgaResidence: "",
+        linkedin: "",
+        nationality: "",
+        nextKin: "",
+        orgRole: "",
+        patent: "",
+        refLetter1: "",
+        refLetter2: "",
+        relKin: "",
+        rev12: "",
+        stateResidence: "",
+        targetArea: "",
+        taxClearance: "",
+        taxEvidence: "",
+        website: ""
+
+    }
+
+    const [form1, setForm1] = useState(Data);
     const [uploadFiles, setuploadFiles] = useState([])
     const [loader, setLoader] = useState(true);
     const [stat, setStat] = useState('pending')
@@ -19,6 +56,9 @@ const Innovation = ({currentUser}) => {
     const pageDetect = useLocation().pathname
     const callupid = pageDetect.split("/")[3];
     const track = pageDetect.split("/")[2];
+
+    const [uploadingServer, setUploadingServer] = useState(false);
+    const [successUploadStores, setSuccessUploadStores] = useState(false)
 
     let navigate = useNavigate();
 
@@ -34,17 +74,19 @@ const Innovation = ({currentUser}) => {
             if(response !== null) {
 
                 setForm1(response.data.personal.data);
-                setStat(response.data.personal.status)
+                setStat(response.data.personal.status);
                 setLoader(false);
 
             } else {
                 setLoader(false)
             }
         });
-        
+
+
     }, []);
 
     //useeffect important
+
     const handleChange = (e) => {
   
         const {id, value} = e.target;
@@ -58,6 +100,8 @@ const Innovation = ({currentUser}) => {
         })  
     
     }
+
+    //handleChange
     
     const handleFiles = (e) => {
 
@@ -77,21 +121,32 @@ const Innovation = ({currentUser}) => {
             uploadFiles.find(( data, index ) => {
 
                 if(data.filename === `LASRIC_${id}.pdf`){
+                    
                     uploadFiles[index].target = e.target.files[0];
+                    
                 }
     
             })
-        }       
+        }  
         
         setForm1(data => {
 
             return {
                 ...data,
-                [id] : value
+                [id] : e.target.files[0].name || ""
             }
 
             
         })
+    }
+
+    console.log(uploadFiles);
+
+    const handleChooseFile = (e) => {
+
+        var input = `input#${e.target.parentElement.id}`
+        document.querySelector(input).click();
+
     }
 
     const handleFileUpload = () => {
@@ -103,11 +158,13 @@ const Innovation = ({currentUser}) => {
             const storageRef = ref(storage, `cohort4/${currentUser.uid}/${callupid}/${file.filename}` );
 
             //uploading to firebase begins
-            uploadBytes(storageRef,file.target).then(() => {
+            uploadBytes(storageRef,file.target);
 
-                console.log("uploaded all files to firebase")
+        if(uploadFiles.length) {
+            
+            setUploadingServer(true)
 
-        })
+        }
 
     });
 
@@ -136,20 +193,21 @@ const Innovation = ({currentUser}) => {
 
         })
 
-        inputError.length && selectError ? alert("errors") : successSubmit();
         successSubmit();
 
     }
 
     const successSubmit = async () => {
 
-        await handleFileUpload()
+        await handleFileUpload();
+
+        setSuccessUploadStores(true);
 
         if(stat === 'pending') {
 
             await createApplication(callupid, userid, form1, track ).then(()=>{
                 
-                window.localStorage.setItem("appid", true)
+                window.localStorage.setItem("appid", true);
     
             })
 
@@ -157,10 +215,9 @@ const Innovation = ({currentUser}) => {
             updatePersonalApplication(appid, form1)
         }
 
-        await console.log("success");
+
 
     }
-
 
     const handleSubmit = (e) => {
 
@@ -169,7 +226,20 @@ const Innovation = ({currentUser}) => {
 
     }
 
+    const manageFileView = (e) => {
 
+        const id = e.target.parentElement.id;
+
+        const storage = getStorage();
+        const storageRef = ref(storage, `cohort4/${currentUser.uid}/${callupid}/LASRIC_${id}.pdf` );
+
+        getDownloadURL(storageRef).then((url) => {
+
+            window.open(url)
+
+        })
+        
+    }
 
     return (
 
@@ -187,6 +257,26 @@ const Innovation = ({currentUser}) => {
                     </div>
                 
                 ) : null
+            }
+
+            {
+
+                uploadingServer 
+                ? 
+                <div className="uploadingFiles">
+
+                    <div className="cont">
+
+                        {
+                            !successUploadStores ? <SethAnimation jsonSrc={"https://assets6.lottiefiles.com/temp/lf20_xYfV1x.json"} lottieStyle = {{width: '200px', height: '200px'}} speed={"1"} /> : <SethAnimation jsonSrc={"https://assets1.lottiefiles.com/packages/lf20_wcnjmdp1.json"} lottieStyle = {{width: '200px', height: '200px'}} speed={"1"} />
+                        }
+
+                        <p> Uploading your PDF files to the Lagos State Science Research and Innovation Council (LASRIC) Servers </p>
+
+                    </div>
+
+                </div> : null
+
             }
 
             <div className="wrapper">
@@ -235,6 +325,7 @@ const Innovation = ({currentUser}) => {
                         </label>
                         <input required type="text" id="linkedin" placeholder="Please Enter..." onChange={handleChange} value = {form1.linkedin}/>
                     </div>
+
                     <div className="details">
                         <label>
                         State of Residence <div className="notice req">required</div>
@@ -247,14 +338,30 @@ const Innovation = ({currentUser}) => {
                         </label>
                         <input type="text" required id="lgaResidence" placeholder="Please Enter..." onChange={handleChange} value = {form1.lgaResidence}/>
                     </div>
+
+                    {/* file upload */}
+
                     <div className="details">
-                        <label>
-                        Valid means of identification (LASRRA Card is acceptable).{" "}
-                        <div className="notice req">required</div>
-                        </label>
-                        <input type="file" required id="idCard" accept="application/pdf" onChange={handleFiles} />
+
+                        <label>Valid means of identification (LASRRA Card is acceptable).</label>
+
+                        <input type="file" id="idCard" accept="application/pdf" onChange={handleFiles} hidden />
+
+                        <div className="fileUploaded" id="idCard"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.idCard || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
+                        
                     </div>
+
+
                     <div className="details">
                         <label>
                         {" "}
@@ -272,26 +379,75 @@ const Innovation = ({currentUser}) => {
                         Evidence of payment of personal income tax till date (if you are
                         gainfully employed). <div className="notice opt">optional</div>
                         </label>
-                        <input type="file" id="taxEvidence" required accept="application/pdf" onChange={handleFiles} />
+                        <input type="file" id="taxEvidence" required accept="application/pdf" onChange={handleFiles} hidden />
+
+                        <div className="fileUploaded" id="taxEvidence"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.taxEvidence || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+                        </div>
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
                     </div>
+
+                    {/* Tax Upload */}
+
                     <div className="details">
                         <label>
                         Please provide a letter of confirmation of your account status with a
                         recognised commercial bank.<div className="notice opt">optional</div>
                         </label>
-                        <input type="file" required id="bankConfirmation" accept="application/pdf" onChange={handleFiles} />
+                        <input type="file" required id="bankConfirmation" accept="application/pdf" onChange={handleFiles} hidden />
+
+                        <div className="fileUploaded" id="bankConfirmation"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.bankConfirmation || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
                     </div>
                     <div className="details">
+
                         <label>
                         Please provide reference letters from at least 2 people that have been
                         resident in Lagos in the past 10-15 years.{" "}
                         <div className="notice opt">optional</div>
                         </label>
-                        <input type="file" required id="refLetter1" accept="application/pdf" onChange={handleFiles} />
-                        <input type="file" id="refLetter2" accept="application/pdf" onChange={handleFiles} />
+                        
+                        <input type="file" required id="refLetter1" accept="application/pdf" onChange={handleFiles} hidden/>
+
+                        <div className="fileUploaded" id="refLetter1"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.refLetter1 || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+                        <input type="file" id="refLetter2" accept="application/pdf" onChange={handleFiles} hidden/>
+
+                        <div className="fileUploaded" id="refLetter2"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.refLetter2 || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
+                        
                     </div>
                     <div className="details">
                         <label>
@@ -388,64 +544,166 @@ const Innovation = ({currentUser}) => {
                         </label>
                         <input required type="text" id="bizStage" placeholder="Please Enter..." onChange={handleChange} value = {form1.bizStage}/>
                     </div>
+
                     <div className="details">
+
                         <label>
                         Is your company incorporated? If yes, please upload certificate of
                         incorporation <div className="notice opt">optional</div>
                         </label>
-                        <input required type="file" id="cacCert" accept="application/pdf" onChange={handleFiles} />
+
+                        <input required type="file" id="cacCert" accept="application/pdf" onChange={handleFiles} hidden />
+
+                        <div className="fileUploaded" id="cacCert"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.cacCert || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
+
                     </div>
+
                     <div className="details">
                         <label>
                         Please upload company's memorandum of association{" "}
                         <div className="notice opt">optional</div>
                         </label>
-                        <input required type="file" id="cacMemorandum" accept="application/pdf"  onChange={handleFiles} />
+
+                        <input required type="file" id="cacMemorandum" accept="application/pdf"  onChange={handleFiles} hidden />
+
+                        <div className="fileUploaded" id="cacMemorandum"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.cacMemorandum || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
+
                     </div>
                     <div className="details">
+
                         <label>
                         Please provide full details of any post-incorporation applications
                         i.e. alteration of CAC documents, if any.{" "}
                         <div className="notice opt">optional</div>
                         </label>
-                        <input required type="file" id="cacPost" accept="application/pdf"  onChange={handleFiles} />
+
+                        <input required type="file" id="cacPost" accept="application/pdf"  onChange={handleFiles} hidden />
+
+                        <div className="fileUploaded" id="cacPost"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.cacPost || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
+
                     </div>
+
                     <div className="details">
                         <label>
                         Please upload form CAC 7 for particulars of directors{" "}
                         <div className="notice opt">optional</div>
                         </label>
-                        <input required type="file" id="cacForm7" accept="application/pdf"  onChange={handleFiles} />
+
+                        <input required type="file" id="cacForm7" accept="application/pdf"  onChange={handleFiles} hidden />
+
+                        <div className="fileUploaded" id="cacForm7"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.cacForm7 || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
+
                     </div>
+
                     <div className="details">
                         <label>
                         Please upload your tax clearance certificate{" "}
                         <div className="notice opt">optional</div>
                         </label>
-                        <input required type="file" id="taxClearance" accept="application/pdf"  onChange={handleFiles} />
+
+
+                        <input required type="file" id="taxClearance" accept="application/pdf"  onChange={handleFiles} hidden/>
+
+                        <div className="fileUploaded" id="taxClearance"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.taxClearance || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>   
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
+                        
                     </div>
+
+
                     <div className="details">
                         <label>
-                        Kindly provide evidence of payment of annual returns till date.{" "}
+                        Kindly provide evidence of payment of annual returns till date.
                         <div className="notice opt">optional</div>
                         </label>
-                        <input required type="file" id="annualReturns" accept="application/pdf"  onChange={handleFiles} />
+                        
+                        <input required type="file" id="annualReturns" accept="application/pdf"  onChange={handleFiles} hidden />
+                        
+                        <div className="fileUploaded" id="annualReturns"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.annualReturns || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
                     </div>
                     <div className="details">
+
                         <label>
                         Please provide proof of any existing patent, trademark or copyright
-                        owned by the company/innovator(s).{" "}
-                        <div className="notice opt">optional</div>
+                        owned by the company/innovator(s).
+
                         </label>
-                        <input required type="file" id="patent" accept="application/pdf"  onChange={handleFiles} />
+
+                        <input required type="file" id="patent" accept="application/pdf"  onChange={handleFiles} hidden />
+
+                        <div className="fileUploaded" id="patent"> 
+                        
+                            <div className="uploadName"> <i className="fi fi-sr-document file-ui" style={{marginRight : '10px'}}></i> { form1.patent || 'No File Chosen' } </div> 
+
+                            {
+                                stat === "pending" ? <div className="uploadAction" onClick={(e) => handleChooseFile(e)}> Choose File </div> : <div className="uploadAction hasFile" onClick={(e) => manageFileView(e)} > View Upload </div>
+                            }
+
+                        </div>
+
                         <i style={{ fontSize: 12, color: "#C00" }}>*PDF format only</i>
+
+
                     </div>
+
                     <div className="details">
                         <label>
                         What’s your role in the organisation{" "}

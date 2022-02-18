@@ -94,7 +94,7 @@ export const createApplication = async (callid, userid, formData, track) => {
 
     }});
 
-    await updateUserApplication(userid, `LASRIC_${callid}_${userid}`);
+    await updateUserApplication(userid, `LASRIC_${callid}_${userid}`, track, callid);
 }
 
 export const submitApplication = async (appid, callid, userid, track, firstname, lastname) => {
@@ -188,12 +188,19 @@ export const updatePersonalApplication = async (appid, formData) => {
 
 }
 
-export const updateUserApplication = async (uid, appid) => {
+export const updateUserApplication = async (uid, appid, track, callid) => {
+
+    const data = {
+        appUID : appid,
+        track : track,
+        submitted : false,
+        callUID : callid,
+    }
 
     //console.log(appid)
 
     const documentRef = doc(db, "users", uid);
-    await updateDoc(documentRef, { "applications.cohort4" : arrayUnion(appid) });
+    await updateDoc(documentRef, { "applications.cohort4" : arrayUnion(data) });
 
 }
 
@@ -203,4 +210,5 @@ export const updateCallupApplications = async (callupid, appid) => {
     await updateDoc(documentRef, { "applications" : arrayUnion(appid) });
 
 }
+
 
