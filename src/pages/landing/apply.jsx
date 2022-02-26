@@ -1,7 +1,5 @@
 import React,{useState} from 'react';
-import innov from '../../assets/svg/innov.jpeg'
 import PreviewCallup from '../../components/modals/preview-callup';
-import { getStorage, ref, listAll } from "firebase/storage";
 
 const Apply = ({data}) => {
 
@@ -29,7 +27,7 @@ const Apply = ({data}) => {
 
                         <div className="foot-area">
 
-                            <div className="close">Closes : 28/02/2022</div>
+                            <div className="close">Closes : 31/03/2022</div>
                             <div className="applyBTN" onClick={ () => setModalState(true) } >Apply</div>
                             
                         </div>
