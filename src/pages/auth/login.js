@@ -1,11 +1,12 @@
 import React, {useState} from 'react';
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import '../../global/styles/Auth.scss'
 import '../../global/styles/fragments.scss'
 
-const Login = ({history}) => {
+const Login = () => {
 
+    let navigate = useNavigate();
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -22,7 +23,7 @@ const Login = ({history}) => {
 
             setTimeout(async () => {
                 setSuccess(false); 
-                //await history.push('/dashboard')
+                await navigate('/dashboard')
             }, 3500);
         })
         .catch((err) => {{alert('error with sign in'); setSuccess(false);}});
@@ -38,7 +39,7 @@ const Login = ({history}) => {
                 success ? 
                 (   
                     <div className="success">
-                        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_Gh0AU0.json" background="#000"  speed="1.5"  style={{"width": "300px", "height": "300px"}} autoplay></lottie-player>
+                        <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_niyfyoqs.json" speed="1.5"  style={{"width": "300px", "height": "300px"}} autoplay></lottie-player>
                     </div>
                     
                 ) : null

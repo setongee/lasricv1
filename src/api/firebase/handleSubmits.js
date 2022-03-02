@@ -204,6 +204,7 @@ export const updateUserApplication = async (uid, appid, track, callid) => {
 
 }
 
+
 export const updateCallupApplications = async (callupid, appid) => {
 
     const documentRef = doc(db, "callups", callupid);

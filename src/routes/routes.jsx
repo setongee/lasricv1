@@ -36,6 +36,9 @@ import Pending from '../council/dashboard/pending';
 import Graded from '../council/dashboard/graded';
 import Gradeapplication from '../council/dashboard/gradeApplication';
 import Interview from '../council/dashboard/interview';
+import Gallery from '../pages/landing/gallery';
+
+import ApplicationsDash from '../pages/dashboard/applications';
 
 const Router = ({user}) => {
 
@@ -64,8 +67,13 @@ const Router = ({user}) => {
                 <Route path = 'register' element = {<Register/>} />
                 <Route path = 'login' element = {<Login/>} />
                 <Route path = 'apply' element = {<Callup/>} />
-                <Route path = 'dashboard' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <Dashboard currentUser = {user} /> : <Login/>  } />
+
+                <Route path = 'dashboard' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <Dashboard currentUser = {user} /> : <Login/>  }/>
+                    
+                <Route path = 'dashboard/applications' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <ApplicationsDash currentUser = {user} /> : <Login/>  }/>
+
                 <Route path = 'people' element = {<Council/>} />
+                <Route path = 'gallery' element = {<Gallery/>} />
                 <Route path = 'council' element = {<Redirect navigator = '/council/dashboard/applications/all'/>} />
 
 

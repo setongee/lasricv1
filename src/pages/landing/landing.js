@@ -17,6 +17,7 @@ import music from '../../assets/svg/music.svg'
 import secure from '../../assets/svg/secure.svg'
 import gradCap from '../../assets/svg/gradCap.svg'
 import chart from '../../assets/svg/chart.svg'
+import webinar from '../../assets/svg/lasric-live.jpeg'
 
 import { useNavigate } from "react-router-dom";
 
@@ -79,7 +80,7 @@ const Landing = () => {
 
                     </div>
 
-                    <div className="awardee-action">
+                    <div className="awardee-action" onClick={ () => navigate('/gallery') }>
 
                         <div className="pulse">
 
@@ -92,7 +93,7 @@ const Landing = () => {
                         <div className="inform">
 
                             <h1>Awardee Stories</h1>
-                            <p>Watch Luther of Price Pally on the impact of lasric.</p>
+                            <p>Watch the inspiring stories of different awardees on the impact of lasric.</p>
 
                         </div>
 
@@ -145,13 +146,15 @@ const Landing = () => {
 
                 <div className="text">
 
-                    <h1>listen to what they have to say about lasric.</h1>
-                    <p>Listen to amazing news and stories of the past winners of the LASRIC scheme of the past cohorts.</p>
+                    <div className="start">Live Webinar</div>
+                    <div className="lasric_solution">Startup Funding : The LASRIC Solution</div>
+
+                    <div className="linktoweb">To apply click <a href="#" target="_blank"> here </a></div>
 
                 </div>
 
                 <div className="player">
-                    <video src="https://firebasestorage.googleapis.com/v0/b/test-davton.appspot.com/o/pexels-c-technical-6153734%20(1).mp4?alt=media&token=2fae311c-9817-46a2-8a90-a81ff820a90e" controls autoPlay loop ></video>
+                    <img src={webinar} alt="" />
                 </div>
 
             </div>

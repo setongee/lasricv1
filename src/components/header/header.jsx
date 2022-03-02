@@ -17,6 +17,7 @@ const Header = ({user}) => {
         about : '/about',
         people : '/people',
         beneficiaries : '/beneficiaries',
+        gallery : '/gallery',
 
         //auth
         registers : '/register',
@@ -44,7 +45,7 @@ const Header = ({user}) => {
 
     return (
 
-    <div className="reg" >
+    <div className = {`reg client_${pathname.split('/')[1]}`} >
 
     {/* // Mobile support */}
     
@@ -61,6 +62,7 @@ const Header = ({user}) => {
             <Link to={routes.home}>Home</Link>
             <Link to={routes.about}>About</Link>
             <Link to={routes.people}>Council</Link>
+            <Link to={routes.gallery}>Gallery</Link>
 
         </div>
 

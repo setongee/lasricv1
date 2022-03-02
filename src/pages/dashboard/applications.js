@@ -2,27 +2,26 @@ import React, { useEffect, useState } from 'react';
 import './dashboard.scss'
 import { getApplication } from '../../api/firebase/getApplication';
 import SethAnimation from '../../components/lottie/seth-animation'
-import { Link } from 'react-router-dom';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import LasricLogo from '../../assets/svg/lasric_logo.svg'
 import lasricicon from '../../assets/svg/send.svg'
 import banner from '../../assets/svg/banner.svg'
+import { signOut, getAuth } from 'firebase/auth';
 
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../../api/firebase/config';
 
-import { signOut, getAuth } from 'firebase/auth';
-
-const Dashboard = ({currentUser}) => {
+const ApplicationsDash = ({currentUser}) => {
 
     let navigate = useNavigate()
-
-    const auth = getAuth()
 
    const [user, setUser] = useState({});
    const [app, setApp] = useState([]);
    const [submitted, setSubmitted] = useState(0)
    const [showModal, setShowModal] = useState(true);
+
+   const auth = getAuth();
 
    const bannerB = () => {
 
@@ -71,50 +70,12 @@ const Dashboard = ({currentUser}) => {
 
 }, [user]);
 
-   const COUNTER = {
-
-    days : 0,
-    hrs : 0,
-    min : 0,
-    sec : 0
-
-    }
-
-    const [countdown, setCounter] = useState(COUNTER);
-
-    var countDownDate = new Date("Mar 9, 2022 10:00:00").getTime();
-
+   
     var deadineDtae = new Date("Mar 31, 2022 23:59:59").getTime();
     var now = new Date().getTime();
     var distance = deadineDtae - now;
     var remainingDays = Math.floor(distance / (1000 * 60 * 60 * 24));
 
-
-
-
-    setInterval(function() {
-        
-    var now = new Date().getTime();
-
-    var distance = countDownDate - now;
-
-    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    if (distance < 0) {
-
-        //clearInterval(x);
-        console.log('Its Today');
-
-    }
-
-    const countdown = {days, hours, minutes, seconds}
-    
-    setCounter(countdown)
-
-    }, 1000);
 
     const authOut = async () => {
 
@@ -129,11 +90,12 @@ const Dashboard = ({currentUser}) => {
 
         <div className="dashboard">
 
+
             <div className="desknotice">
 
-                Hey, kindly use a desktop device or screen to access this page
+            Hey, kindly use a desktop device or screen to access this page
 
-                <div className="goHome"> <Link to="/">Back to Main Site</Link> </div>
+            <div className="goHome"> <Link to="/">Back to Main Site</Link> </div>
 
             </div>
 
@@ -193,9 +155,9 @@ const Dashboard = ({currentUser}) => {
             <div className="menuAreaBar">
 
 
-                <Link to = '/dashboard' className='dashboard_link active-li'> <i className="fi fi-rr-home"></i> Dashboard  </Link>
+                <Link to = '/dashboard' className='dashboard_link '> <i className="fi fi-rr-home"></i> Dashboard  </Link>
 
-                <Link to = '/dashboard/applications' className='dashboard_link'> <i className="fi fi-rr-duplicate"></i> My Applications  </Link>
+                <Link to = '/dashboard/applications' className='dashboard_link active-li'> <i className="fi fi-rr-duplicate"></i> My Applications  </Link>
 
                 <Link to = '/people' className='dashboard_link'> <i className="fi fi-rr-user"></i> Council Members  </Link>
 
@@ -233,11 +195,10 @@ const Dashboard = ({currentUser}) => {
 
                     <div className="account-place">
 
-
-                        <div className="main-site">
+                    <div className="main-site">
                             <Link to = '/' className='dashboard_link'> <i className="fi fi-rr-computer"></i> Main Site  </Link>
                         </div>
-                        
+
                         <div className="account_arr">Dashboard</div>
                         <div className="line-arr"></div>
                         <div className="applyNow" onClick={ () => authOut() } > Sign Out </div>
@@ -255,64 +216,51 @@ const Dashboard = ({currentUser}) => {
 
                     </div>
 
-                    <div className="statBar">
+                    
 
-                        <div className="status">
+                    <div className="applicationsData">
 
-                            <div className="star-head"> Applications</div>
-                            <div className="line_star"></div>
-                            <div className="value-star"> {app.length} </div>
+                            <div className="apps">
 
-                        </div>
-
-                        <div className="status">
-
-                            <div className="star-head"> Submitted</div>
-                            <div className="line_star"></div>
-                            <div className="value-star">{submitted}</div>
-
-                        </div>
-
-                        <div className="status">
-
-                            <div className="star-head"> Accepted </div>
-                            <div className="line_star"></div>
-                            <div className="value-star">0</div>
-
-                        </div>
-
-                    </div>
+                                {
+                                    currentUser.applications.cohort4.length ? currentUser.applications.cohort4.map(data => (
 
 
-                    <div className="eventNews">
+                                        <div className="application_card">
 
-                        <div className="headtag">
-                            <i className="fi fi-rr-calendar"></i>
-                            Upcoming Events
-                        </div>
+                                                <div className="img"> <img src={`${data.track === 'innovation' ? "https://firebasestorage.googleapis.com/v0/b/lasricv2.appspot.com/o/callups%2Fsearch%20ideas-min.jpg?alt=media&token=ca1e3da9-99ae-4bba-9d28-0624c86b46d6" : "https://firebasestorage.googleapis.com/v0/b/lasricv2.appspot.com/o/callups%2F3682410-min.jpg?alt=media&token=79740201-837d-4a81-9103-0dcaa0c43228" }`} alt="" /> </div>
 
-                        <div className="content-news">
+                                                <div className="content-luck">
+                                                    
+                                                    <div className="title"> 
+                                                    
+                                                    LASRIC Y2022 Cohort 4 {data.track.toUpperCase()} CALL-OUT
+                                                    </div>
 
-                            <div className="dateBar">
+                                                    <div className="statusApp">
+                                                        
+                                                        {`${data.submitted ? 'Status : Submitted' : "Status : Pending"}`}
+                                                        
+                                                    </div>
 
-                                <div className="day">9</div>
-                                <p>mar</p>
+                                                    <div className="viewBtn">
+                                                    <Link to = {`/application/${data.track}/${data.callUID}/personal`}  className="button viewapp">View <i className="fi fi-rr-arrow-right"></i></Link>
+                                                    </div>
+                                                </div>
 
-                            </div>
+                                            </div>
 
-                            <div className="details-news">
 
-                                <p>Lasric Webinar</p>
-
-                                <div className="topic"> Startup Funding : The LASRIC Solution <i className="fi fi-rr-small-right"></i>  <a href = 'https://lasric.lagosstate.gov.ng/webinar' target="_blank" >View Details</a> </div>
-
-                                <p className='countdown'> {countdown.days} Days {countdown.hours} Hours {countdown.minutes} Mins {countdown.seconds} Secs  </p>
-
-                            </div>
+                                    )) : <div className="empty">
+                                        <SethAnimation jsonSrc={"https://assets10.lottiefiles.com/packages/lf20_EMTsq1.json"} lottieStyle = {{width: '500px', height: '500px'}} speed={"1"} />
+                                    </div>
+                                }
 
                         </div>
 
                     </div>
+
+
 
                     <div className="timeline">
 
@@ -389,79 +337,7 @@ const Dashboard = ({currentUser}) => {
 
                     {/* Messages Part */}
 
-                    <div className="messages-inapp">
-
-                        <div className="titleSide">
-
-                            <i className="fi fi-rr-comment"></i>
-                           Recent Notifications (2)
-
-                        </div>
-
-                        <div className="data_area">
-
-
-                            <div className="my-message">
-
-                                <div className="contentful">
-
-                                    <div className="subject">Welcome to LASRIC </div>
-
-                                    <div className="content">
-                                        Hi, {currentUser.firstname} i am glad to welcome you on board.
-                                        Enhance Lagos with your ideas and innovation today. Apply Today, we are waiting.
-                                    </div>
-
-                                    <div className="author">
-
-                                        <div className="pict">
-                                            <img src="https://pbs.twimg.com/profile_images/1221390995742449664/OY8kFHGT_400x400.jpg" alt="alake photo" />
-                                        </div>
-
-                                       <div className="names">
-
-                                        Tunbosun Alake,
-                                            <p>SA, Innovation & Tech, Lagos State</p>
-
-                                       </div>
-                                    </div>
-
-
-                                </div>
-
-                                <div className="contentful">
-
-                                    <img src="" alt="" />
-
-                                    <div className="subject">Introducing Dashboard v2.0 🥁💥 </div>
-
-                                    <div className="content">
-                                    The LASRIC product team went back to the drawing sheet to make changes to enhance the overall user experience and subsequent areas of the platform will be updated tailored for your optimum experience  
-                                    </div>
-
-                                    <div className="author">
-
-                                        <div className="pict">
-                                            <img src={lasricicon} alt="alake photo" />
-                                        </div>
-
-                                       <div className="names">
-
-                                        Product Team,
-                                            <p>LASRIC</p>
-
-                                       </div>
-                                    </div>
-
-
-                                </div>
-
-                            </div>
-
-
-                        </div>
-
-                    </div>
+                    
 
 
                 </div>
@@ -476,4 +352,4 @@ const Dashboard = ({currentUser}) => {
     );
 }
 
-export default Dashboard;
+export default ApplicationsDash;
