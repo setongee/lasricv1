@@ -111,7 +111,7 @@ export const submitApplication = async (appid, callid, userid, track, firstname,
 
 const addToSubmitted = async (callid, userid, track, firstname, lastname) => {
 
-    await setDoc(doc(db, "submittedApplications", `LASRIC_${callid}_${userid}`), {...data.application, firstname, lastname,  track, uid : userid , dateSubmitted : new Date, avgGrade : '0', gradedBy : [], status : 'pending'  } )
+    await setDoc(doc(db, "submittedApplications", `LASRIC_${callid}_${userid}`), {...data.application, firstname, lastname,  track, uid : userid , dateSubmitted : new Date, avgGrade : '0', gradedBy : [], grades : {}, status : 'pending'  } )
 
 
 }

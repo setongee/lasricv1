@@ -5,21 +5,32 @@ import SethAnimation from '../../components/lottie/seth-animation';
 
 const Interview = ({councilProfile}) => {
 
-    const alldata = getAllSubmittedApplications();
+    const alldata = getAllSubmittedApplications(councilProfile.uid);
 
     const [data, setData] = useState([])
 
     useEffect(() => {
         
-        alldata.then( e => {
+        alldata
+        .then( data =>{
 
-            const result = e.filter(res => res.data.status === 'graded')
-            
-           const response = result.filter(data => data.data.gradedBy[0].grade > 80)
+            const bin = data.filter(data => {
 
-           setData(response)
+                const mol = data.grades.hasOwnProperty(councilProfile.uid)
+                return mol
+
+            })
+
+           const result = bin.filter( grades => {
+
+                return grades.grades[councilProfile.uid].grade >= 80
+
+            })
+
+            setData(result)
 
         } )
+
 
     }, []);
     
@@ -32,8 +43,9 @@ const Interview = ({councilProfile}) => {
 
                 <div className="tableHead"> Fullname </div>
                 <div className="tableHead"> Date Submitted </div>
-                <div className="tableHead"> Status </div>
+                <div className="tableHead"> Track </div>
                 <div className="tableHead"> Grade </div>
+                <div className="tableHead">  </div>
 
             </div>
 
@@ -41,17 +53,18 @@ const Interview = ({councilProfile}) => {
 
             {
                 data.length ? data.map((e, index) => {
-                    return <Tableshow feed = {e} key = {index} councilUID = {councilProfile.uid} />
+                    return <Tableshow data = {e} key = {index} councilUID = {councilProfile.uid} />
                 }) : <div className="no-data-state">
                     <SethAnimation jsonSrc={"https://assets10.lottiefiles.com/packages/lf20_EMTsq1.json"} lottieStyle = {{width: '400px', height: '400px'}} speed={"1"} />
 
-                    <p>Oops! You have no graded applications</p>
+                    <p>Oops! You have no applications above the 80% mark</p>
                 </div>
             }
 
         </div>
 
     );
+    
 }
 
 export default Interview;

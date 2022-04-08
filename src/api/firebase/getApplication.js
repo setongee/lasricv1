@@ -17,3 +17,21 @@ export const getApplication = async (appid) => {
       }
 
 }
+
+
+export const getCouncilMember = async (uid) => {
+
+  const docRef = doc(db, "council", uid);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+
+      return docSnap.data();
+
+    } else {
+
+      return null;
+
+    }
+
+}

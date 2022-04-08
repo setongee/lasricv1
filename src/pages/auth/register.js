@@ -64,7 +64,7 @@ const Register = () => {
                 setTimeout(async () => {
 
                     setSuccess(false); 
-                    window.location.href = "/apply"
+                    window.location.href = "/dashboard"
 
                 }, 3500);
 

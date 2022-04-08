@@ -1,9 +1,7 @@
 import React,{useState, useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const Tableshow = ({feed, councilUID}) => {
-
-    const {data, id} = feed
+const Tableshow = ({data, councilUID}) => {
 
     const Navigate = useNavigate()
 
@@ -11,19 +9,21 @@ const Tableshow = ({feed, councilUID}) => {
     const INIT_2 = data.lastname.split('')[0].toUpperCase();
     const FULLINIT = `${INIT_1}${INIT_2}`
 
-    const tems = data.gradedBy.find(e => {
-        return e.uid === councilUID
-    })
+    const gradeData = data.grades
 
     const [grade, setGrade] = useState(0)
 
     useEffect(() => {
 
-        if(tems === undefined){
+        try {
+
+           setGrade(gradeData[councilUID].grade)
+            
+        } catch (error) {
+            
             setGrade(0)
-        } else{
-           setGrade(tems.grade)
         }
+
 
     }, []);
 
@@ -31,12 +31,21 @@ const Tableshow = ({feed, councilUID}) => {
 
     return (
 
-        <div className="tableHeaders information" onClick={ () => Navigate(`/council/dashboard/applications/grade/${id}`)}>
+        <div className="tableHeaders information" onClick={ () => Navigate(`/council/dashboard/applications/grade/${data.track}/${data.appid}`)}>
 
-            <div className="tableHead avarta" style={{textTransform: 'capitalize'}}> <div className="cardMe"> {FULLINIT} </div> {data.firstname} {data.lastname}</div>
+            <div className="tableHead avarta" style={{textTransform: 'capitalize'}}> <div className="cardMe" style={{backgroundColor: `${data.track === 'stem' ? "#c293ff" : "#c1deff"}`}}> {FULLINIT} 
+
+                <div className="iconShow"></div>
+
+            </div> {data.firstname} {data.lastname} 
+
+            </div>
+
             <div className="tableHead"> {dateSubmitted} </div>
-            <div className="tableHead" style={{textTransform: 'capitalize'}}> {data.status} </div>
+            <div className="tableHead pilo" style={{textTransform: 'capitalize'}}> <div className="trackDesign"> {data.track} </div> </div>
             <div className="tableHead"> {grade}% </div>
+
+            <div className="tableHead"> <i className="fi fi-rr-arrow-right"></i> </div>
 
         </div>
     );

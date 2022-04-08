@@ -1,33 +1,44 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import { useLocation, Outlet } from 'react-router-dom';
 import '../councilArea.scss'
 import CouncilHeading from '../council_heading';
+import { getAllSubmittedApplications } from '../../api/firebase/council-applications';
 
 const CouncilDashboard = ({user}) => {
 
     const Path = useLocation().pathname.split('/')[1];
 
-    useEffect(() => {
+    const alldata = getAllSubmittedApplications(user.uid);
 
+    const [data, setData] = useState([])
+
+    useEffect(() => {
+        
+        alldata.then( e => setData(e) )
+        
     }, []);
 
     return (
 
-        <div>
+        <div className='councilBGArea'>
 
-            <CouncilHeading/>
+            <CouncilHeading data = {data} uid = {user.uid} />
 
             <div className="nameSpace">
 
-                <p>Welcome Back,</p>
+                <div className="welcome-council">
 
-                <h1 className="councilProfile">
-                    {user.firstname} {user.lastname}
-                </h1>
+                    <p>Welcome Back,</p>
+
+                    <h1 className="councilProfile">
+                        {user.firstname} {user.lastname}
+                    </h1>
+
+                </div>
 
             </div>
             
-            <Outlet/>
+            <Outlet />
 
         </div>
     );

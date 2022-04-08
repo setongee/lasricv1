@@ -35,10 +35,13 @@ import All from '../council/dashboard/all';
 import Pending from '../council/dashboard/pending';
 import Graded from '../council/dashboard/graded';
 import Gradeapplication from '../council/dashboard/gradeApplication';
+import GradeInnovationApplication from '../council/dashboard/gradeInnovationApplication';
 import Interview from '../council/dashboard/interview';
 import Gallery from '../pages/landing/gallery';
 
 import ApplicationsDash from '../pages/dashboard/applications';
+
+import Admin from '../Admin/admin';
 
 const Router = ({user}) => {
 
@@ -73,8 +76,10 @@ const Router = ({user}) => {
                 <Route path = 'dashboard/applications' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <ApplicationsDash currentUser = {user} /> : <Login/>  }/>
 
                 <Route path = 'people' element = {<Council/>} />
+                <Route path = 'admin' element = {<Admin/>} />
                 <Route path = 'gallery' element = {<Gallery/>} />
                 <Route path = 'council' element = {<Redirect navigator = '/council/dashboard/applications/all'/>} />
+                {/* <Route path = 'admin' element = {<Redirect navigator = '/council/dashboard/applications/all'/>} /> */}
 
 
                 <Route path = 'application/innovation/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <InnovationTitle currentUser = {user} /> : <Login/> }>
@@ -104,13 +109,16 @@ const Router = ({user}) => {
                 <Route path = 'council/dashboard/applications' element = { Object.keys(currentUser).length && currentUser.type === "council" ? <CouncilDashboard user = {currentUser}/> : <CouncilLogin/>  } >
 
                     <Route path = 'all' element = {<All councilProfile = {currentUser}/>} />
+                    
                     <Route path = 'pending' element = {<Pending councilProfile = {currentUser}/>} />
 
                     <Route path = 'graded' element = {<Graded councilProfile = {currentUser}/>} />
 
                     <Route path = 'interviewbucket' element = {<Interview councilProfile = {currentUser}/>} />
 
-                    <Route path = 'grade/:appid' element = {< Gradeapplication councilProfile = {currentUser} /> } />
+                    <Route path = 'grade/stem/:appid' element = {< Gradeapplication councilProfile = {currentUser} />} />
+
+                    <Route path = 'grade/innovation/:appid' element = {< GradeInnovationApplication councilProfile = {currentUser} />} />
 
                 </Route>
                 

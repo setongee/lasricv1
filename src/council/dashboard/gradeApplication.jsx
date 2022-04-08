@@ -5,7 +5,9 @@ import { useLocation } from 'react-router-dom';
 import Stemtr from '../../components/tabletr/stemtr';
 
 import { getApplication } from '../../api/firebase/getApplication';
-import { updateGrade } from '../../api/firebase/council-applications';
+import { updateGrade, getApplicationGrades } from '../../api/firebase/council-applications';
+
+import SethAnimation from '../../components/lottie/seth-animation';
 
 const Gradeapplication = ({councilProfile}) => {
 
@@ -77,12 +79,21 @@ const Navigate = useNavigate()
 
     const [form2, setForm2] = useState(formData23)
     const pageDetect = useLocation().pathname
-    const rip = pageDetect.split("/")[5]
+    const rip = pageDetect.split("/")[6]
 
     const [tableTR, setTableTR] = useState({team : []})
 
-    console.log(rip);
+    const [score, setScore] = useState({
 
+        problem : '',
+        experience : '',
+        relevance : '',
+        impact : '',
+        scalability : ''
+
+    })
+
+    const [loadSubmit, setLoadSubmit] = useState(false)
 
     useEffect(() => {
 
@@ -100,8 +111,6 @@ const Navigate = useNavigate()
             e.disabled = true
         })
 
-        console.log(milo);
-
         getApplication(rip).then(response => {
 
             if(response !== null ) {
@@ -110,31 +119,22 @@ const Navigate = useNavigate()
 
             }
         });
+
+        //get gradings
+
+        getApplicationGrades(rip)
+        .then( data => {
+
+            if (data.length) {
+
+                const result = data[0].grades[councilProfile.uid].gradings;
+                setScore(result)
+
+            } 
+        } )
         
     }, []);
 
-    console.log();
-
-    const addTableTR = (e, key) => {
-
-        e.preventDefault();
-
-        const {name, id, value} = e.target;
-
-        const gh = Object.keys(form2.team).length
-
-        const newKey = `team${gh+1}`
-
-        setForm2(data => {
-
-            return {
-              ...data,
-              team : form2.team ? {...form2.team, [newKey] : {name : '', role : '', response : "", linkedin : "" } } : []
-            }
-        })
-        
-
-    }
 
     const handleTableDelete = async (e, val) => {
 
@@ -182,42 +182,46 @@ const Navigate = useNavigate()
     
     } 
 
-
-    const [gradeScr, setGradeScr] = useState(0)
-
-    const [score, setScore] = useState({
-
-        personal : 0,
-        experience : 0,
-        relevence : 0,
-        impact : 0,
-        scalability : 0
-
-    })
-
     const handleGradeChange = (e) => {
 
         const {id, value} = e.target;
-        const g = value.split(" ");
+        
+        var numbers = /^[-+]?[0-9]+$/;
+      
+        if (value !== "") {
+            
+            if (!value.match(numbers)){
 
+                alert('Please input only numbers to grade application')
+                
+            }
+        }
+
+        if (value > 20){
+
+            alert('Grade for this area connot be above 20 marks')
+
+        } else {
+
+            setScore(data => {
+
+                return {
+                  ...data,
+                  [id] : value
+                }
+            })
+        }
         
 
-        setScore(data => {
-
-            return {
-              ...data,
-              [id] : Number(value)
-            }
-        })
+        
   
     }
 
-    const dip = Object.values(score).reduce((a, b) => a + b);
-
+    const dip = Object.values(score).reduce((a, b) => Number(a) + Number(b));
 
     const handleSubmitGrade = async () => {
 
-        await updateGrade(rip, dip, councilProfile.uid).then(() => Navigate('/council'))
+        await updateGrade(rip, dip, councilProfile.uid, score).then(() => Navigate('/council'))
 
     }
 
@@ -226,6 +230,18 @@ const Navigate = useNavigate()
     return (
 
         <div className="gradingApplication">
+
+           {
+               loadSubmit ? (
+
+                <div className="loaderScreen">
+
+                <SethAnimation jsonSrc={"https://assets4.lottiefiles.com/packages/lf20_jusuh7t5.json"} lottieStyle = {{width: '400px', height: '400px'}} speed={"1"} />
+                
+               </div>
+
+               ) : null
+           }
 
            <div className="liveScore">
 
@@ -257,83 +273,8 @@ const Navigate = useNavigate()
                {/* PERSONAL */}
 
 
-                <div className="application innovation">
+                <div className="application innovation custom-grade">
 
-
-                    <div className="wrapper council-wrap showSheet" id='personal'>
-
-                        <div className="body-section">
-
-                            <form className='lasric-apply-form gradingPart'>
-
-                                <div className="sections">
-                                    
-                                    <div className="section">
-                                        <label htmlFor="">Personal</label>
-                                        <div className="line-section" />
-                                    </div>
-
-                                    <div className="sub-section">
-
-                                        <label htmlFor="">
-                                            1. How do you intend to track your progression to success over time?
-                                        </label>
-
-                                        <textarea id="trackSuccess" rows={5} placeholder="Please Enter..." onChange={handleChange} required value = {form2.personal.data.trackSuccess} />
-
-                                    </div>
-
-                                    <div className="sub-section">
-
-                                        <label htmlFor="">
-                                        Company Name
-                                        </label>
-
-                                        <textarea id="companyName" rows={5} placeholder="Please Enter..." onChange={handleChange} required value = {form2.personal.data.companyName} />
-
-                                    </div>
-
-                                    <div className="sub-section">
-
-                                        <label htmlFor="">
-                                        What is the Title of your STEM Solution (50 words)
-                                        </label>
-
-                                        <textarea id="stemTitle" rows={5} placeholder="Please Enter..." onChange={handleChange} required value = {form2.personal.data.stemTitle} />
-
-                                    </div>
-
-                                    <div className="sub-section">
-
-                                        <label for="">Which of these key areas does your solution target?</label>
-
-                                        <select name="" id="keyArea" required  value = {form2.personal.data.keyArea} onChange={handleChange}>
-                                            <option value="None">----------Select----------</option>
-                                            <option value="STEM for Teachers (including teachers training)">STEM for Teachers (including teachers training)</option>
-                                            <option value="Demystifying STEM – Early learners (up to Primary Schools)">Demystifying STEM – Early learners (up to Primary Schools)</option>
-                                            <option value="Demystifying STEM – Secondary Schools / Teenagers">Demystifying STEM – Secondary Schools / Teenagers</option>
-                                            <option value="STEM for Out of School Youth">STEM for Out of School Youth </option>
-                                            <option value="STEM Content made easy">STEM Content made easy</option>
-                                            <option value="Technology application in STEM">Technology application in STEM</option>
-                                        </select>
-
-                                    </div>
-
-                                    <div className="sub-section" style={{color : '#f60', marginTop: '50px', borderTop: '1px solid #999', paddingTop : '50px'}}>
-
-                                        <label htmlFor="" style={{color : '#f60'}}>
-                                                <strong>Grade this Area (Max of 20)</strong>
-                                        </label>
-
-                                        <input type="number" max={20} min = {0} placeholder = "Enter your Score" id = "personal" onChange={handleGradeChange}/>
-
-                                    </div>
-                                    
-
-                                </div>
-
-                                </form>
-                            </div>
 
                 <div className="body-section">
 
@@ -361,28 +302,23 @@ const Navigate = useNavigate()
                                 <textarea name="" rows="5" placeholder="Please Enter..." id="adoptionEase" onChange={handleChange} value={form2.problem.data.adoptionEase}></textarea>
                             </div>   
 
-                            <div className="sub-section" style={{color : '#f60', marginTop: '50px', borderTop: '1px solid #999', paddingTop : '50px'}}>
+                            <div className="sub-section grade-value">
 
-                                        <label htmlFor="" style={{color : '#f60'}}>
-                                                <strong>Grade this Area (Max of 20)</strong>
-                                        </label>
+                                <label>
+                                        <strong>Grade this Area (Max of 20)</strong>
+                                </label>
 
-                                        <input type="number" max={20} min = {0} placeholder = "Enter your Score" id = "problem" onChange={handleGradeChange}  />
+                                <input type="text" placeholder = "Enter your Score" id = "problem" onChange={handleGradeChange}  value = {score.problem} />
 
-                                    </div>
+                             </div>
                             
 
                         </div>
                         
 
                         </form>
-                    </div>
+                </div>
 
-
-
-
-                
-            </div>
 
 
             <div className="body-section">
@@ -411,15 +347,15 @@ const Navigate = useNavigate()
                                 <textarea name="" rows="5" placeholder="Please Enter..." id="targetCustomers" onChange={handleChange} value={form2.relevance.data.targetCustomers}></textarea>
                             </div>   
                             
-                            <div className="sub-section" style={{color : '#f60', marginTop: '50px', borderTop: '1px solid #999', paddingTop : '50px'}}>
+                            <div className="sub-section grade-value">
 
-                                        <label htmlFor="" style={{color : '#f60'}}>
-                                                <strong>Grade this Area (Max of 20)</strong>
-                                        </label>
+                                <label>
+                                        <strong>Grade this Area (Max of 20)</strong>
+                                </label>
 
-                                        <input type="number" max={20} min = {0} placeholder = "Enter your Score" id = "relevance" onChange={handleGradeChange}  />
+                                <input type="text" placeholder = "Enter your Score" id = "relevance" onChange={handleGradeChange}  value = {score.relevance} />
 
-                                    </div>
+                             </div>
                             
 
                         </div>
@@ -431,8 +367,6 @@ const Navigate = useNavigate()
 
                     
 
-                        
-                 </div>
 
                  <div className="body-section">
 
@@ -455,15 +389,15 @@ const Navigate = useNavigate()
                                 <textarea name="" rows="5" placeholder="Please Enter..." id="impact" onChange={handleChange} value={form2.impact.data.impact}></textarea>
                             </div>
                             
-                            <div className="sub-section" style={{color : '#f60', marginTop: '50px', borderTop: '1px solid #999', paddingTop : '50px'}}>
+                            <div className="sub-section grade-value">
 
-                                        <label htmlFor="" style={{color : '#f60'}}>
-                                                <strong>Grade this Area (Max of 20)</strong>
-                                        </label>
+                                <label>
+                                        <strong>Grade this Area (Max of 20)</strong>
+                                </label>
 
-                                        <input type="number" max={20} min = {0} placeholder = "Enter your Score" id = "impact" onChange={handleGradeChange}  />
+                                <input type="text" placeholder = "Enter your Score" id = "impact" onChange={handleGradeChange}  value = {score.impact} />
 
-                                    </div>
+                             </div>
 
                         </div>
 
@@ -493,16 +427,17 @@ const Navigate = useNavigate()
             <label for="">2. What is your revenue model to ensure sustainability of this project. How can you sustain your project beyond the initial funding?</label>
             <textarea name="" rows="5" placeholder="Please Enter..." id="uniqDiff" onChange={handleChange} value={form2.scalability.data.uniqDiff}></textarea>
         </div>
-        <div className="sub-section" style={{color : '#f60', marginTop: '50px', borderTop: '1px solid #999', paddingTop : '50px'}}>
+       
 
-                                        <label htmlFor="" style={{color : '#f60'}}>
-                                                <strong>Grade this Area (Max of 20)</strong>
-                                        </label>
+            <div className="sub-section grade-value">
 
-                                        <input type="number" max={20} min = {0} placeholder = "Enter your Score" id = "scalability" onChange={handleGradeChange}  />
+                <label>
+                        <strong>Grade this Area (Max of 20)</strong>
+                </label>
 
-                                    </div>
+                <input type="text" placeholder = "Enter your Score" id = "scalability" onChange={handleGradeChange}  value = {score.scalability} />
 
+            </div>
     </div>
 
     </form>
@@ -532,7 +467,7 @@ const Navigate = useNavigate()
                                         <th>Team Member</th>
                                         <th>Role</th>
                                         <th>Responsibilities</th>
-                                        <th>Responsibilities</th>
+                                        <th>Linkedin Profile</th>
                                     </tr>
                                     
                                     <tr className="team-table-row team-table-row-1">
@@ -541,8 +476,6 @@ const Navigate = useNavigate()
                                         <td> <input name = "team1" required type="text" id="role" onChange={handleTeam} value = {form2.experience.data.team.team1.role} /> </td>
                                         <td> <input name = "team1" required type="text" id="response" onChange={handleTeam} value = {form2.experience.data.team.team1.response} /> </td>
                                         <td> <input name = "team1" required type="text" id="linkedin" onChange={handleTeam} value = {form2.experience.data.team.team1.linkedin} /> </td>
-
-                                        <td style={{width:'10%', textAlign : 'center', padding :0, border:'none' }}> </td>
 
                                     </tr>
 
@@ -564,15 +497,16 @@ const Navigate = useNavigate()
                                 <label for="">2. Explain the experience you /your team has with delivering this solution or any similar solution.</label>
                                 <textarea name="" rows="5" placeholder="Please Enter..." id="experience" onChange={handleChange} value={form2.experience.data.experience}></textarea>
                             </div>
-                            <div className="sub-section" style={{color : '#f60', marginTop: '50px', borderTop: '1px solid #999', paddingTop : '50px'}}>
+                            
+                            <div className="sub-section grade-value">
 
-                                        <label htmlFor="" style={{color : '#f60'}}>
-                                                <strong>Grade this Area (Max of 20)</strong>
-                                        </label>
+                                <label>
+                                    <strong>Grade this Area (Max of 20)</strong>
+                                </label>
 
-                                        <input type="number" max={20} min = {0} placeholder = "Enter your Score" id = "experience" onChange={handleGradeChange}  />
+                                <input type="text" placeholder = "Enter your Score" id = "experience" onChange={handleGradeChange}  value = {score.experience} />
 
-                                    </div>
+                             </div>
 
                         </div>
 
@@ -584,6 +518,24 @@ const Navigate = useNavigate()
 
 
            </div>
+
+
+           {
+                !score.problem || !score.experience || !score.relevance || !score.impact || !score.scalability === "" ? (
+
+                    <div className="realtimeScore">
+                        <div className="score_real">Your Total Grading is  : <strong>{dip}</strong>% </div>
+                        <div className="submitApplication emppty">Submit Application</div>
+                    </div>
+
+                ) : <div className="realtimeScore">
+                        <div className="score_real">Your Total Grading is  : <strong>{dip}</strong>% </div>
+                        <div className="submitApplication" onClick = { () => { handleSubmitGrade(); setLoadSubmit( true) } }  >Submit Application</div>
+                    </div>
+            }
+                        
+           </div>
+
 
 
 

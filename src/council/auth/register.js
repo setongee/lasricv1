@@ -4,6 +4,7 @@ import '../../global/styles/fragments.scss'
 import {Link} from 'react-router-dom'
 import {setDocument } from '../../api/firebase/auth';
 import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import "./authCouncil.scss"
 
 const CouncilRegister = () => {
 
@@ -15,7 +16,8 @@ const CouncilRegister = () => {
         address : '',
         password : '',
         password2 : '',
-        track : []
+        track : [],
+        psw : ''
     }
 
     const dataSubmitted = {
@@ -26,7 +28,8 @@ const CouncilRegister = () => {
         address : '',
         password : '',
         password2 : '',
-        track : []
+        track : [],
+        psw : ''
     }
 
     const [data, setData] = useState(dataSubmitted);
@@ -42,7 +45,7 @@ const CouncilRegister = () => {
 
     }, []);
 
-    console.log(data)
+    //console.log(data)
 
     const handleSubmit = async e => {
       
@@ -50,7 +53,7 @@ const CouncilRegister = () => {
 
         if(data.password === data.password2) {
 
-            const { email, password, lastname, firstname, phone } = data;
+            const { email, password, lastname, firstname, phone, track } = data;
 
             const auth = getAuth();
 
@@ -59,14 +62,13 @@ const CouncilRegister = () => {
 
                 const user = userCredential.user;
 
-                setDocument(user.uid, lastname, firstname, email, phone, 'council')
+                setDocument(user.uid, lastname, firstname, email, phone, 'council', track)
                 
                 setSuccess(true);
 
                 setTimeout(async () => {
 
                     setSuccess(false); 
-                    //window.location.href = "/apply"
 
                 }, 3500);
 
@@ -164,7 +166,37 @@ const CouncilRegister = () => {
                     </div>
 
 
-                </div>               
+                </div>   
+
+                <div className="field-data">
+
+
+                    <div className="full-type">
+
+                        <div className="icon-form"><i className="fi fi-rr-envelope"></i></div>
+                            
+                        <div className="inputArea">
+                            <input type="text" placeholder = 'Enter Img' required name = 'profURL' onChange = {handleChange} value = {data.profURL}/>
+                        </div>
+                        
+                    </div>
+
+
+                </div>   
+
+                <div className="hintBy">
+
+                    <p>Stem</p>
+                    <input type="checkbox" name="track1" value = "stem" className="checkbox" onChange={(e) => data.track.push(e.target.value)} />
+                
+                </div> 
+
+                <div className="hintBy">
+
+                    <p>Innovation</p>
+                    <input type="checkbox" name="track2" value = "innovation" className="checkbox" onChange={(e) => data.track.push(e.target.value)}/>
+                
+                </div>              
 
                 <div className="field-data">
 
@@ -192,10 +224,6 @@ const CouncilRegister = () => {
 
 
                 <button className="submit-btn" type="submit"> Create Account </button>
-
-                <div className="login-trigger">
-                    Already have an account? <Link to='/login' className="login-btn">Sign In</Link>
-                </div>
 
                 
 

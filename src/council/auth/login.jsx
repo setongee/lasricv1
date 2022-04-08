@@ -21,8 +21,10 @@ const CouncilLogin = () => {
         .then(() => {
 
             setTimeout(async () => {
+
                 setSuccess(false); 
                 //await history.push('/dashboard')
+                
             }, 3500);
         })
         .catch((err) => {{alert('error with sign in'); setSuccess(false);}});

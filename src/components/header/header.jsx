@@ -6,7 +6,8 @@ import './header.scss'
 
 //lasric logo
 import LasricLogo from '../../assets/svg/lasric_logo.svg'
-import bell from '../../assets/svg/bell.svg'
+
+
 
 const Header = ({user}) => {
 
@@ -70,7 +71,7 @@ const Header = ({user}) => {
 
             {
                 user.uid && user.uid !== undefined ? <div className="account">
-                    <Link to="/dashboard">Dashboard</Link>
+                    <Link to={`${user.type === 'user' ? '/dashboard' : '/council'}`}>Dashboard</Link>
                     <i className="fi fi-rr-angle-small-down"></i>
                 </div> : <div className="account">
                 <Link to="/login">Login</Link>
@@ -121,7 +122,7 @@ const Header = ({user}) => {
 
                     {
                         user.uid && user.uid !== undefined ? <div className="account">
-                            <Link to="/dashboard">Dashboard</Link>
+                            <Link to = {`${user.type === 'user' ? '/dashboard' : '/council'}`} >Dashboard</Link>
                             <i className="fi fi-rr-angle-small-down"></i>
                         </div> : <div className="account">
                         <Link to="/login">Login</Link>

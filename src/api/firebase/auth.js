@@ -4,7 +4,7 @@ import { db } from "./config";
 import { data } from "./new-data";
 
 
-export const setDocument = async ( uid, lastname, firstname, email, phone, type ) => {
+export const setDocument = async ( uid, lastname, firstname, email, phone, type, track ) => {
 
     await setDoc(doc(db, "users", uid), {
 
@@ -21,12 +21,12 @@ export const setDocument = async ( uid, lastname, firstname, email, phone, type 
     });
 
    if (type === 'council') {
-    setCouncilDocument(uid, lastname, firstname, email, type)
+    setCouncilDocument(uid, lastname, firstname, email, type, track)
    }
 
 }
 
-export const setCouncilDocument = async ( uid, lastname, firstname, email, type ) => {
+export const setCouncilDocument = async ( uid, lastname, firstname, email, type, track) => {
 
     await setDoc(doc(db, "council", uid), {
 
@@ -35,7 +35,8 @@ export const setCouncilDocument = async ( uid, lastname, firstname, email, type 
         email : email,
         type : type,
         uid : uid,
-        track : []
+        track : track,
+        psw : "psw"
 
     });
 
