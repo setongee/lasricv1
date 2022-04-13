@@ -142,7 +142,7 @@ const Landing = () => {
 
             </div>
 
-            <div className="videoplayer">
+            {/* <div className="videoplayer">
 
                 <div className="text">
 
@@ -157,14 +157,14 @@ const Landing = () => {
                     <img src={webinar} alt="" />
                 </div>
 
-            </div>
+            </div> */}
 
             <div className="build">
 
                 <div className="tip">
 
-                    <h1>Design your ideas, become the change Lagos needs.</h1>
-                    <p>Be the next inspired technology/research team in 2020 with innovative ideas that can change Lagos State and Africa at large that are future-ready.</p>
+                    <h1>Design & Build your ideas, become the value creator Lagos needs.</h1>
+                    <p>Be the next inspired technology/research team in 2022 with innovative ideas & Future-ready solutions that can change Lagos and Africa by extension. </p>
 
                 </div>
 
@@ -214,19 +214,19 @@ const Landing = () => {
 
             <div className="applyA">
                 <h1>Apply today in a few simple steps</h1>
-                <div className="applybtn">Apply Now</div>
+                <a href='/apply' className="applybtn" style={{color: 'white'}} >Apply Now</a>
             </div>
 
             <div className="themes">
 
-                <h1> The Lagos State Cardinal Focus Point </h1>
+                <h1> The Lagos State Cardinal {<br></br>} Focus Point. </h1>
                 
                 <div className="cardArea">
 
                     <div className="theme-card t">
 
                         <div className="abbrv"> T </div>
-                        <div className="iconify"> <img src={taxi} alt="themes_icon" /> </div>
+                        <div className="iconify"> <img src={taxi} alt="themes_icon" /> <div className="plop"></div> </div>
                         <div className="textin">Traffic Management {<br></br>} and Transportation</div>
 
                     </div>
@@ -234,7 +234,7 @@ const Landing = () => {
                     <div className="theme-card t">
 
                         <div className="abbrv"> H </div>
-                        <div className="iconify"> <img src={doctor} alt="themes_icon" /> </div>
+                        <div className="iconify"> <img src={doctor} alt="themes_icon" /> <div className="plop"></div> </div>
                         <div className="textin">Health and {<br></br>} Environment</div>
 
                     </div>
@@ -242,7 +242,7 @@ const Landing = () => {
                     <div className="theme-card t">
 
                         <div className="abbrv"> E </div>
-                        <div className="iconify"> <img src={gradCap} alt="themes_icon" /> </div>
+                        <div className="iconify"> <img src={gradCap} alt="themes_icon" /> <div className="plop"></div> </div>
                         <div className="textin">Education and {<br></br>} Technology </div>
 
                     </div>
@@ -250,7 +250,7 @@ const Landing = () => {
                     <div className="theme-card t">
 
                         <div className="abbrv"> M </div>
-                        <div className="iconify"> <img src={chart} alt="themes_icon" /> </div>
+                        <div className="iconify"> <img src={chart} alt="themes_icon" /> <div className="plop"></div> </div>
                         <div className="textin"> Making Lagos a {<br></br>} 21st Century Economy </div>
 
                     </div>
@@ -258,7 +258,7 @@ const Landing = () => {
                     <div className="theme-card t">
 
                         <div className="abbrv"> E </div>
-                        <div className="iconify"> <img src={music} alt="themes_icon" /> </div>
+                        <div className="iconify"> <img src={music} alt="themes_icon" /> <div className="plop"></div> </div>
                         <div className="textin"> Entertainment {<br></br>} and Tourism </div>
 
                     </div>
@@ -266,7 +266,7 @@ const Landing = () => {
                     <div className="theme-card t">
 
                         <div className="abbrv"> S </div>
-                        <div className="iconify"> <img src={secure} alt="themes_icon" /> </div>
+                        <div className="iconify"> <img src={secure} alt="themes_icon" /> <div className="plop"></div> </div>
                         <div className="textin"> Security and {<br></br>} Governance </div>
 
                     </div>

@@ -1,56 +1,59 @@
 import React from 'react';
-
-import agric from '../../assets/svg/agric.png'
-import health from '../../assets/svg/health.png'
-import padlock from '../../assets/svg/padlock.png'
-import tourism from '../../assets/svg/tourism.png'
-import environ from '../../assets/svg/environ.png'
-import edu from '../../assets/svg/edu.png'
-import finance from '../../assets/svg/finance.png'
-
 import SethAnimation from '../../components/lottie/seth-animation';
 
 const areasData = [
     
     {
         heading : 'Agriculture',
-        img : agric,
+        img : "https://assets7.lottiefiles.com/packages/lf20_0xbu1xfo.json",
         p : 'Food Security, Water conservation, Traditional Botanical and Medicinal knowledge. '
     },
 
     {
         heading : 'Tourism',
-        img : tourism,
+        img : "https://assets5.lottiefiles.com/packages/lf20_x9h8ar8l.json",
         p : 'Media and Creative industry, Hospitality and Tourism, Sports, Entertainment, Transportation '
     },
 
     {
         heading : 'Housing and Health',
-        img : health,
+        img : "https://assets10.lottiefiles.com/packages/lf20_a3ntzciy.json",
         p : 'Housing, Energy, Land Use, Urbanization and Habitable cities, Manufacturing, Healthcare '
     },
 
     {
         heading : 'Environment',
-        img : environ,
+        img : "https://assets3.lottiefiles.com/datafiles/dc49lw7cOTLEo6y/data.json",
         p : 'Climate change, Food security, water conservation and Flood Management, Materials'
     },
 
     {
         heading : 'Education',
-        img : edu,
+        img : "https://assets6.lottiefiles.com/packages/lf20_k4gmdjfp.json",
         p : 'Learning Solutions, Skills development, and digital transformation literacy.'
     },
 
     {
         heading : 'Security',
-        img : padlock,
+        img : "https://assets2.lottiefiles.com/packages/lf20_jzpjbmvd.json",
         p : 'Security, Information and Communication Technology, Energy'
     },
 
     {
         heading : 'Financial Inclusion',
-        img : finance,
+        img : "https://assets1.lottiefiles.com/private_files/lf30_zgs2uxra.json",
+        p : 'Access to bank facilities, thrift societies and other Financial solutions'
+    },
+
+    {
+        heading : 'Transportation',
+        img : "https://assets3.lottiefiles.com/private_files/lf30_bhgw5v82.json",
+        p : 'Access to bank facilities, thrift societies and other Financial solutions'
+    },
+
+    {
+        heading : 'Energy & Power',
+        img : "https://assets2.lottiefiles.com/packages/lf20_qtgnjnam.json",
         p : 'Access to bank facilities, thrift societies and other Financial solutions'
     }
 
@@ -62,11 +65,12 @@ const About = () => {
         <div className="about">
 
             <div className="head-area">
-                On a mission to empower several <span>research and innovation</span> initiatives by empowering with grants.
+                On a mission empower <span> research and innovation initiatives </span> by supporting through funding and network access.
             </div>
 
             <div className="subhead">
-                As Lagos, a megacity gears towards a smart city, there is need to accelerate the pace of development with the increasing population to sustain its place as a major contributor to the GDP and economic focal point of Nigeria. Research and innovation remain key drivers of development, hence Lagos is on a mission to empower several research and innovation initiatives by empowering them with grants. 
+            Being one of the largest megacities in the world, Lagos is on the road to being a smart city. The Existential challenge it faces requires a rapid acceleration of socio-economic development across all sectors. Research and innovation remain key drivers of development, LASRIC is on a mission to enable the fundamental levers of the research, development, and innovation ecosystem.
+
             </div>
 
             <div className="line-tap">
@@ -100,7 +104,7 @@ const About = () => {
                             <div className="tag-part">
 
                                 <div className="AREA"> {data.heading} </div>
-                                <div className="area-icon"> <img src={data.img} alt="area icon" /> </div>
+                                <SethAnimation jsonSrc={data.img} lottieStyle = {{width: '100px', height: '100px'}} speed={"1"} />
 
                             </div>
 
@@ -120,7 +124,7 @@ const About = () => {
 
             <div className="whygive">
 
-                <h1>Why we give grants?</h1>
+                <h1> Why do we give funding? </h1>
 
                 <div className="reason">
 

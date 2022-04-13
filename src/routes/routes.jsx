@@ -42,6 +42,7 @@ import Gallery from '../pages/landing/gallery';
 import ApplicationsDash from '../pages/dashboard/applications';
 
 import Admin from '../Admin/admin';
+import Bene from './benefi';
 
 const Router = ({user}) => {
 
@@ -76,6 +77,7 @@ const Router = ({user}) => {
                 <Route path = 'dashboard/applications' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <ApplicationsDash currentUser = {user} /> : <Login/>  }/>
 
                 <Route path = 'people' element = {<Council/>} />
+                <Route path = 'beneficiaries' element = { <Bene/> } />
                 <Route path = 'admin' element = {<Admin/>} />
                 <Route path = 'gallery' element = {<Gallery/>} />
                 <Route path = 'council' element = {<Redirect navigator = '/council/dashboard/applications/all'/>} />

@@ -431,6 +431,11 @@
         justify-content: center;
         flex-direction: column;
         margin-bottom: 15px;
+        transition: all .2s ease-in-out;
+
+        &:hover{
+            background-color: #43D57F;
+        }
 
         .abbrv{
             position: absolute;
