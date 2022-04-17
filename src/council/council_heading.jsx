@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { signOut, getAuth } from 'firebase/auth';
+import ChangePassword from './changePassword';
 
 import LasricLogo from '.././assets/svg/lasric_logo.svg'
 
@@ -12,6 +13,8 @@ const CouncilHeading = ({data, uid}) => {
 
     const [applicationStats, setApplicationStats] = useState({})
     const [showTrack, setShowTrack] = useState(false);
+
+    const [resetPass, setResetPass] = useState(false)
 
     useEffect(() => {
 
@@ -40,9 +43,20 @@ const CouncilHeading = ({data, uid}) => {
 
     //console.log(applicationStats);
 
+    const changePass = () => {
+
+        setResetPass(true)
+        setShowTrack(!showTrack)
+
+    }
+
     return (
 
         <div className="council_heading">
+            
+            {
+                resetPass ? <ChangePassword /> : null
+            }
 
             <div className="logo-lasric">
 
@@ -61,33 +75,40 @@ const CouncilHeading = ({data, uid}) => {
 
             <div className="closingPart">
 
-                {/* <div className="callupsID"  > 
+                <div className="callupsID"  > 
                 
-                    <div className="appsLink" onClick={ () => setShowTrack(!showTrack) }>All Applications <i className="fi fi-rr-angle-down"></i></div>
+                    <div className="appsLink" onClick={ () => setShowTrack(!showTrack) }>My Account <i className="fi fi-rr-angle-down"></i></div>
                     
                     {
                         showTrack ? (
 
                             <div className="popOut">
 
-                                <li onClick={ () => setShowTrack(!showTrack) } >All Applications</li>
-                                <li onClick={ () => setShowTrack(!showTrack) } >Stem Applications</li>
-                                <li onClick={ () => setShowTrack(!showTrack) } >Innovation Applications</li>
+                                <li onClick={ () => {
+                                    changePass();
+                                    console.log("heyh")
+                                    } } >Change Password</li>
+
+                                <li style={{color : 'crimson', fontWeight : "bold"}} onClick={ () => {setShowTrack(!showTrack); signOut(authState); window.location.reload();} } >Logout</li>
 
                             </div>
 
                         ) : null
                     }
 
-                </div> */}
+                </div>
 
                 
 
                 {/* <div className="shortLine"></div> */}
 
+                {/* <div className="accounts" onClick={ () => { signOut(authState); window.location.reload(); } } >
+                    Change Password
+                </div>
+
                 <div className="accounts" onClick={ () => { signOut(authState); window.location.reload(); } } >
                     Logout
-                </div>
+                </div> */}
 
             </div>
 

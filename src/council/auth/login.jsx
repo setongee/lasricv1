@@ -23,11 +23,13 @@ const CouncilLogin = () => {
             setTimeout(async () => {
 
                 setSuccess(false); 
-                //await history.push('/dashboard')
                 
             }, 3500);
         })
-        .catch((err) => {{alert('error with sign in'); setSuccess(false);}});
+        .catch((err) => { 
+            alert('error with sign in'); 
+            setSuccess(false) 
+        });
 
     }
 
@@ -40,18 +42,18 @@ const CouncilLogin = () => {
                 success ? 
                 (   
                     <div className="success">
-                        <lottie-player src="https://assets2.lottiefiles.com/packages/lf20_Gh0AU0.json" background="#000"  speed="1.5"  style={{"width": "300px", "height": "300px"}} autoplay></lottie-player>
+                        <lottie-player src="https://assets10.lottiefiles.com/packages/lf20_poqmycwy.json" background= "transparent" loop speed="1.5"  style={{"width": "300px", "height": "300px"}} autoplay></lottie-player>
                     </div>
                     
                 ) : null
 
             }
 
-            <div className="title-tag" style = {{'opacity' : success ? 0.05 : 1  }}>
+            <div className="title-tag">
                 <h1 style={{margin : '0 auto'}}>Welcome Back</h1>
             </div>
 
-            <form style = {{'opacity' : success ? 0.05 : 1  }}>
+            <form>
 
                 <div className="field-data">
 

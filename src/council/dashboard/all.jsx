@@ -4,6 +4,7 @@ import Tableshow from './tableShow';
 import { useLocation } from 'react-router-dom';
 import SethAnimation from '../../components/lottie/seth-animation';
 import { getCouncilMember } from '../../api/firebase/getApplication';
+import { getAuth, updatePassword } from "firebase/auth";
 
 const All = ({councilProfile}) => {
 
@@ -30,6 +31,9 @@ const All = ({councilProfile}) => {
         // })
 
     }, []);
+    
+
+    
 
     return (
 
