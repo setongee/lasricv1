@@ -86,7 +86,6 @@ const CouncilHeading = ({data, uid}) => {
 
                                 <li onClick={ () => {
                                     changePass();
-                                    console.log("heyh")
                                     } } >Change Password</li>
 
                                 <li style={{color : 'crimson', fontWeight : "bold"}} onClick={ () => {setShowTrack(!showTrack); signOut(authState); window.location.reload();} } >Logout</li>

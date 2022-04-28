@@ -72,7 +72,7 @@ const Header = ({user}) => {
 
             {
                 user.uid && user.uid !== undefined ? <div className="account">
-                    <Link to={`${user.type === 'user' ? '/dashboard' : '/council'}`}>Dashboard</Link>
+                    <Link to={`${user.type === 'user' ? '/dashboard' : user.type === 'council' ? '/council' : '/admin/overview'}`}>Dashboard</Link>
                     <i className="fi fi-rr-angle-small-down"></i>
                 </div> : <div className="account">
                 <Link to="/login">Login</Link>

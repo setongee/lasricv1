@@ -42,6 +42,25 @@ export const getApplicationsNumber = async () => {
 
 }
 
+// GET Council Graded APLLICATIONS
+
+export const getCouncilGradedApps = async () => {
+
+    const fetchApplications = collection(db, "submittedApplications");
+    const querySnapshot = await getDocs(fetchApplications);
+
+    const allApplications = []
+
+    querySnapshot.forEach((doc) => {
+    
+        allApplications.push( Object.keys(doc.data().grades).length );
+
+    });
+
+    return allApplications
+
+}
+
 
 
 // GET ALL UNSUBMITTED APPS
@@ -69,14 +88,16 @@ export const getAllUnsubmittedApps = async () => {
 
 export const getSubmittedApps = async () => {
 
-    const fetchSubmittedApplications = collection(db, "submittedApplications");
-    const querySnapshot = await getDocs(fetchSubmittedApplications);
+    const querySnapshot = await getDocs( query(collection(db, "submittedApplications"),orderBy("dateSubmitted", "desc"))  );
+    //const fetchSubmittedApplications = collection(db, "submittedApplications");
+
+   // const querySnapshot = await getDocs(fetchSubmittedApplications);
 
     const allSubmittedApplications = []
 
     querySnapshot.forEach((doc) => {
     
-        allSubmittedApplications.push(doc.data());
+        allSubmittedApplications.push({data : doc.data(), id : doc.id});
 
     });
 
@@ -90,7 +111,7 @@ export const getSubmittedApps = async () => {
 
 export const getInterviewBucketApps = async () => {
 
-    const fetchBucket = query(collection(db, "submittedApplications"), where("grade", ">=", 80));
+    const fetchBucket = query(collection(db, "submittedApplications"), where("avgGrade", ">=", 80));
     const querySnapshot = await getDocs(fetchBucket);
 
     const data = []
@@ -106,4 +127,59 @@ export const getInterviewBucketApps = async () => {
 
 
 
-// GET DOCUMENT
+// GET Pending Applications
+
+export const getPendingApps = async () => {
+
+    const fetchBucket = query(collection(db, "submittedApplications"), where("avgGrade", "==", "0"));
+    const querySnapshot = await getDocs(fetchBucket);
+
+    const data = []
+
+    querySnapshot.forEach((doc) => {
+    
+        data.push(doc.data());
+
+    });
+
+    return data;
+}
+
+
+// GET Graded Applications
+
+export const getGradedApps = async () => {
+
+    const fetchBucket = query(collection(db, "submittedApplications"), where("avgGrade", ">", 0));
+    const querySnapshot = await getDocs(fetchBucket);
+
+    const data = []
+
+    querySnapshot.forEach((doc) => {
+    
+        data.push(doc.data());
+
+    });
+
+    return data;
+}
+
+// get current cohort number
+
+export const getCurrentCohortNumber = async () => {
+
+    const documentRef = doc(db, "preferences", "cohort");
+
+    const documentRefSnap = await getDoc(documentRef);
+
+    const grader = [];
+
+    if (documentRefSnap.exists()){
+
+        grader.push(documentRefSnap.data());
+        
+    }
+
+    return grader;
+
+}

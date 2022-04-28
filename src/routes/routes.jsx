@@ -43,6 +43,14 @@ import ApplicationsDash from '../pages/dashboard/applications';
 
 import Admin from '../Admin/admin';
 import Bene from './benefi';
+import AdminLogin from '../Admin/auth/login';
+import AdminInvite from '../Admin/auth/register';
+
+// Admin Pages
+
+import Overview from '../Admin/overview';
+import ViewApplicationStem from '../Admin/viewApplication';
+import InnovationAdminView from '../Admin/viewApplicationsInnovation';
 
 const Router = ({user}) => {
 
@@ -64,7 +72,8 @@ const Router = ({user}) => {
             <Route path = "/"> 
 
 
-            <Route path = 'register2' element = {<CouncilRegister/>} > </Route>
+                <Route path = 'register2' element = {<CouncilRegister/>} > </Route>
+                <Route path = 'admininvite' element = {<AdminInvite/>} > </Route>
 
                 <Route index element = {<Landing/>} />
                 <Route path = 'about' element = {<About/>} />
@@ -78,11 +87,12 @@ const Router = ({user}) => {
 
                 <Route path = 'people' element = {<Council/>} />
                 <Route path = 'beneficiaries' element = { <Bene/> } />
-                <Route path = 'admin' element = {<Admin/>} />
                 <Route path = 'gallery' element = {<Gallery/>} />
                 <Route path = 'council' element = {<Redirect navigator = '/council/dashboard/applications/all'/>} />
-                {/* <Route path = 'admin' element = {<Redirect navigator = '/council/dashboard/applications/all'/>} /> */}
+                
 
+
+                {/* Application Routes */}
 
                 <Route path = 'application/innovation/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <InnovationTitle currentUser = {user} /> : <Login/> }>
 
@@ -107,6 +117,21 @@ const Router = ({user}) => {
 
 
                 </Route>
+
+
+                {/* admin routes */}
+
+                <Route path = 'admin' element = { Object.keys(currentUser).length && currentUser.type === "admin" ?  <Admin user = {currentUser} /> : <AdminLogin/>  } >
+
+                    <Route path = 'overview' element = { <Overview /> } />
+                    <Route path = 'applications/stem/:appid/view' element = { <ViewApplicationStem /> } />
+                    <Route path = 'applications/innovation/:appid/view' element = { <InnovationAdminView /> } />
+
+                    
+                </Route>
+
+
+                {/* Council Member Routes */}
 
                 <Route path = 'council/dashboard/applications' element = { Object.keys(currentUser).length && currentUser.type === "council" ? <CouncilDashboard user = {currentUser}/> : <CouncilLogin/>  } >
 

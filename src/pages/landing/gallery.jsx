@@ -36,15 +36,42 @@ const Gallery = () => {
     useEffect(() => {
 
        setGallery(gallery_data);
+       console.log(gallery);
 
-    }, []);
+    }, [gallery]);
 
 
     return (
 
         <div className="gallery-body">
 
-            <div style={{position:'relative', height : 0, paddingBottom : '56.25%'}}><iframe class='sproutvideo-player' src='https://videos.sproutvideo.com/embed/449edcbd1a15e1cfcd/f057d56c9ed38b86' style={{position : 'absolute', width : '100%', height : '100%', left : 0, top : 0}} frameborder='0' allowfullscreen referrerpolicy='no-referrer-when-downgrade'></iframe></div>
+            <div className="galleryTitle"> <h1>Gallery.</h1> </div>
+
+            <div className="gallery_area">
+
+                <div className="gallery_album">
+
+                    <div className="album_art">
+                        <img src="" alt="" />
+                    </div>
+
+                    <div className="album_description">
+
+                        <div className="album_name">LASRIC Awards Night '22</div>
+
+                        <div className="album_shorts">
+                            This is a day where all the interview awardees come for photo ops.
+                        </div>
+
+                        <div className="album_link">
+                            View Album <i className="fi fi-rr-angle-circle-right"></i>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
 
         </div>
 

@@ -32,7 +32,6 @@ function App() {
       }
   })
   
-
   useEffect(() => {
 
     //getUser(uid).then(user => setCurrentUser(user));
@@ -46,6 +45,7 @@ function App() {
     }
     
   }, [uid, authenticate, track])
+  
 
   return (
     

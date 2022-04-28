@@ -48,19 +48,30 @@ export const getAllSubmittedApplications = async (uid) => {
 
 }
 
+
 export const updateGrade = async (appid, score, uid, gradings) => {
 
     const documentRef = doc(db, "submittedApplications", appid);
-
-    const querySnap = await getDoc(documentRef)
-
-    const councilNum = Object.keys(querySnap.data().grades).length;
     
-    const avgGrade = score / councilNum
+    await updateDoc(documentRef, { [`grades.${uid}`] : { councilID : uid, gradings : gradings, grade : score, applicationID : appid } })
+    .then( () => updateAvgGrade(appid) )
 
-    await updateDoc(documentRef, { [`grades.${uid}`] : { councilID : uid, gradings : gradings, grade : score, applicationID : appid } });
+}
 
-    await updateDoc(documentRef, { "grade" : avgGrade });
+const updateAvgGrade = async (appid) => {
+
+    const documentRef = doc(db, "submittedApplications", appid);
+    const querySnap = await getDoc(documentRef)
+    const councilNum = Object.keys(querySnap.data().grades).length;
+
+    if (councilNum > 1) {
+
+        const newGrade = querySnap.data().grades
+        const total = Object.values(newGrade).reduce((t, {grade}) => t + grade, 0)
+        const avgGrade = total / councilNum
+
+        updateDoc(documentRef, { "avgGrade" : avgGrade });
+    }
 
 }
 
