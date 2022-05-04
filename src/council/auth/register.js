@@ -62,7 +62,7 @@ const CouncilRegister = () => {
 
                 const user = userCredential.user;
 
-                setDocument(user.uid, lastname, firstname, email, phone, 'council', track)
+                setDocument(user.uid, lastname, firstname, email, phone, 'admin', track)
                 
                 setSuccess(true);
 

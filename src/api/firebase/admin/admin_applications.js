@@ -118,7 +118,7 @@ export const getInterviewBucketApps = async () => {
 
     querySnapshot.forEach((doc) => {
     
-        data.push(doc.data());
+        data.push({data : doc.data(), id : doc.id});
 
     });
 
@@ -138,7 +138,7 @@ export const getPendingApps = async () => {
 
     querySnapshot.forEach((doc) => {
     
-        data.push(doc.data());
+        data.push({data : doc.data(), id : doc.id});
 
     });
 
@@ -157,7 +157,7 @@ export const getGradedApps = async () => {
 
     querySnapshot.forEach((doc) => {
     
-        data.push(doc.data());
+        data.push({data : doc.data(), id : doc.id});
 
     });
 

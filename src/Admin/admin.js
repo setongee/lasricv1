@@ -144,6 +144,8 @@ const Admin = ({user}) => {
     }
 
 
+    const Navigate = useNavigate();
+
 
     return (
         
@@ -166,32 +168,32 @@ const Admin = ({user}) => {
 
                 </div>
 
-                <div className="menuItem overview">
+                <div className="menuItem overview" onClick={() => Navigate('/admin/overview')} >
                     <div className="icon"><i className="fi fi-rr-apps"></i></div>
                     <div className="menuName">Overview</div>
                 </div>
 
-                <div className="menuItem applications">
+                <div className="menuItem applications"  onClick={() => Navigate('/admin/applications')} >
                     <div className="icon"><i className="fi fi-rr-document-signed"></i></div>
                     <div className="menuName">Applications</div>
                 </div>
 
-                <div className="menuItem council">
+                <div className="menuItem council"  onClick={() => Navigate('/admin/council')} >
                     <div className="icon"> <i className="fi fi-rr-user"></i> </div>
                     <div className="menuName"> Council </div>
                 </div>
 
-                <div className="menuItem content">
+                <div className="menuItem content"  onClick={() => Navigate('/admin/content')} >
                     <div className="icon"><i className="fi fi-rr-browser"></i></div>
                     <div className="menuName">Content</div>
                 </div>
 
-                <div className="menuItem messages">
+                <div className="menuItem messages"  onClick={() => Navigate('/admin/messages')} >
                     <div className="icon"> <i className="fi fi-rr-envelope-plus"></i> </div>
                     <div className="menuName"> Messages</div>
                 </div>
 
-                <div className="menuItem preferences">
+                <div className="menuItem preferences"  onClick={() => Navigate('/admin/preferences')} >
                     <div className="icon"> <i className="fi fi-rr-settings"></i> </div>
                     <div className="menuName"> Preferences </div>
                 </div>

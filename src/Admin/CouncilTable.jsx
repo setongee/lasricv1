@@ -5,7 +5,7 @@ import { getSubmittedApps, getPendingApps, getGradedApps, getInterviewBucketApps
 import './styles/AdminStyles.scss'
 import Previewapplication from './previewApplication';
 
-const AdminTable = ({check}) => {
+const CouncilMember = ({check}) => {
 
     const applicationsStack = {
 
@@ -24,8 +24,8 @@ const AdminTable = ({check}) => {
 
     useEffect(() => {
         
-        applicationsStack[check].then(e => setData(e));
-        applicationsStack[check].then(e => setData(e));
+        //applicationsStack[check].then(e => setData(e));
+        //applicationsStack[check].then(e => setData(e));
 
     }, [check]);
 
@@ -55,7 +55,7 @@ const AdminTable = ({check}) => {
     
     return (
 
-        <div className="applications-council applicationAdmin">
+        <div className="applications-council applicationAdmin messup">
 
 
            {
@@ -78,14 +78,14 @@ const AdminTable = ({check}) => {
             <div className="tableHeaders itshead">
 
                 <div className="tableHead"> Fullname </div>
-                <div className="tableHead"> Date Submitted </div>
                 <div className="tableHead"> Track </div>
-                <div className="tableHead"> Grade </div>
+                <div className="tableHead"> Graded </div>
+                <div className="tableHead"> Status </div>
                 <div className="tableHead"></div>
 
             </div>
 
-            {/* Applications Listings Here */}
+            {/* Applications Listings Here
 
             {
                 data.length ? data.map((e, index) => {
@@ -96,11 +96,11 @@ const AdminTable = ({check}) => {
                 <p> Oops! There are no applicants yet </p>
 
             </div>
-            }
+            } */}
 
         </div>
 
     );
 }
 
-export default AdminTable;
+export default CouncilMember;

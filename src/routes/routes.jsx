@@ -51,6 +51,9 @@ import AdminInvite from '../Admin/auth/register';
 import Overview from '../Admin/overview';
 import ViewApplicationStem from '../Admin/viewApplication';
 import InnovationAdminView from '../Admin/viewApplicationsInnovation';
+import Applications from '../Admin/applications';
+import Galleryimage from '../pages/landing/galleryImage';
+import Councilmemberlisting from '../Admin/councilMemberListing';
 
 const Router = ({user}) => {
 
@@ -87,9 +90,14 @@ const Router = ({user}) => {
 
                 <Route path = 'people' element = {<Council/>} />
                 <Route path = 'beneficiaries' element = { <Bene/> } />
-                <Route path = 'gallery' element = {<Gallery/>} />
+                <Route path = 'gallery' element = {<Galleryimage />} />
                 <Route path = 'council' element = {<Redirect navigator = '/council/dashboard/applications/all'/>} />
+                <Route path = 'admin' element = {<Redirect navigator = '/admin/overview' />} />
                 
+
+                {/* Gallery Applications */}
+
+                <Route path = 'gallery/:albumID' element = { <Gallery /> } ></Route>
 
 
                 {/* Application Routes */}
@@ -124,8 +132,10 @@ const Router = ({user}) => {
                 <Route path = 'admin' element = { Object.keys(currentUser).length && currentUser.type === "admin" ?  <Admin user = {currentUser} /> : <AdminLogin/>  } >
 
                     <Route path = 'overview' element = { <Overview /> } />
+                    <Route path = 'applications' element = { <Applications /> } />
                     <Route path = 'applications/stem/:appid/view' element = { <ViewApplicationStem /> } />
                     <Route path = 'applications/innovation/:appid/view' element = { <InnovationAdminView /> } />
+                    <Route path = 'council' element = { <Councilmemberlisting /> } />
 
                     
                 </Route>

@@ -19,6 +19,32 @@ export const getApplication = async (appid) => {
 }
 
 
+export const getCouncilGraders = async (appid) => {
+
+  const docRef = doc(db, "submittedApplications", appid);
+  const docSnap = await getDoc(docRef);
+
+  if (docSnap.exists()) {
+
+    const data = []
+
+    Object.entries(docSnap.data().grades).forEach((e) => {
+
+        data.push(e)
+
+    })
+
+    return data;
+
+    } else {
+
+      return null;
+
+    }
+
+}
+
+
 export const getCouncilMember = async (uid) => {
 
   const docRef = doc(db, "council", uid);
