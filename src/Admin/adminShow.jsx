@@ -23,7 +23,7 @@ const AdminShow = ({data, showPrev, appuid}) => {
             <div className="tableHead"> {dateSubmitted} </div>
 
             <div className="tableHead"> {data.track} </div>
-            <div className="tableHead"> {data.avgGrade}% </div>
+            <div className="tableHead"> {Math.round(data.avgGrade * 10) / 10}% </div>
 
             <div className="tableHead"> <i className="fi fi-rr-arrow-right"></i> </div>
 

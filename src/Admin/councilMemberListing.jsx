@@ -6,9 +6,17 @@ const Councilmemberlisting = () => {
 
         <div className="councilMembers">
 
-            <div className="headCouncil"><h1>Council Members</h1></div>
+            <div className="headCouncil">
+
+               <div className='headerTags' >Council Members</div>
+
+            </div>
             
-            <CouncilMember/>
+           <div className="councilData">
+
+                <CouncilMember/>
+                
+           </div>
 
         </div>
 

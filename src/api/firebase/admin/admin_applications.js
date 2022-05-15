@@ -183,3 +183,105 @@ export const getCurrentCohortNumber = async () => {
     return grader;
 
 }
+
+// Get Council Member Listing
+
+export const getCouncilMemberListing = async () => {
+
+    const fetchApplications = collection(db, "council");
+    const querySnapshot = await getDocs(fetchApplications);
+
+    const data = [];
+
+    querySnapshot.forEach((doc) => {
+    
+        data.push({data : doc.data(), id : doc.id});
+
+    });
+
+    return data;
+
+}
+
+export const getCouncilGradeTrack = async (track) => {
+
+    const fetchApplications = collection(db, "submittedApplications");
+    const querySnapshot = await getDocs(fetchApplications);
+
+    const allApplications = {
+
+        stem : [],
+        innovation : [],
+        research : []
+    }
+
+    querySnapshot.forEach((doc) => {
+    
+        //allApplications.push( Object.keys(doc.data().grades).length );
+        
+        switch ( doc.data().track ) {
+
+            case "stem":
+                allApplications.stem.push(doc.data())
+                break;
+
+            case "innovation":
+                allApplications.innovation.push(doc.data())
+                break;
+
+            default:
+                allApplications.research.push(doc.data())
+                break;
+        }
+
+    });
+
+
+    return fullDataNeeded(allApplications, track).then( res => {
+
+       return res
+
+    } )
+
+}
+
+
+const fullDataNeeded = async (trackTotal, track) => {
+
+
+    var calculate = {
+        total : 0
+    }
+
+    if ( track.includes("stem") ) { calculate.total += trackTotal.stem.length }
+    if ( track.includes("innovation") ) { calculate.total += trackTotal.innovation.length }
+
+    return calculate
+
+}
+
+
+export const getCouncilApps = async (uid) => {
+
+    const fetchApplications = collection(db, "submittedApplications");
+    const querySnapshot = await getDocs(fetchApplications);
+
+    const allApplications = {}
+    const dataStage = [];
+
+    querySnapshot.forEach((doc) => {
+
+        if ( doc.data().grades.hasOwnProperty(uid) ) {
+
+            dataStage.push( doc.data() );
+
+        }
+
+    });
+
+    allApplications[uid] = dataStage;
+
+    return allApplications
+
+}
+

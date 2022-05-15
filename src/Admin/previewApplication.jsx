@@ -112,7 +112,7 @@ const Previewapplication = ({data, closeModal, appid}) => {
                 <div className="coreDetail">
                     
                     <div className="icon"> <i className="fi fi-rr-assept-document"></i> Average Grading </div>
-                    {data.avgGrade}%
+                    {Math.round(data.avgGrade * 10) / 10}%
 
                 </div>
 
