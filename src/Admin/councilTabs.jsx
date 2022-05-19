@@ -13,8 +13,6 @@ const CouncilShow = ({data, showPrev, appuid}) => {
         research : []
     })
 
-    //const councilData = get
-
     const councilStack = {
 
         councilTrackG : getCouncilGradeTrack(data.track),

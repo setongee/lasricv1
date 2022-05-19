@@ -563,13 +563,13 @@
 
 .headCouncil{
     font-size: 14px;
-    width: 100%;
-    background-color: #fff;
-    padding: 30px 30px;
+    width: calc(100% - 270px);
+    background-color: #f9f9f9;
+    //background-color: rgb(51, 0, 118);
+    padding: 25px 30px;
     position: absolute;
     margin: -30px;
     margin-top: -75px;
-    box-shadow: 0 3px 30px rgba($color: #000000, $alpha: .02);
 
     .headerTags{
         font-size: 13px;
@@ -601,4 +601,138 @@
 .councilMem{
     padding: 15px 0 !important;
     margin: 15px 0 !important;    
+}
+
+.previewCouncil{
+
+    position: fixed;
+    top: 0;
+    right: 0;
+    background-color: rgba($color: #000, $alpha: .3);
+    height: 100vh;
+    width: calc(100% - 270px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .councilInformation{
+        background-color: #fff;
+        //height: 100%;
+        width: 600px;
+        padding: 50px;
+        border-radius: 5px;
+
+        .profileImageContainer{
+            display: flex;
+            align-items: center;
+            position: relative;
+            align-items: center;
+
+            .uploadImage{
+                font-size: 11px;
+                font-weight: bold;
+                padding: 8px 15px;
+                background-color: rgb(132, 57, 230);
+                color: #fff;
+                border-radius: 100px;
+                position: absolute;
+                right: 0;
+
+                .fi{
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .profileImage{
+            width: 50px;
+            height: 50px;
+            background-color: #333;
+            border-radius: 50%;
+            margin-right: 15px;
+            overflow: hidden;
+
+            img{
+                width: 100%;
+            }
+        }
+
+        .councilName{
+            font-size: 14px;
+
+            .lastname-council, .firstname-council{
+                font-size: 18px;
+                font-weight: bold;
+            }
+
+            .firstname-council{
+                margin-bottom: -5px;
+                font-weight: normal;
+            }
+        }
+
+        form{
+            margin-top: 70px;
+
+            .inputForm{
+                .input-label{
+                    font-size: 12px;
+                    margin-left: 15px;
+                }
+            }
+
+            input{
+                width : 100%;
+                padding: 15px 20px;
+                margin-bottom: 15px;
+                border: 1px solid whitesmoke;
+                border-radius: 5px;
+                outline: none ;
+
+                &::placeholder{
+                    font-size: 11px;
+                    color: #999;
+                }
+            }
+
+            .gradeTrack{
+                font-size: 12px;
+                border-bottom: 1px solid rgba($color: #000000, $alpha: .05);
+                padding-bottom: 15px;
+                margin-bottom: 40px;
+                font-weight: bold;
+                display: flex;
+                align-items: center;
+
+                .fi{
+                    margin-right: 10px;
+                    margin-top: 3px;
+                }
+            }
+
+            .select-box{
+                margin-top: 25px;
+
+                
+
+                .checkboxx{
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                    justify-content: space-between;
+                    margin-bottom: 20px;
+
+                    p{
+                        font-size: 12px;
+                    }
+
+                    input{
+                        width: max-content;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+
 }

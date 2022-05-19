@@ -31,8 +31,6 @@ const Councilmemberprint = ({data}) => {
 
     }, []);
 
-    console.log(dataMember);
-
     return (
 
         <div className="coreDetail">
