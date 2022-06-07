@@ -146,6 +146,13 @@ const Admin = ({user}) => {
 
     const Navigate = useNavigate();
 
+    const openBody = () => {
+
+        const body = document.body
+        body.style.overflow = 'visible'
+
+    }
+
 
     return (
         
@@ -168,32 +175,32 @@ const Admin = ({user}) => {
 
                 </div>
 
-                <div className="menuItem overview" onClick={() => Navigate('/admin/overview')} >
+                <div className="menuItem overview" onClick={() => { Navigate('/admin/overview'); openBody() }} >
                     <div className="icon"><i className="fi fi-rr-apps"></i></div>
                     <div className="menuName">Overview</div>
                 </div>
 
-                <div className="menuItem applications"  onClick={() => Navigate('/admin/applications')} >
+                <div className="menuItem applications"  onClick={() => { Navigate('/admin/applications'); openBody() } } >
                     <div className="icon"><i className="fi fi-rr-document-signed"></i></div>
                     <div className="menuName">Applications</div>
                 </div>
 
-                <div className="menuItem council"  onClick={() => Navigate('/admin/council')} >
+                <div className="menuItem council"  onClick={() => { Navigate('/admin/council') } } >
                     <div className="icon"> <i className="fi fi-rr-user"></i> </div>
                     <div className="menuName"> Council </div>
                 </div>
 
-                <div className="menuItem content"  onClick={() => Navigate('/admin/content')} >
+                <div className="menuItem content"  onClick={() => { Navigate('/admin/content'); openBody() } } >
                     <div className="icon"><i className="fi fi-rr-browser"></i></div>
                     <div className="menuName">Content</div>
                 </div>
 
-                <div className="menuItem messages"  onClick={() => Navigate('/admin/messages')} >
+                <div className="menuItem messages"  onClick={() => { Navigate('/admin/messages'); openBody() } } >
                     <div className="icon"> <i className="fi fi-rr-envelope-plus"></i> </div>
                     <div className="menuName"> Messages</div>
                 </div>
 
-                <div className="menuItem preferences"  onClick={() => Navigate('/admin/preferences')} >
+                <div className="menuItem preferences"  onClick={() => { Navigate('/admin/preferences'); openBody() } } >
                     <div className="icon"> <i className="fi fi-rr-settings"></i> </div>
                     <div className="menuName"> Preferences </div>
                 </div>

@@ -409,38 +409,39 @@ const Navigate = useNavigate()
 
                     <div className="body-section">
 
-<form className='lasric-apply-form gradingPart' >
+    <form className='lasric-apply-form gradingPart' >
 
-    <div className="sections">
-        
-        <div className="section">
-            <label htmlFor="">Scalability</label>
-            <div className="line-section" />
-        </div>
-
-        <div className="sub-section">
-            <label for="">1. Explain how your solution is scalable in one year, three years and five years and what resources will you need to achieve them? </label>
-            <textarea name="" rows="5" placeholder="Please Enter..." id="howScalable"  onChange={handleChange} value={form2.scalability.data.howScalable}></textarea>
-        </div>
-
-        <div className="sub-section">
-            <label for="">2. What is your revenue model to ensure sustainability of this project. How can you sustain your project beyond the initial funding?</label>
-            <textarea name="" rows="5" placeholder="Please Enter..." id="uniqDiff" onChange={handleChange} value={form2.scalability.data.uniqDiff}></textarea>
-        </div>
-       
-
-            <div className="sub-section grade-value">
-
-                <label>
-                        <strong>Grade this Area (Max of 20)</strong>
-                </label>
-
-                <input type="text" placeholder = "Enter your Score" id = "scalability" onChange={handleGradeChange}  value = {score.scalability} />
-
+        <div className="sections">
+            
+            <div className="section">
+                <label htmlFor="">Scalability</label>
+                <div className="line-section" />
             </div>
-    </div>
+
+            <div className="sub-section">
+                <label for="">1. Explain how your solution is scalable in one year, three years and five years and what resources will you need to achieve them? </label>
+                <textarea name="" rows="5" placeholder="Please Enter..." id="howScalable"  onChange={handleChange} value={form2.scalability.data.howScalable}></textarea>
+            </div>
+
+            <div className="sub-section">
+                <label for="">2. What is your revenue model to ensure sustainability of this project. How can you sustain your project beyond the initial funding?</label>
+                <textarea name="" rows="5" placeholder="Please Enter..." id="uniqDiff" onChange={handleChange} value={form2.scalability.data.uniqDiff}></textarea>
+            </div>
+        
+
+                <div className="sub-section grade-value">
+
+                    <label>
+                            <strong>Grade this Area (Max of 20)</strong>
+                    </label>
+
+                    <input type="text" placeholder = "Enter your Score" id = "scalability" onChange={handleGradeChange}  value = {score.scalability} />
+
+                </div>
+        </div>
 
     </form>
+
 </div>
 
 

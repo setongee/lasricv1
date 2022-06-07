@@ -54,6 +54,7 @@ import InnovationAdminView from '../Admin/viewApplicationsInnovation';
 import Applications from '../Admin/applications';
 import Galleryimage from '../pages/landing/galleryImage';
 import Councilmemberlisting from '../Admin/councilMemberListing';
+import GradeSecSch from '../council/dashboard/gradeSecSch';
 
 const Router = ({user}) => {
 
@@ -156,6 +157,8 @@ const Router = ({user}) => {
                     <Route path = 'grade/stem/:appid' element = {< Gradeapplication councilProfile = {currentUser} />} />
 
                     <Route path = 'grade/innovation/:appid' element = {< GradeInnovationApplication councilProfile = {currentUser} />} />
+
+                    <Route path = 'grade/secsch/:appid' element = {< GradeSecSch councilProfile = {currentUser} />} />
 
                 </Route>
                 

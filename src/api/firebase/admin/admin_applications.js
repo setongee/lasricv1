@@ -1,6 +1,42 @@
-import { doc, updateDoc, getDocs, collection, arrayUnion, where, query, orderBy, getDoc } from "firebase/firestore";
+import { type } from "@testing-library/user-event/dist/type";
+import { doc, updateDoc, getDocs, collection, deleteDoc, addDoc, where, query, orderBy, getDoc, setDoc } from "firebase/firestore";
 import { db } from "../config";
 
+
+//COUNCIL INFORMATION
+
+export const setCouncilInfomation = async (uid, data) => {
+
+    const docRef = doc(db, "council", uid);
+
+    await setDoc(docRef, data)
+
+}
+
+//Add COUNCIL INFORMATION
+
+export const addNewCouncil = async (data) => {
+
+    const newCounciilRef = await addDoc(collection(db, "council"), data)
+
+    const councilCreated = await doc(db, "council", newCounciilRef.id);
+
+    await updateDoc(councilCreated, {
+
+        uid: newCounciilRef.id
+
+    });
+
+}
+
+
+export const deleteFunction = async (document, uid) => {
+
+    await deleteDoc(doc(db, document, uid));
+
+}
+
+//deleteFunction("submittedApplications", "LASRIC_j7njo6aTElgYdPXCAqPc_0xFpjEhEkoZFYp5ipkcISjGa3OG2")
 
 //GET ALL USERS
 
@@ -8,6 +44,9 @@ export const getAllUsers = async () => {
 
     const fetchUsers = query(collection(db, "users"), where("type", "==", "user"));
     const querySnapshot = await getDocs(fetchUsers);
+
+    const fetchUsers2 = query(collection(db, "users2"), where("type", "==", "user"));
+    const querySnapshot2 = await getDocs(fetchUsers2);
 
     const allUsers = []
 
@@ -17,10 +56,15 @@ export const getAllUsers = async () => {
 
     });
 
+    querySnapshot2.forEach((doc) => {
+    
+        //allUsers.push(doc.data());
+
+    });
+
     return allUsers;
 
 }
-
 
 
 // GET ALL APLLICATIONS
@@ -83,15 +127,12 @@ export const getAllUnsubmittedApps = async () => {
 }
 
 
-
 // GET SUBMITTED APPS
 
 export const getSubmittedApps = async () => {
 
     const querySnapshot = await getDocs( query(collection(db, "submittedApplications"),orderBy("dateSubmitted", "desc"))  );
-    //const fetchSubmittedApplications = collection(db, "submittedApplications");
-
-   // const querySnapshot = await getDocs(fetchSubmittedApplications);
+    
 
     const allSubmittedApplications = []
 
@@ -126,12 +167,11 @@ export const getInterviewBucketApps = async () => {
 }
 
 
-
 // GET Pending Applications
 
 export const getPendingApps = async () => {
 
-    const fetchBucket = query(collection(db, "submittedApplications"), where("avgGrade", "==", "0"));
+    const fetchBucket = query(collection(db, "submittedApplications"), where("avgGrade", "==", 0) );
     const querySnapshot = await getDocs(fetchBucket);
 
     const data = []
@@ -212,7 +252,8 @@ export const getCouncilGradeTrack = async (track) => {
 
         stem : [],
         innovation : [],
-        research : []
+        research : [],
+        secsch : []
     }
 
     querySnapshot.forEach((doc) => {
@@ -227,6 +268,10 @@ export const getCouncilGradeTrack = async (track) => {
 
             case "innovation":
                 allApplications.innovation.push(doc.data())
+                break;
+            
+            case "secsch":
+                allApplications.secsch.push(doc.data())
                 break;
 
             default:
@@ -255,6 +300,8 @@ const fullDataNeeded = async (trackTotal, track) => {
 
     if ( track.includes("stem") ) { calculate.total += trackTotal.stem.length }
     if ( track.includes("innovation") ) { calculate.total += trackTotal.innovation.length }
+    if ( track.includes("secsch") ) { calculate.total += trackTotal.secsch.length }
+    if ( track.includes("research") ) { calculate.total += trackTotal.research.length }
 
     return calculate
 
@@ -285,3 +332,75 @@ export const getCouncilApps = async (uid) => {
 
 }
 
+
+
+
+
+//////////////////////////////// TEST AREAS /////////////////////////////////////
+
+
+//export const testUser = async () => {
+
+    //     const fetchApplications = collection(db, "submittedApplications");
+    //     const querySnapshot = await getDocs(fetchApplications);
+    
+    //     querySnapshot.forEach((doc) => {
+    
+    //     //updateDocumentUser(doc.id, testUser2(doc.id));
+    //     //testUser2(doc.id, doc.data());
+    
+    //         //testUser2(doc.data().uid);
+    
+    //         //   if ( doc.id ===  `LASRIC_j7njo6aTElgYdPXCAqPc_LASRIC_j7njo6aTElgYdPXCAqPc_${doc.data().uid}`) {
+    
+    //         //       //deleteFunction("submittedApplications", `LASRIC_j7njo6aTElgYdPXCAqPc_LASRIC_j7njo6aTElgYdPXCAqPc_${doc.data().uid}`)
+    
+    //         //   } else {
+    //         //       console.log("cant find any doc")
+    //         //   }
+    
+    
+    //         // updateDocumentUser(`LASRIC_j7njo6aTElgYdPXCAqPc_${doc.id}`, doc.data())
+    
+    //     });
+    
+    // }
+    
+    // export const testUser2 = async (uid) => {
+    
+    //     const docRef = doc(db, "applications", `LASRIC_j7njo6aTElgYdPXCAqPc_${uid}`);
+    //     const docRef1 = doc(db, "users2", uid);
+    //     const dataMin = await getDoc(docRef1)
+    
+    //     //console.log(dataMin.data())
+    
+    //     if (dataMin.data() !== undefined) {
+    
+    //         await setDoc(docRef, {
+    
+    //             uid : `LASRIC_j7njo6aTElgYdPXCAqPc_${uid}`,
+    //             data : dataMin.data().form.data,
+    //             grade : 0,
+    //             gradedBy : [],
+    //             status : "pending",
+    //             submitted : true,
+    //             track : "secsch"
+        
+    //         })
+    
+    //     }
+    
+    //     //updateDocumentUser(`LASRIC_j7njo6aTElgYdPXCAqPc_${uid}`, data)
+    
+    // }
+    
+    // export const updateDocumentUser = async (uid, data) => {
+    
+    //     const documentRef = doc(db, "submittedApplications", uid);
+    
+    //     await updateDoc(documentRef, { "dateSubmitted" : new Date (data.dateSubmitted) });
+    
+    // }
+    
+    
+    

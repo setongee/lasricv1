@@ -37,10 +37,11 @@ export const setCouncilDocument = async ( uid, lastname, firstname, email, type,
         lastname : lastname,
         firstname : firstname,
         email : email,
-        type : type,
+        type : "council",
         uid : uid,
         track : track,
-        psw : "psw"
+        psw : "psw",
+        img : ""
 
     });
 
