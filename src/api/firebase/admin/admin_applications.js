@@ -13,6 +13,33 @@ export const setCouncilInfomation = async (uid, data) => {
 
 }
 
+//User 2 INFORMATION
+
+export const setUser2InUsers = async () => {
+
+    const newCounciilRef = await collection(db, "users2")
+    const queryUsers = await getDocs(newCounciilRef)
+
+    queryUsers.forEach( user => {
+
+        setUsersInUser2(user.id, user.data())
+
+    })
+
+    
+}
+
+export const setUsersInUser2 = async (uid, data) => {
+
+    const docRef = doc(db, "users", uid);
+    await setDoc(docRef, data)
+
+}
+
+//setUser2InUsers()
+
+
+
 //Add COUNCIL INFORMATION
 
 export const addNewCouncil = async (data) => {
@@ -45,20 +72,11 @@ export const getAllUsers = async () => {
     const fetchUsers = query(collection(db, "users"), where("type", "==", "user"));
     const querySnapshot = await getDocs(fetchUsers);
 
-    const fetchUsers2 = query(collection(db, "users2"), where("type", "==", "user"));
-    const querySnapshot2 = await getDocs(fetchUsers2);
-
     const allUsers = []
 
     querySnapshot.forEach((doc) => {
     
         allUsers.push(doc.data());
-
-    });
-
-    querySnapshot2.forEach((doc) => {
-    
-        //allUsers.push(doc.data());
 
     });
 
@@ -104,6 +122,8 @@ export const getCouncilGradedApps = async () => {
     return allApplications
 
 }
+
+
 
 
 

@@ -11,6 +11,7 @@
     "axios": "^0.24.0",
     "cors": "^2.8.5",
     "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
     "firebase": "^9.6.3",
     "node-sass": "^7.0.1",
     "nodemailer": "^6.7.3",

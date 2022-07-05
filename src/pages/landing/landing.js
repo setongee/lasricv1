@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useState, useEffect} from 'react';
 import SethAnimation from '../../components/lottie/seth-animation';
 import awardee from '../../assets/svg/aishaRaheem.jpeg'
 import play from '../../assets/svg/play.svg'
@@ -18,6 +18,12 @@ import secure from '../../assets/svg/secure.svg'
 import gradCap from '../../assets/svg/gradCap.svg'
 import chart from '../../assets/svg/chart.svg'
 import webinar from '../../assets/svg/lasric-live.jpeg'
+import { getCMSData } from '../../api/firebase/admin/cms';
+
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import { Editor } from 'react-draft-wysiwyg';
 
 import { useNavigate } from "react-router-dom";
 
@@ -25,7 +31,50 @@ const Landing = () => {
 
     let navigate = useNavigate();
 
-    const [email, setEmail] = useState("")
+    const [email, setEmail] = useState("");
+
+    const [techStartUp, setTechStartUp] = useState({
+
+        image : "https://bit.ly/3n7lmfR",
+        company : "",
+        web : "",
+        content : "",
+        sector : ""
+
+    })
+
+
+    const [editorState, setEditorState] = useState("");
+
+    useEffect(() => {
+
+        if (techStartUp.content === "") {
+
+            setEditorState(EditorState.createEmpty())
+
+        } else {
+
+            setEditorState(EditorState.createWithContent(convertFromRaw(techStartUp.content) ))
+        }
+
+    }, [techStartUp]);
+
+    const injectContent = () => {
+
+        const raw = convertToRaw( editorState.getCurrentContent() )
+        const may = draftToHtml(raw)
+        const result = document.getElementById('result');
+        result.innerHTML = may
+
+        console.log(may);
+        
+
+    }
+
+    if (techStartUp.content !== "") {
+        injectContent()
+    }
+
 
     //set onChange event for landing email registration
 
@@ -48,6 +97,21 @@ const Landing = () => {
         await navigate('/register');
 
     }
+
+
+    useEffect(() => {
+
+        async function fetchData() {
+
+          const response = await getCMSData("landing");
+
+          setTechStartUp(response)
+
+        }
+
+        fetchData();
+
+      }, []); // 
 
 
     return (
@@ -180,35 +244,33 @@ const Landing = () => {
 
                 <div className="title">Featured Tech {<br></br>} Startup of the month</div>
                 
-                <div className="photo"> <img src="https://lasric.lagosstate.gov.ng/assets/img/featured/startup_5fdaaf67d24e5.png" alt="lasric featured tech startup" /> </div>
+                <div className="photo"> <img src={techStartUp.image} alt="lasric featured tech startup" /> </div>
 
                 <div className="info-actions">
 
                     <div className="info">
                         <div className="heading"> <div className="icon-A"> <img src={suitcase} alt="icon packs" /> </div> Company</div>
-                        <div className="comapany_name">Farmz2u</div>
+                        <div className="comapany_name">{techStartUp.company}</div>
                     </div>
 
                     <div className="line-space"></div>
 
                     <div className="info">
                         <div className="heading"> <div className="icon-A"> <img src={flame} alt="icon packs" /> </div> Sector</div>
-                        <div className="comapany_name">Agriculture</div>
+                        <div className="comapany_name">{techStartUp.sector}</div>
                     </div>
 
                     <div className="line-space"></div>
 
                     <div className="info">
                         <div className="heading"> <div className="icon-A"> <img src={web} alt="icon packs" /> </div> Website</div>
-                        <div className="comapany_name"> <a href="https://www.farmz2u.com/" target="_blank" >www.farmz.com.ng</a> </div>
+                        <div className="comapany_name"> <a href={techStartUp.web} target="_blank" >{techStartUp.web}</a> </div>
                     </div>
                     
 
                 </div>
 
-                <div className="body-text">
-                    Farmz2U is an award-winning enterprise that helps farmers farm better with tailored agricultural expertise using data, and access to the market through system integrations. For instance, using soil composition to determine how much fertilizer a farmer should apply, or helping farmers get capital through invoice discounting. Our solution focuses on using technology to support farmers’ activities end-to-end. It is mobile accessible and farmers without access to smartphones can still access some services with USSD codes. Services: Farmers Support and Market Access.
-                </div>
+                <div className="body-text" id='result'></div>
 
             </div>
 

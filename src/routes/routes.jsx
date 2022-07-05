@@ -55,11 +55,20 @@ import Applications from '../Admin/applications';
 import Galleryimage from '../pages/landing/galleryImage';
 import Councilmemberlisting from '../Admin/councilMemberListing';
 import GradeSecSch from '../council/dashboard/gradeSecSch';
+import ViewSecSch from '../Admin/viewSecSch';
+import Cms from '../Admin/cms';
+import LandingCMS from '../Admin/cms/landing';
+import CallupsCMS from '../Admin/cms/callups/calllups';
+import CallupsCMSList from '../Admin/cms/callups/callupsList';
+import CallupEdit from '../Admin/cms/callups/callupEdit';
+import BeneficiariesList from '../Admin/cms/beneficiaries/callupsList';
+import BeneficiariesCreate from '../Admin/cms/beneficiaries/Create';
 
 const Router = ({user}) => {
 
     const Navigate = useNavigate();
     const [currentUser, setCurrentUser] = useState({});
+    const [testCurrentUser, setTestCurrentUser] = useState({});
 
     useEffect( () => {
         
@@ -67,6 +76,20 @@ const Router = ({user}) => {
         
 
     }, [user] );
+
+    useEffect( () => {
+        
+        setTestCurrentUser({
+
+            firstname : "Setonji",
+            lastname : "Avoseh",
+            email : "setongee@gmail.com",
+            phone : "08133211658"
+            
+        })
+        
+
+    }, [] );
 
 
     return (
@@ -136,6 +159,31 @@ const Router = ({user}) => {
                     <Route path = 'applications' element = { <Applications /> } />
                     <Route path = 'applications/stem/:appid/view' element = { <ViewApplicationStem /> } />
                     <Route path = 'applications/innovation/:appid/view' element = { <InnovationAdminView /> } />
+                    <Route path = 'applications/secsch/:appid/view' element = { <ViewSecSch /> } />
+                    <Route path = 'council' element = { <Councilmemberlisting /> } />
+                    <Route path = 'content' element = { <Cms /> } />
+
+                    <Route path = 'content/landing' element = { <LandingCMS /> } />
+
+                    
+                    <Route path = 'content/callups' element = { <CallupsCMSList /> } />
+                    <Route path = 'content/callups/create' element = { <CallupsCMS /> } />
+                    <Route path = 'content/callups/edit/:id' element = { <CallupEdit /> } />
+
+                    <Route path = 'content/beneficiaries' element = { <BeneficiariesList /> } />
+                    <Route path = 'content/beneficiaries/create' element = { <BeneficiariesCreate /> } />
+  
+                </Route>
+
+                {/* test admin routes */}
+
+                <Route path = 'offline/admin' element = { <Admin user = {testCurrentUser} /> } >
+
+                    <Route path = 'overview' element = { <Overview /> } />
+                    <Route path = 'applications' element = { <Applications /> } />
+                    <Route path = 'applications/stem/:appid/view' element = { <ViewApplicationStem /> } />
+                    <Route path = 'applications/innovation/:appid/view' element = { <InnovationAdminView /> } />
+                    <Route path = 'applications/secsch/:appid/view' element = { <ViewSecSch /> } />
                     <Route path = 'council' element = { <Councilmemberlisting /> } />
 
                     

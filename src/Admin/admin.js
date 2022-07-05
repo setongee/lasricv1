@@ -14,7 +14,6 @@ const Admin = ({user}) => {
         lastname : ""
 
     })
-
     const pageDetect = useLocation().pathname
     const paramValue = pageDetect.split("/")[2];
 

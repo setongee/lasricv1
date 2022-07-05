@@ -91,11 +91,13 @@ const AdminTable = ({check}) => {
                 data.length ? data.map((e, index) => {
                     return <AdminShow data = {e.data} key = {e.id} showPrev = {previewUser} appuid = {e.id} />
                 }) : <div className="no-data-state">
+
                 <SethAnimation jsonSrc={"https://assets10.lottiefiles.com/packages/lf20_EMTsq1.json"} lottieStyle = {{width: '400px', height: '400px'}} speed={"1"} />
 
                 <p> Oops! There are no applicants yet </p>
 
-            </div>
+                </div>
+
             }
 
         </div>
