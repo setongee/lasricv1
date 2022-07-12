@@ -1,5 +1,5 @@
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore"; 
+import { doc, setDoc, getDoc, collection, query, getDocs, where } from "firebase/firestore"; 
 import { db } from "./config";
 import { data } from "./new-data";
 
@@ -46,6 +46,26 @@ export const setCouncilDocument = async ( uid, lastname, firstname, email, type,
     });
 
 }
+
+
+export const getCouncilData = async () => {
+
+    const fetchUsers = query(collection(db, "council"), where("internal", "==", true));
+    
+    const querySnapshot = await getDocs(fetchUsers);
+
+    const allUsers = []
+
+    querySnapshot.forEach((doc) => {
+    
+        allUsers.push(doc.data());
+
+    });
+
+    return allUsers;
+
+}
+
 
 export const setAdminDocument = async ( uid, lastname, firstname, email, type) => {
 

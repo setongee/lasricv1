@@ -1,40 +1,36 @@
 import React, {useState, useEffect} from 'react';
 import '../../styles/cms.scss'
-import { useNavigate, useLocation, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { Editor } from 'react-draft-wysiwyg';
-import { setLandingDetails, getCMSData, addCallupsDetails, editCallup, updateCallup } from '../../../api/firebase/admin/cms';
+import { addBeneficiaryDetails, editBeneficiaryDetails, updateBeneficiary } from '../../../api/firebase/admin/cms';
 import SethAnimation from '../../../components/lottie/seth-animation';
 import { getCurrentCohortNumber } from '../../../api/firebase/admin/admin_applications';
 
-const CallupEdit = () => {
+const BeneficiariesEdit = () => {
 
     const Navigate = useNavigate();
-    const params = useParams();
+    const Params = useParams();
 
     const [data, setData] = useState({
 
-        image : "https://bit.ly/39QPwRz",
-        title : "Title Goes Here",
-        description : "",
-        short : "Lorem ipsum dolor killer bean of the sit amet consectetur adipisicing elit. Suscipit?",
-        track : "Innovation",
-        date : "",
-        formattedDate : "Fri Dec 14 2001",
-        popDesc : "",
+        logo : "https://bit.ly/3aavFx1",
+        foundersImg : "https://bit.ly/3OIXeMQ",
+        company : "Dribble Technologies",
+        founders : "Tobi Obasa & Setonji Avoseh",
+        website : "https://www.nowebsiteurl.africa",
+        track : "innovation",
         cohortNum : 0
 
     })
 
-    const [editorState, setEditorState] = useState("");
-    const [cohortNum, setCohortNum] = useState(0);
     const [openPreviewModal, setPreviewModal] = useState(false);
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState(false)
 
-
+    
     const handleChange = e => {
 
         const check = e.target.value;
@@ -57,52 +53,33 @@ const CallupEdit = () => {
 
     }
 
-    const onEditorStateChange = (editorState) => {
-
-        setEditorState( editorState )
-
-    }
-
     useEffect(() => {
 
         async function fetchData() {
 
-            getCurrentCohortNumber().then( (e) => setCohortNum(e[0].present) )
+          const response = await editBeneficiaryDetails(Params.cohort, Params.id);
 
-            if (cohortNum !== 0) {
-                
-                const response = await editCallup( `cohort${cohortNum}`, params.id )
-                setData(response);
-
-            }
+          setData(response)
 
         }
 
         fetchData();
 
-      }, [cohortNum]); 
+      }, []);
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        if (data.description === "") {
+    //     if (data.description === "") {
 
-            setEditorState(EditorState.createEmpty())
+    //         setEditorState(EditorState.createEmpty())
 
-        } else {
+    //     } else {
 
-            setEditorState(EditorState.createWithContent(convertFromRaw(data.description) ))
+    //         setEditorState(EditorState.createWithContent(convertFromRaw(data.description) ))
             
-        }
+    //     }
 
-    }, [data]);
-
-
-    const editorFinished = () => {
-
-        const raw = convertToRaw( editorState.getCurrentContent() )
-        data.description = raw
-
-    }
+    // }, [data]);
       
 
     const submitForm = () => {
@@ -111,11 +88,8 @@ const CallupEdit = () => {
         setLoading(true);
         window.scrollTo(0, 0);
 
-        //editor area is added to content parameter
-        editorFinished();
-
         //the cms details is updated here
-        updateCallup( `cohort${data.cohortNum}`, params.id, data ).then( () => {
+        updateBeneficiary(`cohort${data.cohortNum}`, Params.id, data ).then( () => {
 
             //alert the action has been saved
             setLoading(false)
@@ -144,55 +118,20 @@ const CallupEdit = () => {
                     
                 }, 1000);
 
-                Navigate('/admin/content/callups')
+                Navigate('/admin/content/beneficiaries')
                 
             }, 4000);
 
         } )
 
     }
-    
-    const openModal = () => {
-
-        setPreviewModal(true)
-
-        document.body.style.overflow = "hidden"
-
-        const raw = convertToRaw( editorState.getCurrentContent() )
-        const may = draftToHtml(raw)
-        //const result = document.getElementById('resultReadMore');
-        //result.innerHTML = may
-        data.popDesc = may
-
-    }
-
-    const closeModal = () => {
-
-        setPreviewModal(false);
-        document.body.style.overflow = "visible"
-
-    }
-
-    useEffect(() => {
-
-
-        const result = document.getElementById('resultReadMore');
-        
-        if ( result !== null ) {
-
-            result.innerHTML = data.popDesc;
-
-        }
-        
-    }, [openPreviewModal]);
-
 
     useEffect(() => {
         
         getCurrentCohortNumber()
         .then( (e) => data.cohortNum = e[0].present)
 
-    }, [data]);
+    }, []);
 
 
 
@@ -221,63 +160,40 @@ const CallupEdit = () => {
                 </div> : null
             }
 
-            {/* Preview Read More Information */}
-
-            {
-
-                openPreviewModal ?
-
-                ( <div className="previewReadMore">
-
-                    <div className="readMoreModal">
-
-                        <div className="closeModal" onClick={ () => closeModal() }> X </div>
-                        <div className="expiryDate"> Expires {data.formattedDate} </div>
-                        <div className="titlePreview"> {data.title} </div>
-                        <div className="trackPreview"> <p>{data.track} </p><div className="divLine"></div> </div>
-                        <div className="resultReadMore" id='resultReadMore'></div>
-                        <div className="buttonApply"> Start Application <i className="fi fi-rr-arrow-small-right"></i></div>
-
-                    </div>
-
-                </div> ) : null
-            
-            }
-
-            {/* End of Preview Read More Information */}
-
 
             <div className="cms-nav">
 
-                <div className="headerBack" onClick={ () => Navigate('/admin/content/callups') } >
+                <div className="headerBack" onClick={ () => Navigate(-1) } >
                     <i className="fi fi-rr-arrow-small-left"></i>
                 </div>
 
-                <div className="cms-title">Content Management {">"} Callups {">"} Edit</div>
+                <div className="cms-title">Content Management {">"} Beneficiaries {">"} Edit</div>
 
             </div>
 
             <div className="callups_section">
 
-                <div className="preview_cms_card">
+                <div className="preview_cms_card beneficiary">
 
                     <div className="callup_img">
-                        <img src={data.image} alt="callup image" />
+                        <img src={data.foundersImg} alt="Founders image" />
+                    </div>
+
+                    <div className="logoCompany">
+                        <img src={data.logo} alt="company logo image" />
                     </div>
 
                     <div className="details_pin">
 
-                        <div className="expires">Expires {data.formattedDate} </div>
-
-                        <div className="callup_title">{data.title}</div>
-
                         <div className="callup_details">
-                            {data.short}
+                            {data.founders}
                         </div>
+
+                        <div className="callup_title">{data.company}</div>
 
                         <div className="callup_footer">
 
-                            <p onClick={ () => openModal() } > Read More </p>
+                            <p><a href = {data.website} target = '_blank' > Visit Website <i className="fi fi-rr-arrow-small-right"></i> </a></p>
                             <div className="callup_track"> <div className="track_icon"><i className="fi fi-rr-bulb"></i></div> {data.track} </div>
 
                         </div>
@@ -293,15 +209,21 @@ const CallupEdit = () => {
                 
                         <form className="cms-fill">
 
-                            <h1> Edit Callup Information </h1>
+                            <h1>Create a new beneficiary</h1>
 
                             <div className="cms-input-holder">
                                 
-                                <input type="text" className="cms-input" name = 'image' id='image' placeholder='Enter Callup Image URL' onChange={ handleChange } value = {data.image} />
+                                <input type="text" className="cms-input" name = 'logo' id='logo' placeholder='Enter Company Logo' onChange={ handleChange } value = {data.logo} />
 
-                                <input type="text" className="cms-input" name = 'title' id='title' placeholder='Enter Calliup Title' onChange={ handleChange } value = {data.title} />
+                                <input type="text" className="cms-input" name = 'foundersImg' id='foundersImg' placeholder='Enter Company Founders Image' onChange={ handleChange } value = {data.foundersImg} />
 
-                                <input type="date" className="cms-input" name = 'date' id='date' placeholder='Set Deadline Date' onChange={ handleChange } value = {data.date} />
+                                <input type="text" className="cms-input" name = 'company' id='company' placeholder='Enter Company Name' onChange={ handleChange } value = {data.company} />
+
+                                <input type="text" className="cms-input" name = 'website' id='website' placeholder='Enter Website URL' onChange={ handleChange } value = {data.website || 'https://'} />
+
+                                <input type="text" className="cms-input" name = 'founders' id='founders' placeholder='Enter Company Founders Name' onChange={ handleChange } value = {data.founders} />
+
+                                <input type="text" className="cms-input" name = 'cohortNum' id='cohortNum' placeholder='Enter Cohort Number' onChange={ handleChange } value = {data.cohortNum} />
 
                                 <select name="track" id="track" onChange={ handleChange } value = {data.track} >
 
@@ -313,31 +235,10 @@ const CallupEdit = () => {
 
                                 </select>
 
-                                <textarea name="short" id="short" cols="20" rows="2" onChange={ handleChange } value = {data.short} placeholder = "Enter a short description (Not more than 13 words)" ></textarea>
-
-
-                            </div>
-
-
-                            <div className="editorDraft">
-
-                                <Editor
-
-                                    editorState={editorState}
-                                    onEditorStateChange={onEditorStateChange}
-                                    toolbar= {
-
-                                        { options : [ 'inline', 'list'] }
-
-                                    }
-                                
-
-                                />
 
                             </div>
                             
-                            
-                            <div className="submitButtonCMS" onClick={ () => submitForm() }> Edit Callup </div>
+                            <div className="submitButtonCMS" onClick={ () => submitForm() }> Edit Beneficiary </div>
 
 
                         </form>
@@ -355,4 +256,4 @@ const CallupEdit = () => {
     );
 }
 
-export default CallupEdit;
+export default BeneficiariesEdit;

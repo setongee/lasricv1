@@ -61,7 +61,11 @@ const Overview = () => {
         await getPendingApps().then(data => dataCounter.pending = data.length )
         await getGradedApps().then(data => dataCounter.graded = data.length )
         await getCurrentCohortNumber().then(data => dataCounter.currentCohort = Number(data[0].present))
-        await getCouncilGradedApps().then(data => dataCounter.councilGraded = Math.max(...data) )
+        await getCouncilGradedApps().then(data => {
+            if(data.length){
+                dataCounter.councilGraded = Math.max(...data)
+            }
+        } )
 
         return dataCounter;
 
@@ -73,7 +77,8 @@ const Overview = () => {
         setAllDataAPI().then(e => {
 
             setCounts(e);
-            setLoader(false)
+            setLoader(false);
+            
 
         })
 

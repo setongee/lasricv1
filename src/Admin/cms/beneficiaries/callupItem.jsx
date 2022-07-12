@@ -5,7 +5,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import { Editor } from 'react-draft-wysiwyg';
-import { setLandingDetails, getCMSData, addCallupsDetails, getCMSCallupData, deleteDocumentCMS } from '../../../api/firebase/admin/cms';
+import { setLandingDetails, getCMSData, addCallupsDetails, getCMSCallupData, deleteDocumentCMS, deleteBeneficiaryCMS } from '../../../api/firebase/admin/cms';
 import SethAnimation from '../../../components/lottie/seth-animation';
 import { getCurrentCohortNumber } from '../../../api/firebase/admin/admin_applications';
 
@@ -14,28 +14,25 @@ const BeneficiariesItem = ({dataPlan, onDelete, deleteVal}) => {
 
     const Navigate = useNavigate()
 
-    const [data, setData] = useState(dataPlan.data)
+    const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState(false)
 
 
     useEffect(() => {
         
-        getCurrentCohortNumber()
-        .then( (e) => data.cohortNum = e[0].present)
+        setData(dataPlan.data);
 
-    }, [data]);
+    }, []);
 
     const handleDelete = () => {
-
-        console.log("yeah mhen")
 
          //loader is initiated here
          setLoading(true);
          window.scrollTo(0, 0);
  
          //the cms details is updated here
-         deleteDocumentCMS( `cohort${data.cohortNum}`, dataPlan.uid ).then( () => {
+         deleteBeneficiaryCMS( `cohort${data.cohortNum}`, dataPlan.uid ).then( () => {
 
             onDelete(!deleteVal);
  
@@ -132,7 +129,7 @@ const BeneficiariesItem = ({dataPlan, onDelete, deleteVal}) => {
 
                 <div className="manageCallup">
 
-                    <div className="editCallup" onClick={ () => Navigate(`/admin/content/callups/edit/${dataPlan.uid}`) } >
+                    <div className="editCallup" onClick={ () => Navigate(`/admin/content/beneficiaries/edit/cohort${dataPlan.data.cohortNum}/${dataPlan.uid}`) } >
 
                         <i className="fi fi-rr-pencil"></i>
                         <p>Edit</p>

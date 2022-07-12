@@ -130,7 +130,7 @@ const BeneficiariesCreate = () => {
         getCurrentCohortNumber()
         .then( (e) => data.cohortNum = e[0].present)
 
-    }, [data]);
+    }, []);
 
 
 

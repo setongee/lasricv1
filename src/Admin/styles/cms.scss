@@ -110,6 +110,8 @@
 
 .cms-joint{
 
+    transition: all .4s ease-in-out;
+
 
     .previewReadMore{
         height: 100vh;
@@ -296,11 +298,16 @@
 
         display: flex;
         align-items: center;
+        margin-bottom: 50px;
 
         .cms-title{
             font-size: 13px;
             margin-left: 15px;
             color: #999;
+        }
+
+        &.beneficiary{
+            background-color: #330076 !important;
         }
     }
 
@@ -392,7 +399,7 @@
     .callups_section{
 
         display: flex;
-        margin-top: 50px;
+        margin-bottom: 20px;
 
         .preview_cms_card{
             width: 350px;
@@ -570,8 +577,6 @@
 
         .creatCallup{
             padding: 15px 25px;
-            position: absolute;
-            right: 0;
             font-size: 13px;
             color: #fff;
             background-color: #25dba3;
@@ -650,10 +655,6 @@
 
     .callups_section{
 
-        .manageCallup{
-            display: none;
-        }
-
         cursor: pointer;
 
         &:hover{
@@ -666,5 +667,47 @@
     }
 
     
+
+}
+
+.callupListing{
+    
+    .cms-nav{
+        margin-bottom: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .navBack{
+        display: flex;
+        align-items: center;
+    }
+
+    .sidedItem{
+        align-items: center;
+        display: flex;
+
+        .selectTrack{
+
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+
+            p{
+                font-size: 13px;
+                margin-right: 15px;
+                color: #999;
+            }
+            
+            select{
+                outline: none;
+                border: 1px solid whitesmoke;
+                padding: 15px;
+                border-radius: 8px;
+                font-size: 13px;
+            }
+        }
+    }
 
 }

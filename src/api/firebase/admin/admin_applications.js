@@ -17,7 +17,7 @@ export const setCouncilInfomation = async (uid, data) => {
 
 export const setUser2InUsers = async () => {
 
-    const newCounciilRef = await collection(db, "users2")
+    const newCounciilRef = await collection(db, "submittedApplications")
     const queryUsers = await getDocs(newCounciilRef)
 
     queryUsers.forEach( user => {
@@ -25,13 +25,12 @@ export const setUser2InUsers = async () => {
         setUsersInUser2(user.id, user.data())
 
     })
-
     
 }
 
 export const setUsersInUser2 = async (uid, data) => {
 
-    const docRef = doc(db, "users", uid);
+    const docRef = doc(db, "submitted_applications_beta", "cohort4", "applications", uid);
     await setDoc(docRef, data)
 
 }
@@ -89,7 +88,9 @@ export const getAllUsers = async () => {
 
 export const getApplicationsNumber = async () => {
 
-    const fetchApplications = collection(db, "applications");
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const fetchApplications = collection(db, "applications_data", `cohort${cohortN}`, "applications");
     const querySnapshot = await getDocs(fetchApplications);
 
     const allApplications = []
@@ -108,7 +109,9 @@ export const getApplicationsNumber = async () => {
 
 export const getCouncilGradedApps = async () => {
 
-    const fetchApplications = collection(db, "submittedApplications");
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const fetchApplications = collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications");
     const querySnapshot = await getDocs(fetchApplications);
 
     const allApplications = []
@@ -123,15 +126,13 @@ export const getCouncilGradedApps = async () => {
 
 }
 
-
-
-
-
 // GET ALL UNSUBMITTED APPS
 
 export const getAllUnsubmittedApps = async () => {
 
-    const fetchUnsubmitted = query(collection(db, "applications"), where("submitted", "==", false));
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const fetchUnsubmitted = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("submitted", "==", false));
     const querySnapshot = await getDocs(fetchUnsubmitted);
 
     const allUnsubmitted = []
@@ -150,8 +151,10 @@ export const getAllUnsubmittedApps = async () => {
 // GET SUBMITTED APPS
 
 export const getSubmittedApps = async () => {
+    
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
 
-    const querySnapshot = await getDocs( query(collection(db, "submittedApplications"),orderBy("dateSubmitted", "desc"))  );
+    const querySnapshot = await getDocs( query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"),orderBy("dateSubmitted", "desc"))  );
     
 
     const allSubmittedApplications = []
@@ -167,12 +170,14 @@ export const getSubmittedApps = async () => {
 }
 
 
-
 // GET Interview Bucket APPS
 
 export const getInterviewBucketApps = async () => {
 
-    const fetchBucket = query(collection(db, "submittedApplications"), where("avgGrade", ">=", 80));
+    const passmark = await getPassmark().then( e => e.grade );
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("avgGrade", ">=", passmark));
     const querySnapshot = await getDocs(fetchBucket);
 
     const data = []
@@ -191,7 +196,9 @@ export const getInterviewBucketApps = async () => {
 
 export const getPendingApps = async () => {
 
-    const fetchBucket = query(collection(db, "submittedApplications"), where("avgGrade", "==", 0) );
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("avgGrade", "==", 0) );
     const querySnapshot = await getDocs(fetchBucket);
 
     const data = []
@@ -210,7 +217,9 @@ export const getPendingApps = async () => {
 
 export const getGradedApps = async () => {
 
-    const fetchBucket = query(collection(db, "submittedApplications"), where("avgGrade", ">", 0));
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("avgGrade", ">", 0));
     const querySnapshot = await getDocs(fetchBucket);
 
     const data = []
@@ -241,6 +250,18 @@ export const getCurrentCohortNumber = async () => {
     }
 
     return grader;
+
+}
+
+// get current passmark
+
+export const getPassmark = async () => {
+
+    const documentRef = doc(db, "preferences", "passmark");
+
+    const documentRefSnap = await getDoc(documentRef);
+
+    return documentRefSnap.data();
 
 }
 

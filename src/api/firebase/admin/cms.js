@@ -38,6 +38,13 @@ export const updateBeneficiary = async (cohort, uid, data) => {
 
 }
 
+export const deleteBeneficiaryCMS = async (cohort, uid) => {
+
+    const docRef = await doc(db, "cms", "beneficiaries", cohort, uid)
+    await deleteDoc(docRef);
+
+}
+
 export const editCallup = async (cohort, uid) => {
 
     const docRef = await doc(db, "cms", "callups", cohort, uid)

@@ -63,6 +63,10 @@ import CallupsCMSList from '../Admin/cms/callups/callupsList';
 import CallupEdit from '../Admin/cms/callups/callupEdit';
 import BeneficiariesList from '../Admin/cms/beneficiaries/callupsList';
 import BeneficiariesCreate from '../Admin/cms/beneficiaries/Create';
+import BeneficiariesEdit from '../Admin/cms/beneficiaries/callupEdit';
+import Preferences from '../Admin/preferences/preferences';
+import Profile from '../Admin/preferences/profile';
+import Cohort from '../Admin/preferences/cohort';
 
 const Router = ({user}) => {
 
@@ -155,23 +159,43 @@ const Router = ({user}) => {
 
                 <Route path = 'admin' element = { Object.keys(currentUser).length && currentUser.type === "admin" ?  <Admin user = {currentUser} /> : <AdminLogin/>  } >
 
+                    {/* Overview Page */}
+
                     <Route path = 'overview' element = { <Overview /> } />
+
+                    {/* Application Pages */}
+
                     <Route path = 'applications' element = { <Applications /> } />
                     <Route path = 'applications/stem/:appid/view' element = { <ViewApplicationStem /> } />
                     <Route path = 'applications/innovation/:appid/view' element = { <InnovationAdminView /> } />
                     <Route path = 'applications/secsch/:appid/view' element = { <ViewSecSch /> } />
+
+                    {/* Council Pages */}
+
                     <Route path = 'council' element = { <Councilmemberlisting /> } />
                     <Route path = 'content' element = { <Cms /> } />
 
+                    {/* Content Pages */}
+
                     <Route path = 'content/landing' element = { <LandingCMS /> } />
 
-                    
                     <Route path = 'content/callups' element = { <CallupsCMSList /> } />
                     <Route path = 'content/callups/create' element = { <CallupsCMS /> } />
                     <Route path = 'content/callups/edit/:id' element = { <CallupEdit /> } />
-
                     <Route path = 'content/beneficiaries' element = { <BeneficiariesList /> } />
                     <Route path = 'content/beneficiaries/create' element = { <BeneficiariesCreate /> } />
+                    <Route path = 'content/beneficiaries/edit/:cohort/:id' element = { <BeneficiariesEdit /> } />
+                    <Route path = 'content/landing' element = { <LandingCMS /> } />
+
+                    {/* Preferences Page */}
+
+                    <Route path = 'preferences' element = {<Preferences />} >
+
+                        <Route path = 'profile' element = { <Profile adminUser = {user} /> } />
+                        <Route path = 'cohort' element = { <Cohort /> } />
+
+
+                    </Route>
   
                 </Route>
 

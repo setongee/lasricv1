@@ -175,7 +175,7 @@ const Admin = ({user}) => {
                 </div>
 
                 <div className="menuItem overview" onClick={() => { Navigate('/admin/overview'); openBody() }} >
-                    <div className="icon"><i className="fi fi-rr-apps"></i></div>
+                    <div className="icon"><i className="fi fi-rr-home"></i></div>
                     <div className="menuName">Overview</div>
                 </div>
 
@@ -199,8 +199,8 @@ const Admin = ({user}) => {
                     <div className="menuName"> Messages</div>
                 </div>
 
-                <div className="menuItem preferences"  onClick={() => { Navigate('/admin/preferences'); openBody() } } >
-                    <div className="icon"> <i className="fi fi-rr-settings"></i> </div>
+                <div className="menuItem preferences"  onClick={() => { Navigate('/admin/preferences/profile'); openBody() } } >
+                    <div className="icon"> <i className="fi fi-rr-shuffle"></i> </div>
                     <div className="menuName"> Preferences </div>
                 </div>
 
