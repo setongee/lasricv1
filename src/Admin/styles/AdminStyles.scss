@@ -109,6 +109,9 @@
     padding-bottom: 20px;
     padding-top: 40px;
     padding-right: 30px;
+    position: fixed;
+    width: 100%;
+    z-index: 9;
 
     .lasric_logo{
 
@@ -156,6 +159,7 @@
     width: calc(100vw - 270px);
     margin-left: 270px;
     padding: 30px;
+    padding-top: 135px;
     //background-color: rgb(253, 250, 255);
 }
 
@@ -566,10 +570,10 @@
     font-size: 14px;
     width: calc(100% - 270px);
     background-color: rgb(33, 28, 36);
-    //background-color: rgb(51, 0, 118);
-    color: #fff;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 3px 30px rgba($color: #000, $alpha: .03);
     padding: 12px 30px;
-    position: absolute;
+    position: fixed;
     margin: -30px;
     margin-top: -75px;
     display: flex;
@@ -891,6 +895,47 @@
                 }
             }
         }
+    }
+
+}
+
+.tableInfo{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.filterTrack{
+
+    margin-top: 45px;
+    position: absolute;
+    right: 28px;
+    display: flex;
+    align-items: center;
+
+    .btn_download{
+        margin-left: 15px;
+        font-size: 12px;
+        font-weight: bold;
+        color : #fff;
+        padding: 14px 20px;
+        border-radius: 100px;
+        background-color: #25dba3;
+        margin-right: 5px;
+        cursor: pointer;
+    }
+    
+    select{
+
+        padding: 14px 10px;
+        font-size: 12px;
+        outline: none;
+        border-radius: 100px;
+        border: 1px solid whitesmoke;
+        background-color: #fff;
+        box-shadow: 0px 3px 30px rgba($color: #000, $alpha: .03);
+        cursor: pointer;
+
     }
 
 }

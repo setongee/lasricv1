@@ -1,11 +1,58 @@
 import React,{useState, useEffect} from 'react';
 import AdminTable from './adminTables';
+import { CSVLink } from "react-csv";
+import { getCurrentCohortNumber } from '../api/firebase/admin/admin_applications';
 
 const Applications = () => {
 
     const [ filterContent, setFilterContent ] = useState("submitted")
+    const [track, setTrack] = useState("all");
+    const [cohort, setCohort] = useState(0)
 
+    const headers = [
+        { label: "First Name", key: "firstname" },
+        { label: "Last Name", key: "lastname" },
+        { label: "Email", key: "email" },
+        {label : "Phone Number", key: "phone" },
+        {label : "Track", key: "track" },
+        { label: "Average Grading", key : "grade_export"},
+        { label: "Company Name / School Name", key : "companySector"},
+      ];
+
+
+    const [dataExport, setDataExport] = useState([]);
+
+
+    const DataExport = async (red) => {
+
+        if(dataExport.length) {
+
+            setDataExport([]);
+
+            red.forEach( dataUser => {
+    
+                setDataExport(data => [...data, dataUser.data])
+                
+            } )
+
+        } else {
+
+            red.forEach( dataUser => {
+    
+                setDataExport(data => [...data, dataUser.data])
+                
+            } )
+
+        }
+
+    }
+
+    console.log(dataExport);
+    
+    
     useEffect(() => {
+
+
         switch (filterContent) {
         
             case 'submitted':
@@ -79,6 +126,11 @@ const Applications = () => {
             default:
                 break;
         }
+
+
+        getCurrentCohortNumber().then(e =>  setCohort(e[0].present))
+
+
     }, [filterContent]);
 
     return (
@@ -96,9 +148,24 @@ const Applications = () => {
 
                 </div>
 
+                <form className="filterTrack">
+
+                    <select name="filter" id="filter" onChange={ (e) => setTrack(e.target.value) }>
+
+                        <option value="all"> All Applications </option>
+                        <option value="stem"> Stem Applications </option>
+                        <option value="innovation"> Innovation Applications </option>
+                        <option value="secsch"> Secondary Schools Applications </option>
+
+                    </select>
+
+                    <CSVLink data={dataExport} headers={headers} filename={`LASRIC2022_Cohort ${cohort}_All ${filterContent} Applications_Export.csv`} className="btn_download" > Export</CSVLink>
+
+                </form>
+
             </div>
 
-            <AdminTable check = {filterContent} />
+            <AdminTable check = {filterContent} track = {track} exportData = {DataExport} />
 
         </div>
 

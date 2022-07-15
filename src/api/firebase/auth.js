@@ -104,15 +104,35 @@ export const getAUser = async (uid) => {
     
     const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
+    return docSnap.data();
 
-        return docSnap.data()
+}
 
-    } else {
+export const getUsersInfo = async (uid) => {
 
-        console.log("No such document!");
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+    
+    const dataDetails = await docSnap.data()
 
+    return dataDetails;
+    
+}
+
+export const getDataExport = async (data) => {
+
+    const user = {
+        data : {}
     }
+
+    data.forEach(async res => {
+
+        await getUsersInfo(res.data.uid).then(ent => user.data = ent)
+
+    })
+
+   console.log(user)
+    
 }
 
 

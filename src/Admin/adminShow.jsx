@@ -14,7 +14,7 @@ const AdminShow = ({data, showPrev, appuid}) => {
 
         <div className="tableHeaders information" onClick={ () => showPrev(data, appuid) }>
 
-            <div className="tableHead avarta" style={{textTransform: 'capitalize'}}> <div className="cardMe" style={{backgroundColor: `${data.track === 'stem' ? "#c293ff" : "#c1deff"}`}} > {FULLINIT} 
+            <div className="tableHead avarta" style={{textTransform: 'capitalize'}}> <div className="cardMe" style={{backgroundColor: `${data.track === 'stem' ? "#c293ff" : data.track === 'innovation' ? "#c1deff" : "#a49eff" }`}} > {FULLINIT} 
 
                 </div> {data.firstname} {data.lastname} 
 

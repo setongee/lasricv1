@@ -4,30 +4,39 @@ import SethAnimation from '../components/lottie/seth-animation'
 import { getSubmittedApps, getPendingApps, getGradedApps, getInterviewBucketApps } from '../api/firebase/admin/admin_applications';
 import './styles/AdminStyles.scss'
 import Previewapplication from './previewApplication';
+import { getAUser, getDataExport } from '../api/firebase/auth';
 
-const AdminTable = ({check}) => {
+const AdminTable = ({check, track, exportData}) => {
 
     const applicationsStack = {
 
-        submitted : getSubmittedApps(),
-        pending : getPendingApps(),
-        graded : getGradedApps(),
-        interview : getInterviewBucketApps()
+        submitted : getSubmittedApps(track),
+        pending : getPendingApps(track),
+        graded : getGradedApps(track),
+        interview : getInterviewBucketApps(track)
 
     }
 
-    const [data, setData] = useState([])
-
+    const [data, setData] = useState([]);
     const [previewShow, setPreviewShow ] = useState(false)
     const [previewData, setPreviewData] = useState({})
     const [appUID, setAppID] = useState({})
+    const [data2, setData2] = useState({});
+
 
     useEffect(() => {
         
-        applicationsStack[check].then(e => setData(e));
-        applicationsStack[check].then(e => setData(e));
+        applicationsStack[check].then(e => setData(e)); 
 
-    }, [check]);
+        applicationsStack[check].then((e) => {
+
+            exportData(e)
+
+        }); 
+
+
+    }, [check, track]);
+
 
     const previewUser = (data, appuid) => {
 

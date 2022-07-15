@@ -1,5 +1,6 @@
 import { type } from "@testing-library/user-event/dist/type";
 import { doc, updateDoc, getDocs, collection, deleteDoc, addDoc, where, query, orderBy, getDoc, setDoc } from "firebase/firestore";
+import { getAUser } from "../auth";
 import { db } from "../config";
 
 
@@ -27,6 +28,87 @@ export const setUser2InUsers = async () => {
     })
     
 }
+
+
+export const Godwin = async () => {
+
+    const newCounciilRef = await collection(db, "submittedApplications", "cohort4", "applications")
+    const queryUsers = await getDocs(newCounciilRef)
+
+    //console.log(queryUsers)
+
+    //console.log("mhen")
+    
+}
+
+
+
+export const updateSubApps = async (uid, id) => {
+
+    const result = await fixSubmittedApps().then(res => res);
+
+    console.log(result)
+
+    result.forEach(app => {
+
+        const docRef = doc(db, "submitted_applications_beta", "cohort4", "applications", app.uid);
+        const response = getDoc(docRef);
+
+        console.log(app.data.education.data.school)
+
+        if (app.data.education.data.school !== undefined) {
+
+            updateDoc(docRef, { "companySector" : app.data.education.data.school });
+            
+        }
+
+
+        // response.then( play => {
+
+        //     updateDoc(docRef, { "companySector" : `${Math.round(play.data().avgGrade * 10) / 10}%` });
+
+        // })
+        
+        // getAUser(app.data.uid)
+        // .then(res => {
+
+            
+
+        //     //updateDoc(docRef, { "grade_export" : Math.round(response_data * 10) / 10% });
+
+        // })
+
+        //fg
+
+    })  
+
+}
+
+
+export const fixSubmittedApps = async (track) => {
+    
+    //const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const bintConv = query (  collection( db, "applications_data", "cohort4" , "applications"), where("track", "==", "secsch" )  )
+    const querySnapshot = await getDocs(bintConv);
+
+    const allApplications = []
+
+    querySnapshot.forEach((doc) => {
+    
+        allApplications.push(doc.data());
+
+    });
+
+    return allApplications
+
+}
+
+//fixSubmittedApps()
+
+//updateSubApps()
+
+
 
 export const setUsersInUser2 = async (uid, data) => {
 
@@ -150,20 +232,33 @@ export const getAllUnsubmittedApps = async () => {
 
 // GET SUBMITTED APPS
 
-export const getSubmittedApps = async () => {
+export const getSubmittedApps = async (track) => {
     
     const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
 
-    const querySnapshot = await getDocs( query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"),orderBy("dateSubmitted", "desc"))  );
-    
-
     const allSubmittedApplications = []
 
-    querySnapshot.forEach((doc) => {
-    
-        allSubmittedApplications.push({data : doc.data(), id : doc.id});
+    if (track !== "all") {
 
-    });
+        const querySnapshot = await getDocs( query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("track", "==", track), orderBy("avgGrade", "desc") ));
+        
+        querySnapshot.forEach((doc) => {
+        
+            allSubmittedApplications.push({data : doc.data(), id : doc.id});
+    
+        });
+    } else {
+
+        const querySnapshot = await getDocs( query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), orderBy("avgGrade", "desc") ));
+        
+        querySnapshot.forEach((doc) => {
+        
+            allSubmittedApplications.push({data : doc.data(), id : doc.id});
+    
+        });
+
+    }
+
 
     return allSubmittedApplications
 
@@ -172,42 +267,80 @@ export const getSubmittedApps = async () => {
 
 // GET Interview Bucket APPS
 
-export const getInterviewBucketApps = async () => {
+export const getInterviewBucketApps = async (track) => {
 
     const passmark = await getPassmark().then( e => e.grade );
     const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
 
-    const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("avgGrade", ">=", passmark));
-    const querySnapshot = await getDocs(fetchBucket);
-
     const data = []
 
-    querySnapshot.forEach((doc) => {
-    
-        data.push({data : doc.data(), id : doc.id});
+    if(track !== "all") {
 
-    });
+        const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("track", "==", track), where("avgGrade", ">=", passmark), orderBy("avgGrade", "desc"));
+
+        const querySnapshot = await getDocs(fetchBucket);
+
+        querySnapshot.forEach((doc) => {
+    
+            data.push({data : doc.data(), id : doc.id});
+    
+        });
+
+
+    } else {
+
+        const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("avgGrade", ">=", passmark), orderBy("avgGrade", "desc"));
+
+        const querySnapshot = await getDocs(fetchBucket);
+
+        querySnapshot.forEach((doc) => {
+    
+            data.push({data : doc.data(), id : doc.id});
+    
+        });
+
+    }
+    
 
     return data;
+
 }
 
 
 // GET Pending Applications
 
-export const getPendingApps = async () => {
+export const getPendingApps = async (track) => {
 
     const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
 
-    const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("avgGrade", "==", 0) );
-    const querySnapshot = await getDocs(fetchBucket);
-
     const data = []
 
-    querySnapshot.forEach((doc) => {
-    
-        data.push({data : doc.data(), id : doc.id});
+    if (track !== "all") {
 
-    });
+        const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("track", "==", track), where("avgGrade", "==", 0) );
+    
+        const querySnapshot = await getDocs(fetchBucket);
+
+        querySnapshot.forEach((doc) => {
+    
+            data.push({data : doc.data(), id : doc.id});
+    
+        });
+
+    } else {
+
+        const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("avgGrade", "==", 0) );
+    
+        const querySnapshot = await getDocs(fetchBucket);
+
+        querySnapshot.forEach((doc) => {
+    
+            data.push({data : doc.data(), id : doc.id});
+    
+        });
+
+    }
+
 
     return data;
 }
@@ -215,20 +348,38 @@ export const getPendingApps = async () => {
 
 // GET Graded Applications
 
-export const getGradedApps = async () => {
+export const getGradedApps = async (track) => {
 
     const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
 
-    const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("avgGrade", ">", 0));
-    const querySnapshot = await getDocs(fetchBucket);
-
     const data = []
 
-    querySnapshot.forEach((doc) => {
-    
-        data.push({data : doc.data(), id : doc.id});
+    if (track !== "all") {
 
-    });
+        const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("track", "==", track), where("avgGrade", ">", 0), orderBy("avgGrade", "desc"));
+
+        const querySnapshot = await getDocs(fetchBucket);
+        
+        querySnapshot.forEach((doc) => {
+        
+            data.push({data : doc.data(), id : doc.id});
+
+        });
+
+    } else {
+
+        const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("avgGrade", ">", 0), orderBy("avgGrade", "desc"));
+
+        const querySnapshot = await getDocs(fetchBucket);
+    
+        querySnapshot.forEach((doc) => {
+    
+            data.push({data : doc.data(), id : doc.id});
+
+        });
+
+    }
+    
 
     return data;
 }
@@ -372,6 +523,23 @@ export const getCouncilApps = async (uid) => {
     return allApplications
 
 }
+
+
+
+
+//////////////////////////////// Filter Track /////////////////////////////////////
+
+
+export const filterDataByTrack = async (track, data) => {
+
+
+    console.log(data)
+
+
+}
+
+
+
 
 
 

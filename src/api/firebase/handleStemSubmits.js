@@ -103,8 +103,6 @@ export const updateStemRelevanceApplication = async (appid, formData) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
-    console.log(appid)
-
     const documentRef = doc(db, "applications", appid);
     await updateDoc(documentRef, { "data.relevance.data" : formData });
     await updateDoc(documentRef, { "data.relevance.status" : "completed" });

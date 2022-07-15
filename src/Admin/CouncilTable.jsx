@@ -236,7 +236,7 @@ const CouncilMember = ({check, newCouncil}) => {
 
     }
 
-    
+    console.log(previewData);
 
     
     return (
@@ -279,7 +279,8 @@ const CouncilMember = ({check, newCouncil}) => {
 
                                     <div className="toggleCouncilType" onClick = { () => setInternal(!internal) } >
 
-                                        <div className={`${internal ? 'togglePin' : 'togglePin switch'}`}></div>
+                                        <div className={`${previewData.internal ? 'togglePin' : 'togglePin switch'}`}></div>
+                                        
 
                                     </div>
 
