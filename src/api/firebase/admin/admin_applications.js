@@ -264,6 +264,25 @@ export const getSubmittedApps = async (track) => {
 
 }
 
+export const overviewSubmitted = async () => {
+    
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const allSubmittedApplications = []
+
+    const querySnapshot = await getDocs( query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"),orderBy("avgGrade", "desc") ));
+        
+    querySnapshot.forEach((doc) => {
+    
+        allSubmittedApplications.push({data : doc.data(), id : doc.id});
+
+    });
+
+
+    return allSubmittedApplications
+
+}
+
 
 // GET Interview Bucket APPS
 

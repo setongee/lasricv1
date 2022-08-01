@@ -45,6 +45,35 @@ export const deleteBeneficiaryCMS = async (cohort, uid) => {
 
 }
 
+export const addAlbum = async ( data ) => {
+
+    await addDoc(collection(db, "cms", "gallery", "albums"), data)
+
+}
+
+export const deleteAlbum = async (uid) => {
+
+    const docRef = await doc(db, "cms", "gallery", "albums", uid)
+    await deleteDoc(docRef);
+
+}
+
+export const editAlbumDetails = async (uid) => {
+
+    const docRef = await doc(db, "cms", "gallery", "albums", uid)
+    const documenter = await getDoc(docRef)
+
+   return documenter.data()
+
+}
+
+export const updateAlbumDetails = async (uid, data) => {
+
+    const docRef = await doc(db, "cms", "gallery", "albums", uid)
+    await setDoc(docRef, data);
+
+}
+
 export const editCallup = async (cohort, uid) => {
 
     const docRef = await doc(db, "cms", "callups", cohort, uid)

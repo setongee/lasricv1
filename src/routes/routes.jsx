@@ -67,6 +67,9 @@ import BeneficiariesEdit from '../Admin/cms/beneficiaries/callupEdit';
 import Preferences from '../Admin/preferences/preferences';
 import Profile from '../Admin/preferences/profile';
 import Cohort from '../Admin/preferences/cohort';
+import AlbumListing from '../Admin/cms/gallery/callupsList';
+import CreateAlbum from '../Admin/cms/gallery/Create';
+import EditAlbum from '../Admin/cms/gallery/callupEdit';
 
 const Router = ({user}) => {
 
@@ -185,6 +188,9 @@ const Router = ({user}) => {
                     <Route path = 'content/beneficiaries' element = { <BeneficiariesList /> } />
                     <Route path = 'content/beneficiaries/create' element = { <BeneficiariesCreate /> } />
                     <Route path = 'content/beneficiaries/edit/:cohort/:id' element = { <BeneficiariesEdit /> } />
+                    <Route path = 'content/gallery' element = { <AlbumListing /> } />
+                    <Route path = 'content/gallery/create' element = { <CreateAlbum /> } />
+                    <Route path = 'content/gallery/edit/:id' element = { <EditAlbum /> } />
                     <Route path = 'content/landing' element = { <LandingCMS /> } />
 
                     {/* Preferences Page */}

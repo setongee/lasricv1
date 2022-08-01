@@ -46,7 +46,7 @@ const Cms = () => {
                     </div>
                 </div>
 
-                <div className="content-area">
+                <div className="content-area" onClick={()=> Navigate('/admin/content/gallery')}>
                     <div className="icon-content"><i className="fi fi-rr-picture"></i></div>
                     <div className="area-title">Gallery</div>
                     <div className="icon-arrow-in">

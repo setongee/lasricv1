@@ -349,7 +349,7 @@
                     margin: 0;
                 }
 
-                .cms-input, select, textarea{
+                .cms-input, select, textarea, .cms-input-videos{
                     padding: 15px 10px;
                     font-size: 12px;
                     margin-bottom: 10px;
@@ -434,6 +434,18 @@
                 .details_pin{
                     margin-top: 5px;
                 }
+
+            }
+
+            &.gallery{
+
+                .callup_img{
+                    height: 350px;
+                    background-position: top center;
+                    background-size: cover;
+                    background-repeat: no-repeat;
+                }               
+
 
             }
             
@@ -708,6 +720,140 @@
                 font-size: 13px;
             }
         }
+    }
+
+}
+
+
+// Gallery Page Styles
+
+.contentTag{
+
+    margin: 10px 0;
+    padding: 10px;
+    font-weight: bold;
+
+}
+
+.cms-input-videos{
+
+    padding: 15px 10px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    outline: none;
+    border: 1px solid whitesmoke;
+    border-radius: 5px;
+    background-color: transparent;
+    width: 95%;
+}
+
+.embedLink{
+
+    .deleteEmbedLink{
+        width: 20px;
+        height: 20px;
+        background-color: crimson;
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-weight: bold;
+        margin-top: -10px;
+        margin-left: 20px;
+        cursor: pointer;
+    }
+
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+
+.buttonAddVideo{
+
+    padding: 15px 20px;
+    background-color: #330076;
+    width: max-content;
+    border-radius: 5px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+
+    .fi{
+        margin-right: 10px;
+        margin-top: 3px;
+    }
+
+}
+
+.contentItems{
+
+    display: flex;
+    margin: 30px 0;
+    margin-bottom: 50px;
+    flex-wrap: wrap;
+
+
+    .content-addition{
+        background-color: rgb(255, 241, 228);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: orange;
+        font-size: 18px;
+        width: 70px;
+        height: 70px;
+        border-radius: 8px;
+        cursor: pointer;
+        
+    }
+
+    .imagePrev{
+        background-color: #f9f9f9;
+        height: 70px;
+        width: 70px;
+        border-radius: 8px;
+        cursor: pointer;
+        overflow: hidden;
+        margin-right: 10px;
+        background-position: top center;
+        background-size: cover;
+        margin-bottom: 10px;
+
+        img{
+            width: 100%;
+        }
+
+        .deleteIcon{
+            height: 20px;
+            width: 20px;
+            background-color: crimson;
+            position: absolute;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            margin: -5px;
+            display: none;
+
+            .fi{
+                margin-top: 3px;
+            }
+        }
+
+        &:hover{
+            .deleteIcon{
+             display: flex;
+            }
+         }
+
     }
 
 }

@@ -18,6 +18,8 @@ import AdminTable from './adminTables';
 
 import { getAllUsers, getPendingApps, getGradedApps, getApplicationsNumber, getAllUnsubmittedApps, getInterviewBucketApps, getCurrentCohortNumber, getSubmittedApps, getCouncilGradedApps  } from '../api/firebase/admin/admin_applications';
 
+import OverAdmins from './overviewTables';
+
 const Overview = () => {
 
     const initialData = {
@@ -54,12 +56,12 @@ const Overview = () => {
         }
         
         await getAllUsers().then(data => dataCounter.users = data.length )
-        await getSubmittedApps().then(data => dataCounter.submitted = data.length )
+        await getSubmittedApps("all").then(data => dataCounter.submitted = data.length )
         await getAllUnsubmittedApps().then(data => dataCounter.unsubmitted = data.length )
         await getApplicationsNumber().then(data => dataCounter.applications = data.length )
-        await getInterviewBucketApps().then(data => dataCounter.interviewBucket = data.length )
-        await getPendingApps().then(data => dataCounter.pending = data.length )
-        await getGradedApps().then(data => dataCounter.graded = data.length )
+        await getInterviewBucketApps("all").then(data => dataCounter.interviewBucket = data.length )
+        await getPendingApps("all").then(data => dataCounter.pending = data.length )
+        await getGradedApps("all").then(data => dataCounter.graded = data.length )
         await getCurrentCohortNumber().then(data => dataCounter.currentCohort = Number(data[0].present))
         await getCouncilGradedApps().then(data => {
             if(data.length){
@@ -83,6 +85,34 @@ const Overview = () => {
         })
 
     }, []);
+
+
+    const [dataExport, setDataExport] = useState([]);
+
+
+    const DataExport = async (red) => {
+
+        if(dataExport.length) {
+
+            setDataExport([]);
+
+            red.forEach( dataUser => {
+    
+                setDataExport(data => [...data, dataUser.data])
+                
+            } )
+
+        } else {
+
+            red.forEach( dataUser => {
+    
+                setDataExport(data => [...data, dataUser.data])
+                
+            } )
+
+        }
+
+    }
 
 
     return (
@@ -276,7 +306,7 @@ const Overview = () => {
 
             {/* Users Data Table Begins */}
 
-            <AdminTable check = "submitted" />
+            <OverAdmins check = "submitted" />
 
         </div>
 

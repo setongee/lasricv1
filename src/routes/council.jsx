@@ -20,8 +20,6 @@ const Council = () => {
 
     }, []);
 
-    console.log(data);
-
     return (
 
         <div className="councilFrame">
