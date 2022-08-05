@@ -70,6 +70,8 @@ import Cohort from '../Admin/preferences/cohort';
 import AlbumListing from '../Admin/cms/gallery/callupsList';
 import CreateAlbum from '../Admin/cms/gallery/Create';
 import EditAlbum from '../Admin/cms/gallery/callupEdit';
+import GalleryViews from '../pages/landing/galleryImage';
+import Beneficiaries from '../pages/landing/beneficiaries';
 
 const Router = ({user}) => {
 
@@ -120,15 +122,16 @@ const Router = ({user}) => {
                 <Route path = 'dashboard/applications' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <ApplicationsDash currentUser = {user} /> : <Login/>  }/>
 
                 <Route path = 'people' element = {<Council/>} />
-                <Route path = 'beneficiaries' element = { <Bene/> } />
-                <Route path = 'gallery' element = {<Galleryimage />} />
+                <Route path = 'beneficiaries' element = { <Beneficiaries/> } />
+                {/* <Route path = 'gallery' element = {<Galleryimage />} /> */}
+                <Route path = 'gallery' element = {<Gallery />} />
                 <Route path = 'council' element = {<Redirect navigator = '/council/dashboard/applications/all'/>} />
                 <Route path = 'admin' element = {<Redirect navigator = '/admin/overview' />} />
                 
 
                 {/* Gallery Applications */}
 
-                <Route path = 'gallery/:albumID' element = { <Gallery /> } ></Route>
+                <Route path = 'gallery/:albumID' element = { <GalleryViews /> } ></Route>
 
 
                 {/* Application Routes */}

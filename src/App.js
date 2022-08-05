@@ -53,7 +53,7 @@ function App() {
 
       <Header user = {currentUser}/>
       <Router user = {currentUser} />
-      <Footer/>
+      {/* <Footer/> */}
 
     </div>
 

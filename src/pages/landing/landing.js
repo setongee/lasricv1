@@ -64,10 +64,7 @@ const Landing = () => {
         const raw = convertToRaw( editorState.getCurrentContent() )
         const may = draftToHtml(raw)
         const result = document.getElementById('result');
-        result.innerHTML = may
-
-        console.log(may);
-        
+        result.innerHTML = may  
 
     }
 

@@ -1,72 +1,117 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import './gallery.scss'
+import '../../Admin/styles/cms.scss'
+import { useNavigate, useParams } from 'react-router-dom';
+import { editAlbumDetails, getCMSCallupData } from '../../api/firebase/admin/cms';
+import GalleryItems from './galleyItem';
+import SethAnimation from '../../components/lottie/seth-animation';
+import youtubePlay from '../../assets/svg/youtubePlay.svg'
 
-const Galleryimage = () => {
+const GalleryViews = () => {
+
+    const Params = useParams();
+    const Navigate = useNavigate();
+    const [data, setData] = useState([])
+    const [loadPage, setLoadPage] = useState(true);
+    const [title, setTitle] = useState("");
+
+    useEffect(() => {
+
+        async function fetchData() {
+
+          const response = await editAlbumDetails(Params.albumID)
+          setTitle(response.company);
+          
+          const files = []
+
+          response.files.map(dataInk => {
+
+            files.push(dataInk)
+
+          })
+
+          Object.values(response.embedVideos[0]).map(dataInk => {
+
+            files.push(dataInk)
+
+          })
+
+          
+          const JAM = files.sort(() => Math.random() - 0.5)
+          setData(JAM)
+
+          setLoadPage(false)
+
+        }
+
+        fetchData();
+
+      }, []);
+
+      console.log(data);
+
 
     return (
 
-       <div className="galleryHolder">
 
-            <div className="HeadingSide">
+        <div className="galleryPage levi">
 
-                Gallery
+            {
+                loadPage ? 
                 
-            </div>
+                <div className="loadPage">
+                    <div className="loadingCircle">
+                        <SethAnimation jsonSrc={"https://assets9.lottiefiles.com/packages/lf20_l9bcfk19.json"} lottieStyle = {{width: '120px', height: '120px'}} speed={"1"} />
+                    </div>
+                </div> : null
+            }
 
-            <div className="galleryImage">
+            <div className="cms-nav gallery_nav">
 
-                <div className="imageItem">
-                    <img src="https://lasricportal.lagosstate.gov.ng/static/media/aishaRaheem.e1172f6e17d42ab7664d.jpeg" alt="" />
+                <div className="headerBack" onClick={ () => Navigate("/gallery") } >
+                    <i className="fi fi-rr-arrow-small-left"></i>
                 </div>
 
-                <div className="imageItem">
-                    <img src="https://h2g6j3q2.rocketcdn.me/wp-content/uploads/2020/08/LASRIC-Photo-1.jpg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://technext.ng/wp-content/uploads/2020/08/LASRIC-Photo-3.jpg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://icdlafrica.org/app/uploads/2021/09/Mrs-Oluwayemisi-of-Lonadek-Facilitating-ICDL.jpg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://topcelebrities.com.ng/wp-content/uploads/2019/12/PIX-9332-1200x1200.jpg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://www.mediaworks.com.ng/wp-content/uploads/2022/02/CL3C3036-scaled.jpg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://justnews.ng/wp-content/uploads/2021/12/thumbnailYTR.jpg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://blog.simbibot.com/storage/canvas/images/03o0eVBQQMDgPks3AjTFdodB3L3nouxL2rZLbWjK.jpeg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://pbs.twimg.com/media/EcBpRVcX0AQGP7j.jpg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://techeconomy.ng/wp-content/uploads/2018/10/Lagos-State.jpg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://unilag.edu.ng/wp-content/uploads/IMG-20191228-WA0001.jpg" alt="" />
-                </div>
-
-                <div className="imageItem">
-                    <img src="https://lasric.lagosstate.gov.ng/assets/council/img/OlatunbosunAlake.jpg" alt="" />
-                </div>
+                <div className="cms-title"> Back to albums </div>
 
             </div>
 
-       </div>
+            <div className="title_album"> {title} </div>
+
+            <div className="views_gallery">
+
+
+
+                {
+                    data.length ? data.map( (image, index) => {
+
+                        return (
+
+                            image.type === 'image' 
+                            ? 
+                            <div className="views_holder" style={{ backgroundImage : `url(${image.src})`}}></div> 
+                            : 
+                            <div className="views_holder nibDesign">
+                                <div className="videoPlayIcon">
+                                    <img src={youtubePlay} alt="" />
+                                </div>
+
+
+                                <p>Click to view video on youtube</p>
+
+                            </div>
+                        
+                        )
+
+                    }) : null
+                }
+
+            </div>
+
+        </div>
+        
 
     );
 }
 
-export default Galleryimage;
+export default GalleryViews;

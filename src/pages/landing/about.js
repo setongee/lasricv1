@@ -104,7 +104,9 @@ const About = () => {
                             <div className="tag-part">
 
                                 <div className="AREA"> {data.heading} </div>
-                                <SethAnimation jsonSrc={data.img} lottieStyle = {{width: '100px', height: '100px'}} speed={"1"} />
+                                <div className="appIcon">
+                                    <SethAnimation jsonSrc={data.img} lottieStyle = {{width: '100px', height: '100px'}} speed={"1"} className = "mix" />
+                                </div>
 
                             </div>
 
@@ -137,9 +139,15 @@ const About = () => {
 
                     </div>
 
-                    <div className="anim_a">
+                    <div className="anim_a desktop">
 
                         <SethAnimation jsonSrc={"https://assets1.lottiefiles.com/packages/lf20_doyhajlr.json"} lottieStyle = {{width: '480px', height: '480px'}} speed={"1"} />
+
+                    </div>
+
+                    <div className="anim_a mobile">
+
+                        <SethAnimation jsonSrc={"https://assets1.lottiefiles.com/packages/lf20_doyhajlr.json"} lottieStyle = {{width: '250px', height: '250px'}} speed={"1"} />
 
                     </div>
 
@@ -147,9 +155,15 @@ const About = () => {
 
                 <div className="reason">
 
-                    <div className="anim_a">
+                    <div className="anim_a desktop">
 
                         <SethAnimation jsonSrc={"https://assets6.lottiefiles.com/packages/lf20_2uvh7uv0.json"} lottieStyle = {{width: '480px', height: '480px'}} speed={"1"} />
+
+                    </div>
+
+                    <div className="anim_a mobile">
+
+                        <SethAnimation jsonSrc={"https://assets6.lottiefiles.com/packages/lf20_2uvh7uv0.json"} lottieStyle = {{width: '300px', height: '300px'}} speed={"1"} />
 
                     </div>
 
@@ -177,9 +191,15 @@ const About = () => {
 
                     </div>
 
-                    <div className="anim_a">
+                    <div className="anim_a desktop">
 
                         <SethAnimation jsonSrc={"https://assets3.lottiefiles.com/packages/lf20_S2eIOQ.json"} lottieStyle = {{width: '480px', height: '480px'}} speed={"1"} />
+
+                    </div>
+
+                    <div className="anim_a mobile">
+
+                        <SethAnimation jsonSrc={"https://assets3.lottiefiles.com/packages/lf20_S2eIOQ.json"} lottieStyle = {{width: '200px', height: '200px'}} speed={"1"} />
 
                     </div>
 
