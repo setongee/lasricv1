@@ -69,6 +69,16 @@ const ApplyCard = ({dataPlan, onDelete, deleteVal}) => {
     }, [data]);
 
 
+    const handleSubmitApplication = () => {
+
+
+        document.body.style.overflow = "visible"
+        const navDirection = `/application/${dataPlan.data.track}/${dataPlan.uid}/personal`
+        Navigate(navDirection);
+
+    }
+
+
     return (
 
 
@@ -109,7 +119,7 @@ const ApplyCard = ({dataPlan, onDelete, deleteVal}) => {
                         <div className="titlePreview"> {data.title} </div>
                         <div className="trackPreview"> <p>{data.track} </p><div className="divLine"></div> </div>
                         <div className="resultReadMore" id='resultReadMore'></div>
-                        <div className="buttonApply"> Start Application <i className="fi fi-rr-arrow-small-right"></i></div>
+                        <div className="buttonApply" onClick={ handleSubmitApplication } > Start Application <i className="fi fi-rr-arrow-small-right"></i></div>
 
                     </div>
 
