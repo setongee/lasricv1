@@ -11,6 +11,8 @@ import SethAnimation from '../../components/lottie/seth-animation';
 
 const ApplyCard = ({dataPlan, onDelete, deleteVal}) => {
 
+    //console.log(dataPlan.data.cohortNum)
+
     const Navigate = useNavigate()
 
     const [data, setData] = useState(dataPlan.data)
@@ -73,7 +75,7 @@ const ApplyCard = ({dataPlan, onDelete, deleteVal}) => {
 
 
         document.body.style.overflow = "visible"
-        const navDirection = `/application/${dataPlan.data.track}/${dataPlan.uid}/personal`
+        const navDirection = `/application/cohort${dataPlan.data.cohortNum}/${dataPlan.data.track}/${dataPlan.uid}/personal`
         Navigate(navDirection);
 
     }

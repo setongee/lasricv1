@@ -72,6 +72,11 @@ import CreateAlbum from '../Admin/cms/gallery/Create';
 import EditAlbum from '../Admin/cms/gallery/callupEdit';
 import GalleryViews from '../pages/landing/galleryImage';
 import Beneficiaries from '../pages/landing/beneficiaries';
+import Research from '../pages/application/research';
+import ResearchPersonal from '../pages/application/research_personal';
+import ResearchProject from '../pages/application/research_project';
+import ResearchResults from '../pages/application/research_results';
+import ResearchBudget from '../pages/application/research_budget';
 
 const Router = ({user}) => {
 
@@ -136,7 +141,7 @@ const Router = ({user}) => {
 
                 {/* Application Routes */}
 
-                <Route path = 'application/innovation/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <InnovationTitle currentUser = {user} /> : <Login/> }>
+                <Route path = 'application/:cohort/innovation/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <InnovationTitle currentUser = {user} /> : <Login/> }>
 
                     <Route path = 'personal' element = {<Innovation currentUser = {user} />} />
                     <Route path = 'vision' element = {<Innovation2 currentUser = {user} />} />
@@ -148,7 +153,7 @@ const Router = ({user}) => {
 
                 </Route>
 
-                <Route path = 'application/stem/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <StemTitle currentUser = {user} /> : <Login/>  }>
+                <Route path = 'application/:cohort/stem/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <StemTitle currentUser = {user} /> : <Login/>  }>
 
                     <Route path = 'personal' element = {<Stem1 currentUser = {user} />} />
                     <Route path = 'problem' element = {<Stem2 currentUser = {user} />} />
@@ -156,6 +161,17 @@ const Router = ({user}) => {
                     <Route path = 'impact' element = {<Stem4 currentUser = {user} />} />
                     <Route path = 'scalability' element = {<Stem5 currentUser = {user}/>} />
                     <Route path = 'experience' element = {<Stem6 currentUser = {user}/>} />
+
+
+                </Route>
+
+
+                <Route path = 'application/:cohort/research/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <Research currentUser = {user} /> : <Login/>  }>
+
+                    <Route path = 'personal' element = {<ResearchPersonal currentUser = {user} />} />
+                    <Route path = 'project' element = {<ResearchProject currentUser = {user} />} />
+                    <Route path = 'result' element = {<ResearchResults currentUser = {user}/>} />
+                    <Route path = 'budget' element = {<ResearchBudget currentUser = {user} />} />
 
 
                 </Route>
