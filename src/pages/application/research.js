@@ -9,7 +9,6 @@ import { submitResearchApplicationFinalized } from '../../api/firebase/handleRes
 
 const Research = ({currentUser}) => {
 
-    const authState = getAuth()
 
     const dummy = {
 
@@ -39,10 +38,12 @@ const Research = ({currentUser}) => {
 
         }
 
+
     }
 
 
     const params = useParams()
+    const Navigate = useNavigate()
 
     const pageDetect = useLocation().pathname;
     const callupid = params.callid;
@@ -53,15 +54,14 @@ const Research = ({currentUser}) => {
     const [data, setData] = useState(false);
     const cohort = params.cohort;
 
-    const Navigate = useNavigate()
-
     const appid = `LASRIC_${callupid}_${currentUser.uid}`
-
     const [status, setStatus] = useState(dummy)
 
     const blend = (dat) => {
+
         setStatus(dat.data);
         setData(dat.submitted)
+
     }
     
 
@@ -69,7 +69,7 @@ const Research = ({currentUser}) => {
 
         const unsub = onSnapshot(doc(db, "applications_data" , cohort, "applications", appid), (doc) => {
 
-            blend(doc.data())
+            blend(doc.data());
             console.log(doc.data());
      
          });
@@ -85,6 +85,7 @@ const Research = ({currentUser}) => {
          if ( status.personal.status === 'completed' && status.project.status === 'completed' && status.results.status === 'completed' && status.budget.status === 'completed') {
              setSubmitReady(true)
          }
+         
     }, [status]);
 
 
@@ -177,7 +178,7 @@ const Research = ({currentUser}) => {
 
         const company = status.personal.data.institution;
         
-        submitResearchApplicationFinalized(appid, callupid, currentUser.uid, track, currentUser.firstname, currentUser.lastname, cohort, company ).then(() => Navigate('/dashboard'));
+        submitResearchApplicationFinalized(appid, callupid, currentUser.uid, track, currentUser.firstname, currentUser.lastname, cohort, company, currentUser ).then(() => Navigate('/dashboard'));
     }
 
     return (
@@ -211,11 +212,9 @@ const Research = ({currentUser}) => {
 
                         <div className='uncompletedPersonal' onClick = {() => alert("Kindly finish submitting the form in personal to continue...")}>
 
-
                             <div  className="tabnine project"> <div className="icon-tab"> <i className="fi fi-rr-eye"></i> </div> Project</div>
                             <div className="tabnine results"> <div className="icon-tab"> <i className="fi fi-rr-layers"></i> </div> Results</div>
                             <div  className="tabnine budget"> <div className="icon-tab"> <i className="fi fi-rr-briefcase"></i> </div> Budget</div>
-
 
                         </div>
 
@@ -226,13 +225,6 @@ const Research = ({currentUser}) => {
             </div>
 
             <div className="nav">
-
-                {/* <div className="save-draft">
-                    <div className="text">Continue Later?</div>
-                    <button id="form-save" style={{ outline: "none" }}>
-                    Save Draft
-                    </button>
-                </div> */}
                     
                 {
                     data ? <div className="submitApplication" > Congrats!, Submitted </div> : submitReady ? <div className="submitApplication" onClick={ () => submitTheApplication() } > Submit Application </div> : <div className="submitApplication notReady" > Submit Application </div>

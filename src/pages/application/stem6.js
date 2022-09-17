@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
-import { updateStemExperienceApplication } from '../../api/firebase/handleStemSubmits';
-import { useLocation } from 'react-router-dom';
+import { getApplicationData, updateStemExperienceApplication } from '../../api/firebase/handleStemSubmits';
+import { useLocation, useParams } from 'react-router-dom';
 import Stemtr from '../../components/tabletr/stemtr';
 
 const Stem6 = ({currentUser}) => {
@@ -16,12 +16,18 @@ const Stem6 = ({currentUser}) => {
 
 
     const [uploadFiles, setuploadFiles] = useState([])
+
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
     const [tableTR, setTableTR] = useState({team : []})
 
+    const params = useParams()
+    const [stat, setStat] = useState('pending')
+
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
+    const callupid = params.callid
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
 
     const userid = currentUser.uid;
 
@@ -31,7 +37,7 @@ const Stem6 = ({currentUser}) => {
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
             if(response !== null) {
 
@@ -138,7 +144,7 @@ const Stem6 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateStemExperienceApplication(appid, form2)
+        updateStemExperienceApplication(appid, form2, cohort)
         
 
     }

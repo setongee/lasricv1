@@ -11,6 +11,7 @@ import { signOut, getAuth } from 'firebase/auth';
 
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../../api/firebase/config';
+import { editCallup } from '../../api/firebase/admin/cms';
 
 const ApplicationsDash = ({currentUser}) => {
 
@@ -54,7 +55,7 @@ const ApplicationsDash = ({currentUser}) => {
 
     setApp(currentUser.applications.cohort4);
 
-    const citiesRef = collection(db, "submittedApplications")
+    const citiesRef = collection(db, "applications_data", "cohort5", "applications")
     const q = query(citiesRef, where("uid", "==", currentUser.uid));
     const querySnapshot = await getDocs(q)
 
@@ -67,8 +68,10 @@ const ApplicationsDash = ({currentUser}) => {
     });
 
     setSubmitted(arr.length)
+    console.log(arr)
 
 }, [user]);
+
 
    
     var deadineDtae = new Date("Mar 31, 2022 23:59:59").getTime();
@@ -91,13 +94,13 @@ const ApplicationsDash = ({currentUser}) => {
         <div className="dashboard">
 
 
-            <div className="desknotice">
+            {/* <div className="desknotice">
 
             Hey, kindly use a desktop device or screen to access this page
 
             <div className="goHome"> <Link to="/">Back to Main Site</Link> </div>
 
-            </div>
+            </div> */}
 
 
             {
@@ -218,19 +221,17 @@ const ApplicationsDash = ({currentUser}) => {
 
                     
 
-                    <div className="applicationsData">
+                    {/* <div className="applicationsData">
 
                             <div className="apps">
 
                                 {
-                                    currentUser.applications.cohort4.length ? currentUser.applications.cohort4.map(data => (
+                                    submitted.length ? currentUser.applications.cohort4.map(data => (
 
 
-                                        <div className="application_card">
+                                        <div className="application_card_play">
 
-                                                <div className="img"> <img src={`${data.track === 'innovation' ? "https://firebasestorage.googleapis.com/v0/b/lasricv2.appspot.com/o/callups%2Fsearch%20ideas-min.jpg?alt=media&token=ca1e3da9-99ae-4bba-9d28-0624c86b46d6" : "https://firebasestorage.googleapis.com/v0/b/lasricv2.appspot.com/o/callups%2F3682410-min.jpg?alt=media&token=79740201-837d-4a81-9103-0dcaa0c43228" }`} alt="" /> </div>
-
-                                                <div className="content-luck">
+                                                <div className="applications-play">
                                                     
                                                     <div className="title"> 
                                                     
@@ -258,11 +259,11 @@ const ApplicationsDash = ({currentUser}) => {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
 
 
-                    <div className="timeline">
+                    {/* <div className="timeline">
 
                         <div className="timeline-days">You Have {remainingDays} Days Till Deadline</div>
 
@@ -332,7 +333,7 @@ const ApplicationsDash = ({currentUser}) => {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
 
                     {/* Messages Part */}

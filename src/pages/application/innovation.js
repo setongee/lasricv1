@@ -1,10 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import './application.scss';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { createApplication } from '../../api/firebase/handleSubmits';
+import { createApplication, getApplicationData } from '../../api/firebase/handleSubmits';
 import { getApplication } from '../../api/firebase/getApplication';
 import SethAnimation from '../../components/lottie/seth-animation';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { updatePersonalApplication } from '../../api/firebase/handleSubmits';
 
 
@@ -50,12 +50,17 @@ const Innovation = ({currentUser}) => {
 
     const [form1, setForm1] = useState(Data);
     const [uploadFiles, setuploadFiles] = useState([])
+
+    const params = useParams()
+
     const [loader, setLoader] = useState(true);
+    const [errors, setErrors] = useState([]);
     const [stat, setStat] = useState('pending')
 
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3];
-    const track = pageDetect.split("/")[2];
+    const callupid = params.callid
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
 
     const [uploadingServer, setUploadingServer] = useState(false);
     const [successUploadStores, setSuccessUploadStores] = useState(false)
@@ -69,16 +74,20 @@ const Innovation = ({currentUser}) => {
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
-            if(response !== null) {
+            if(response !== undefined ) {
 
                 setForm1(response.data.personal.data);
-                setStat(response.data.personal.status);
+                setStat(response.data.personal.status)
                 setLoader(false);
+                console.log(response)
 
             } else {
+
                 setLoader(false)
+                console.log("No document found!")
+
             }
         });
 
@@ -145,13 +154,13 @@ const Innovation = ({currentUser}) => {
 
     }
 
-    const handleFileUpload = () => {
+    const handleFileUpload = async () => {
 
 
         uploadFiles.forEach( file => {
 
             const storage = getStorage();
-            const storageRef = ref(storage, `cohort4/${currentUser.uid}/${callupid}/${file.filename}` );
+            const storageRef = ref(storage, `${cohort}/${currentUser.uid}/${callupid}/${file.filename}` );
 
             //uploading to firebase begins
             uploadBytes(storageRef,file.target);
@@ -195,21 +204,23 @@ const Innovation = ({currentUser}) => {
 
     const successSubmit = async () => {
 
-        await handleFileUpload();
+        await handleFileUpload().then(e => console.log("done uploading"));
 
         setSuccessUploadStores(true);
 
         if(stat === 'pending') {
 
-            await createApplication(callupid, userid, form1, track ).then(()=>{
+            await createApplication(callupid, userid, form1, track, cohort ).then(()=>{
                 
                 window.localStorage.setItem("appid", true);
     
             })
 
         } else {
-            updatePersonalApplication(appid, form1)
+            updatePersonalApplication(appid, form1, cohort)
         }
+
+        await navigate(`/application/${cohort}/innovation/${callupid}/vision`);
 
 
 
@@ -227,7 +238,7 @@ const Innovation = ({currentUser}) => {
         const id = e.target.parentElement.id;
 
         const storage = getStorage();
-        const storageRef = ref(storage, `cohort4/${currentUser.uid}/${callupid}/LASRIC_${id}.pdf` );
+        const storageRef = ref(storage, `${cohort}/${currentUser.uid}/${callupid}/LASRIC_${id}.pdf` );
 
         getDownloadURL(storageRef).then((url) => {
 

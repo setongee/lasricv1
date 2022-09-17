@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
-import { updateStemScalabilityApplication } from '../../api/firebase/handleStemSubmits';
-import { useLocation } from 'react-router-dom';
+import { getApplicationData, updateStemScalabilityApplication } from '../../api/firebase/handleStemSubmits';
+import { useLocation, useParams } from 'react-router-dom';
 
 const Stem5 = ({currentUser}) => {
 
@@ -16,12 +16,16 @@ const Stem5 = ({currentUser}) => {
     }
 
     const [form2, setForm2] = useState(initialData);
-    const [uploadFiles, setuploadFiles] = useState([])
+    const params = useParams()
+
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
+    const [stat, setStat] = useState('pending')
 
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
+    const callupid = params.callid
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
 
     const userid = currentUser.uid;
 
@@ -31,7 +35,7 @@ const Stem5 = ({currentUser}) => {
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
             if(response !== null) {
 
@@ -94,7 +98,7 @@ const Stem5 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateStemScalabilityApplication(appid, form2)
+        updateStemScalabilityApplication(appid, form2, cohort)
 
         console.log("success")
         

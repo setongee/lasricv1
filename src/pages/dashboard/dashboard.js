@@ -267,6 +267,14 @@ const Dashboard = ({currentUser}) => {
 
                         <div className="status">
 
+                            <div className="star-head"> Pending</div>
+                            <div className="line_star"></div>
+                            <div className="value-star"> 0 </div>
+
+                        </div>
+
+                        <div className="status">
+
                             <div className="star-head"> Submitted</div>
                             <div className="line_star"></div>
                             <div className="value-star">{submitted}</div>
@@ -281,10 +289,18 @@ const Dashboard = ({currentUser}) => {
 
                         </div>
 
+                        <div className="status">
+
+                            <div className="star-head"> Rejected </div>
+                            <div className="line_star"></div>
+                            <div className="value-star">0</div>
+
+                        </div>
+
                     </div>
 
 
-                    <div className="eventNews">
+                    {/* <div className="eventNews">
 
                         <div className="headtag">
                             <i className="fi fi-rr-calendar"></i>
@@ -312,9 +328,9 @@ const Dashboard = ({currentUser}) => {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
-                    <div className="timeline">
+                    {/* <div className="timeline">
 
                         <div className="timeline-days">You Have {remainingDays} Days Till Deadline</div>
 
@@ -384,12 +400,12 @@ const Dashboard = ({currentUser}) => {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
 
                     {/* Messages Part */}
 
-                    <div className="messages-inapp">
+                    {/* <div className="messages-inapp">
 
                         <div className="titleSide">
 
@@ -461,7 +477,7 @@ const Dashboard = ({currentUser}) => {
 
                         </div>
 
-                    </div>
+                    </div> */}
 
 
                 </div>

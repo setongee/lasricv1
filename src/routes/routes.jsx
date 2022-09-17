@@ -219,7 +219,6 @@ const Router = ({user}) => {
                         <Route path = 'profile' element = { <Profile adminUser = {user} /> } />
                         <Route path = 'cohort' element = { <Cohort /> } />
 
-
                     </Route>
   
                 </Route>

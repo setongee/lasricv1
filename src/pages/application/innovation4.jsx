@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
-import { updateOrganizationApplication  } from '../../api/firebase/handleSubmits';
-import { useLocation } from 'react-router-dom';
+import { updateOrganizationApplication, getApplicationData  } from '../../api/firebase/handleSubmits';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import TableTr from '../../components/tabletr/table-tr';
 
 const Innovation4 = ({currentUser}) => {
@@ -15,16 +15,21 @@ const Innovation4 = ({currentUser}) => {
 
     } );
 
-    const [uploadFiles, setuploadFiles] = useState([])
+    const params = useParams()
+
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
+    const [stat, setStat] = useState('pending')
+
     const [teamDetails, setTeamDetails] = useState()
     const [tableTR, setTableTR] = useState({team : [], partner : []})
 
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
+    const callupid = params.callid
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
 
-    console.log(form2)
+    const navigate = useNavigate();
 
     const userid = currentUser.uid;
 
@@ -34,18 +39,16 @@ const Innovation4 = ({currentUser}) => {
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
-            if(response.data.organization.data.team !== undefined ) {
+            if(response !== null) {
 
                 setForm2(response.data.organization.data);
-                console.log(response.data.organization.data)
                 setLoader(false);
 
             } else {
 
                 setLoader(false)
-                //console.log(response.data.personal.data)
 
             }
         });
@@ -197,7 +200,8 @@ const Innovation4 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateOrganizationApplication(appid, form2)
+        updateOrganizationApplication(appid, form2, cohort)
+        .then(() => navigate(`/application/${cohort}/innovation/${callupid}/economics`))
 
         console.log("success")
         

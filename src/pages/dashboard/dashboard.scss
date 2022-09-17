@@ -783,12 +783,20 @@
     margin-top: -120px;
 }
 
+.apps{
+    flex-direction: column;
+    padding: 30px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+}
+
+.application_card_play{
+    display : flex;
+    flex-direction: column;
+}
+
 
 @media (max-width: 1024px) {
-
-    .main-content-dashboard, .menuAreaBar{
-        display: none !important;
-    }
 
     .desknotice{
         display: flex;

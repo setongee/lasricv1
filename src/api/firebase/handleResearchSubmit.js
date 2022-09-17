@@ -1,6 +1,7 @@
 import { doc, updateDoc, setDoc, getDoc, arrayUnion } from "firebase/firestore"; 
 import { db } from "./config";
 import { data } from "./new-data";
+import axios from "axios";
 
 export const createResearchApplication = async (callid, userid, formData, track, cohort) => {
 
@@ -61,12 +62,14 @@ export const getApplicationData = async (appid, cohort) => {
 }
 
 
-export const submitResearchApplicationFinalized = async (appid, callid, userid, track, firstname, lastname, cohort, company) => {
+export const submitResearchApplicationFinalized = async (appid, callid, userid, track, firstname, lastname, cohort, company, currentUser) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "submitted" : true });
+
+    await axios.post('/api/sendEmail', {email : currentUser.email, firstname : firstname, track : track, userid : currentUser.uid});
 
     await addToSubmitted(callid, userid, track, firstname, lastname, cohort, company, appid);
 

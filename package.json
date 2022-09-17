@@ -2,9 +2,11 @@
   "name": "lasric-rebuild",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:9000",
   "dependencies": {
     "@editorjs/editorjs": "^2.24.3",
     "@reduxjs/toolkit": "^1.7.2",
+    "@sendgrid/mail": "^7.7.0",
     "@testing-library/jest-dom": "^5.16.1",
     "@testing-library/react": "^12.1.2",
     "@testing-library/user-event": "^13.5.0",

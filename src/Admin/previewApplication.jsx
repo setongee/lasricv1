@@ -15,6 +15,8 @@ const Previewapplication = ({data, closeModal, appid}) => {
             phone : ""
         }
     })
+
+    console.log(data);
     
     const [councilGraded, setCouncilGraded] = useState([])
 

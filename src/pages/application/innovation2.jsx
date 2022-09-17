@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
-import { updateApplication } from '../../api/firebase/handleSubmits';
-import { useLocation } from 'react-router-dom';
+import { updateApplication, getApplicationData } from '../../api/firebase/handleSubmits';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const Innovation2 = ({currentUser}) => {
 
@@ -19,22 +19,27 @@ const Innovation2 = ({currentUser}) => {
     }
 
     const [form2, setForm2] = useState(initialData);
+
+    const params = useParams()
     const [uploadFiles, setuploadFiles] = useState([])
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
 
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
-
+    const callupid = params.callid
     const userid = currentUser.uid;
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
 
     const appid = `LASRIC_${callupid}_${userid}`;
+
+    const navigate = useNavigate();
 
     //useeffect important
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
             if(response !== null) {
 
@@ -97,7 +102,8 @@ const Innovation2 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateApplication(appid, form2)
+        updateApplication(appid, form2, cohort)
+        .then(() => navigate(`/application/${cohort}/innovation/${callupid}/proposition`));
 
         console.log("success")
         

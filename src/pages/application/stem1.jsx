@@ -2,24 +2,23 @@ import React, {useState, useEffect} from 'react';
 import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
-import { createStemApplication, updateStemPersonalApplication  } from '../../api/firebase/handleStemSubmits';
-import { useLocation } from 'react-router-dom';
+import { createStemApplication, getApplicationData, updateStemPersonalApplication  } from '../../api/firebase/handleStemSubmits';
+import { useLocation, useParams } from 'react-router-dom';
 
 const Stem1 = ({currentUser}) => {
 
-    const [form2, setForm2] = useState({} )
+    const [form2, setForm2] = useState({})
+
+    const params = useParams()
 
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
     const [stat, setStat] = useState('pending')
 
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
-    const track = pageDetect.split("/")[2]
-
-    console.log(track)
-
-    console.log(form2)
+    const callupid = params.callid
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
 
     const userid = currentUser.uid;
 
@@ -29,9 +28,9 @@ const Stem1 = ({currentUser}) => {
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
-            if(response !== null ) {
+            if(response !== undefined ) {
 
                 setForm2(response.data.personal.data);
                 setStat(response.data.personal.status)
@@ -40,7 +39,6 @@ const Stem1 = ({currentUser}) => {
             } else {
 
                 setLoader(false)
-                //console.log(response.data.personal.data)
 
             }
         });
@@ -91,7 +89,7 @@ const Stem1 = ({currentUser}) => {
 
         if(stat === 'pending') {
 
-            await createStemApplication(callupid, userid, form2, track).then(()=>{
+            await createStemApplication(callupid, userid, form2, track, cohort).then(()=>{
                 
                 window.localStorage.setItem("appid", true)
     

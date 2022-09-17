@@ -2,20 +2,26 @@ import React, {useState, useEffect} from 'react';
 import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
-import { updatePropositionApplication  } from '../../api/firebase/handleSubmits';
-import { useLocation } from 'react-router-dom';
+import { updatePropositionApplication, getApplicationData  } from '../../api/firebase/handleSubmits';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 
 const Innovation3 = ({currentUser}) => {
 
     const [form2, setForm2] = useState({});
-    const [uploadFiles, setuploadFiles] = useState([])
+    const params = useParams()
+
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
+    const [stat, setStat] = useState('pending')
 
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
+    const callupid = params.callid
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
 
     const userid = currentUser.uid;
+
+    const navigate = useNavigate();
 
     const appid = `LASRIC_${callupid}_${userid}`;
 
@@ -23,7 +29,7 @@ const Innovation3 = ({currentUser}) => {
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
             if(response !== null) {
 
@@ -86,7 +92,7 @@ const Innovation3 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updatePropositionApplication(appid, form2)
+        updatePropositionApplication(appid, form2, cohort).then(() => navigate(`/application/${cohort}/innovation/${callupid}/organization`))
 
         console.log("success")
         

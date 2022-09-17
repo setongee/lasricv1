@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
-import { updateStemApplication } from '../../api/firebase/handleStemSubmits';
-import { useLocation } from 'react-router-dom';
+import { getApplicationData, updateStemApplication } from '../../api/firebase/handleStemSubmits';
+import { useLocation, useParams } from 'react-router-dom';
 
 const Stem2 = ({currentUser}) => {
 
@@ -15,23 +15,27 @@ const Stem2 = ({currentUser}) => {
 
     }
 
-    const [form2, setForm2] = useState(initialData);
-    const [uploadFiles, setuploadFiles] = useState([])
+    const [form2, setForm2] = useState({})
+
+    const params = useParams()
+
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
+    const [stat, setStat] = useState('pending')
 
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
+    const callupid = params.callid
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
 
     const userid = currentUser.uid;
 
     const appid = `LASRIC_${callupid}_${userid}`;
-
     //useeffect important
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
             if(response !== null) {
 
@@ -94,7 +98,7 @@ const Stem2 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateStemApplication(appid, form2)
+        updateStemApplication(appid, form2, cohort)
 
         console.log("success")
         

@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
-import { updateEconomicsApplication  } from '../../api/firebase/handleSubmits';
-import { useLocation } from 'react-router-dom';
+import { updateEconomicsApplication, getApplicationData  } from '../../api/firebase/handleSubmits';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 import TableTr from '../../components/tabletr/table-tr';
 import TableTr5 from '../../components/tabletr/Innovation5TR';
 
@@ -21,10 +21,14 @@ const Innovation4 = ({currentUser}) => {
     const [teamDetails, setTeamDetails] = useState()
     const [tableTR, setTableTR] = useState({costing : []})
 
-    const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
+    const params = useParams()
 
-    console.log(form2)
+    const pageDetect = useLocation().pathname
+    const callupid = params.callid
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
+
+    const navigate = useNavigate()
 
     const userid = currentUser.uid;
 
@@ -34,18 +38,16 @@ const Innovation4 = ({currentUser}) => {
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
-            if(response.data.economics.data !== undefined ) {
+            if(response !== null) {
 
                 setForm2(response.data.economics.data);
-                console.log(response.data.economics.data)
                 setLoader(false);
 
             } else {
 
                 setLoader(false)
-                //console.log(response.data.personal.data)
 
             }
         });
@@ -141,7 +143,8 @@ const Innovation4 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateEconomicsApplication(appid, form2)
+        updateEconomicsApplication(appid, form2, cohort)
+        .then(() => navigate(`/application/${cohort}/innovation/${callupid}/milestones`))
 
         console.log("success")
         

@@ -1,10 +1,11 @@
 import { doc, updateDoc, setDoc, getDoc, arrayUnion } from "firebase/firestore"; 
 import { db } from "./config";
 import { data } from "./new-data";
+import axios from "axios";
 
-export const createStemApplication = async (callid, userid, formData, track) => {
+export const createStemApplication = async (callid, userid, formData, track, cohort) => {
 
-    await setDoc(doc(db, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, 
+    await setDoc(doc(db, "applications_data", cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, 
     
     data : {
 
@@ -67,91 +68,93 @@ export const createStemApplication = async (callid, userid, formData, track) => 
     await updateUserApplication(userid, `LASRIC_${callid}_${userid}`, track, callid);
 }
 
-export const submitStemApplication = async (appid, callid, userid, track, firstname, lastname) => {
+
+export const getApplicationData = async (appid, cohort) => {
+
+    const fetchApplications = doc(db, "applications_data", cohort, "applications", appid);
+    const querySnapshot = await getDoc(fetchApplications);
+
+    return querySnapshot.data();
+
+}
+
+
+export const submitStemApplication = async (appid, callid, userid, track, firstname, lastname, cohort, company, currentUser) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
-    const documentRef = doc(db, "applications", appid);
+    const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "submitted" : true });
 
-    await updateCallupApplications(callid, `LASRIC_${callid}_${userid}`);
+    await axios.post('/api/sendEmail', {email : currentUser.email, firstname : firstname, track : track, userid : currentUser.uid});
 
-    await addToSubmitted(callid, userid, track, firstname, lastname);
+    //await updateCallupApplications(callid, `LASRIC_${callid}_${userid}`);
 
-}
-
-const addToSubmitted = async (callid, userid, track, firstname, lastname) => {
-
-    await setDoc(doc(db, "submittedApplications", `LASRIC_${callid}_${userid}`), {...data.application, uid : userid , track, firstname, lastname, dateSubmitted : new Date, avgGrade : '0', gradedBy : [], grades : {}, status : 'pending'  } )
-
+    await addToSubmitted(callid, userid, track, firstname, lastname, cohort, company, appid);
 
 }
 
-export const updateStemApplication = async (appid, formData) => {
+const addToSubmitted = async (callid, userid, track, firstname, lastname, cohort, company, appid) => {
+
+    await setDoc(doc(db, "submitted_applications_beta", cohort, "applications", appid), {...data.application, uid : userid , track, firstname, lastname, dateSubmitted : new Date, avgGrade : 0, grade_export : '0%', companySector : company , grades : {}, status : 'pending', callID : callid } )
+
+
+}
+
+export const updateStemApplication = async (appid, formData, cohort) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
-    console.log(appid)
-
-    const documentRef = doc(db, "applications", appid);
+    const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.problem.data" : formData });
     await updateDoc(documentRef, { "data.problem.status" : "completed" });
 
 }
 
-export const updateStemRelevanceApplication = async (appid, formData) => {
+export const updateStemRelevanceApplication = async (appid, formData, cohort) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
-
-    const documentRef = doc(db, "applications", appid);
+    const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.relevance.data" : formData });
     await updateDoc(documentRef, { "data.relevance.status" : "completed" });
 
 }
 
-export const updateStemImpactApplication = async (appid, formData) => {
+export const updateStemImpactApplication = async (appid, formData, cohort) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
-    console.log(appid)
-
-    const documentRef = doc(db, "applications", appid);
+    const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.impact.data" : formData });
     await updateDoc(documentRef, { "data.impact.status" : "completed" });
 
 }
 
-export const updateStemExperienceApplication = async (appid, formData) => {
+export const updateStemExperienceApplication = async (appid, formData, cohort) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
-    console.log(appid)
-
-    const documentRef = doc(db, "applications", appid);
+    const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.experience.data" : formData });
     await updateDoc(documentRef, { "data.experience.status" : "completed" });
 
 }
 
-export const updateStemScalabilityApplication = async (appid, formData) => {
+export const updateStemScalabilityApplication = async (appid, formData, cohort) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
-    console.log(appid)
-
-    const documentRef = doc(db, "applications", appid);
+    const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.scalability.data" : formData });
     await updateDoc(documentRef, { "data.scalability.status" : "completed" });
 
 }
 
-export const updateStemPersonalApplication = async (appid, formData) => {
+export const updateStemPersonalApplication = async (appid, formData, cohort) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
-    console.log(appid)
-
-    const documentRef = doc(db, "applications", appid);
+    const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.personal.data" : formData });
     await updateDoc(documentRef, { "data.personal.status" : "completed" });
 
@@ -169,7 +172,7 @@ export const updateUserApplication = async (uid, appid, track, callid) => {
     //console.log(appid)
 
     const documentRef = doc(db, "users", uid);
-    await updateDoc(documentRef, { "applications.cohort4" : arrayUnion(data) });
+    await updateDoc(documentRef, { "applications.cohort5" : arrayUnion(data) });
 
 }
 

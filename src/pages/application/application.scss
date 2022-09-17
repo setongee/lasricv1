@@ -368,3 +368,13 @@ form table tr p {
     }
 }
 
+@media (max-width: 425px) {
+    .wrapper{
+        display: none;
+    }
+
+    .title-bar{
+        width: 70%;
+        display: none;
+    }
+}

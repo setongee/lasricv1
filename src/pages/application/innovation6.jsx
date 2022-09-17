@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
-import { updateMilestonesApplication  } from '../../api/firebase/handleSubmits';
-import { useLocation } from 'react-router-dom';
+import { updateMilestonesApplication, getApplicationData} from '../../api/firebase/handleSubmits';
+import { useLocation, useParams, useNavigate } from 'react-router-dom';
 
 const Innovation4 = ({currentUser}) => {
 
@@ -13,11 +13,16 @@ const Innovation4 = ({currentUser}) => {
 
     } );
 
+
+    const params = useParams()
+
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
 
     const pageDetect = useLocation().pathname
-    const callupid = pageDetect.split("/")[3]
+    const callupid = params.callid
+    const track = pageDetect.split("/")[3]
+    const cohort = params.cohort
 
     console.log(form2)
 
@@ -25,22 +30,22 @@ const Innovation4 = ({currentUser}) => {
 
     const appid = `LASRIC_${callupid}_${userid}`;
 
+    const navigate = useNavigate();
+
     //useeffect important
 
     useEffect(() => {
 
-        getApplication(appid).then(response => {
+        getApplicationData(appid, cohort).then(response => {
 
-            if(response.data.milestones.data !== undefined ) {
+            if(response !== null) {
 
                 setForm2(response.data.milestones.data);
-                console.log(response.data.milestones.data)
                 setLoader(false);
 
             } else {
 
                 setLoader(false)
-                //console.log(response.data.personal.data)
 
             }
         });
@@ -89,7 +94,7 @@ const Innovation4 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateMilestonesApplication(appid, form2)
+        updateMilestonesApplication(appid, form2, cohort)
 
         console.log("success")
         
