@@ -12,8 +12,6 @@ const ResearchPersonal = ({currentUser}) => {
 
     const params = useParams()
 
-    console.log(params);
-
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
     const [stat, setStat] = useState('pending')
@@ -27,15 +25,11 @@ const ResearchPersonal = ({currentUser}) => {
 
     const appid = `LASRIC_${callupid}_${userid}`;
 
-    console.log(cohort);
-
     //useeffect important
 
     useEffect(() => {
 
         getApplicationData(appid, cohort).then(response => {
-
-            console.log(response);
 
             if (response !== undefined) {
 
@@ -45,7 +39,6 @@ const ResearchPersonal = ({currentUser}) => {
 
             } else{
                 setLoader(false);
-                console.log("next level");
             }
         });
         
@@ -105,8 +98,6 @@ const ResearchPersonal = ({currentUser}) => {
         } else {
             updateStemPersonalApplication(appid, form2, cohort)
         }
-
-        await console.log("success");
 
     }
 

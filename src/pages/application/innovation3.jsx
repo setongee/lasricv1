@@ -25,6 +25,8 @@ const Innovation3 = ({currentUser}) => {
 
     const appid = `LASRIC_${callupid}_${userid}`;
 
+    const [progress, setProgress] = useState(0)
+
     //useeffect important
 
     useEffect(() => {
@@ -35,6 +37,14 @@ const Innovation3 = ({currentUser}) => {
 
                 setForm2(response.data.proposition.data);
                 setLoader(false);
+
+                if( response.data.proposition.status === "completed" ) {
+
+                    setProgress(response.progress)
+
+                } else {
+                    setProgress ( response.progress + 16.67 )
+                }
 
             } else {
 
@@ -92,7 +102,7 @@ const Innovation3 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updatePropositionApplication(appid, form2, cohort).then(() => navigate(`/application/${cohort}/innovation/${callupid}/organization`))
+        updatePropositionApplication(appid, form2, cohort, progress).then(() => navigate(`/application/${cohort}/innovation/${callupid}/organization`))
 
         console.log("success")
         
@@ -245,7 +255,7 @@ const Innovation3 = ({currentUser}) => {
                                 />
                             </div>
                             
-                            <button className="submitArea" onClick={() => handleSubmit}> Submit & Continue </button>
+                            <button className="submitArea" onClick={() => handleSubmit}> Save & Continue </button>
 
                         </div>
 

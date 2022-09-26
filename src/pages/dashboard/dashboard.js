@@ -7,11 +7,15 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import LasricLogo from '../../assets/svg/lasric_logo.svg'
 import lasricicon from '../../assets/svg/send.svg'
 import banner from '../../assets/svg/banner.svg'
+import none from '../../assets/svg/none.png'
 
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { db } from '../../api/firebase/config';
 
 import { signOut, getAuth } from 'firebase/auth';
+
+import styled from 'styled-components'
+import {keyframes} from 'styled-components'
 
 const Dashboard = ({currentUser}) => {
 
@@ -23,6 +27,16 @@ const Dashboard = ({currentUser}) => {
    const [app, setApp] = useState([]);
    const [submitted, setSubmitted] = useState(0)
    const [showModal, setShowModal] = useState(true);
+
+   const [burgerM, setBurgerM] = useState(false);
+
+   const [statistics, setStatistics] = useState({
+    apps : [],
+    pending : [],
+    submitted : [],
+    accepted : 0,
+    rejected : 0
+   })
 
    const bannerB = () => {
 
@@ -53,68 +67,79 @@ const Dashboard = ({currentUser}) => {
 
     setUser(currentUser)
 
-    setApp(currentUser.applications.cohort4);
-
-    const citiesRef = collection(db, "submittedApplications")
-    const q = query(citiesRef, where("uid", "==", currentUser.uid));
+    const citiesRef = collection(db, "applications_data", "cohort5", "applications")
+    const q = query(citiesRef, where("userid", "==", currentUser.uid));
     const querySnapshot = await getDocs(q)
 
-    var arr = []
+    var apps = [];
 
     querySnapshot.forEach((doc) => {
 
-       arr.push(doc.data());
+        apps.push(doc.data())
+        console.log(doc.data());
 
     });
 
-    setSubmitted(arr.length)
+    appsStatistics(apps)
 
 }, [user]);
 
-   const COUNTER = {
 
-    days : 0,
-    hrs : 0,
-    min : 0,
-    sec : 0
+    const appsStatistics = async (data) => {
+
+        const dataFeed = {
+
+            apps : data,
+            pending : [],
+            submitted : [],
+            accepted : 0,
+            rejected : 0
+
+           }
+        
+        const submitted = data.filter(e => {
+            return e.submitted === true
+        })
+
+        dataFeed.submitted = submitted
+
+        const pending = data.filter(e => {
+            return e.submitted !== true
+        })
+
+        dataFeed.pending = pending
+
+        console.log(data);
+
+        const pendingKeyTotal = pending.filter(e => {
+            return e.data
+        })
+
+        //console.log(pendingKeyTotal);
+
+        await setStatistics(dataFeed);
 
     }
 
-    const [countdown, setCounter] = useState(COUNTER);
+    const progressbar = keyframes`
+    from {
+        width : 0%;
+    }
 
-    var countDownDate = new Date("Mar 9, 2022 10:00:00").getTime();
-
-    var deadineDtae = new Date("Mar 31, 2022 23:59:59").getTime();
-    var now = new Date().getTime();
-    var distance = deadineDtae - now;
-    var remainingDays = Math.floor(distance / (1000 * 60 * 60 * 24));
-
-
+    to {
+        width : ${props => props.width}
+    }`;
 
 
-    // setInterval(function() {
-        
-    // var now = new Date().getTime();
-
-    // var distance = countDownDate - now;
-
-    // var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    // var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    // var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    // var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    // if (distance < 0) {
-
-    //     //clearInterval(x);
-    //     console.log('Its Today');
-
-    // }
-
-    // const countdown = {days, hours, minutes, seconds}
-    
-    // setCounter(countdown)
-
-    // }, 1000);
+    const Progress = styled.div`
+    animation: ${progressbar} 2s cubic-bezier(0.65, 0.05, 0.36, 1);
+    width : ${props => props.width};
+    height: 6px;
+    background-color: ${props => props.background};
+    border-radius: 100px;
+    margin-bottom: 15px;
+    position: absolute;
+    transition: all .4s ease-in-out;`
 
     const authOut = async () => {
 
@@ -124,8 +149,18 @@ const Dashboard = ({currentUser}) => {
     }
 
 
+    const stringSplitter = (string, splitnode) =>{
+
+        const value = string.split(splitnode);
+
+        return value;
+
+    }
+
     
     return (
+        
+        
 
         <div className="dashboard">
 
@@ -136,66 +171,11 @@ const Dashboard = ({currentUser}) => {
                 <div className="goHome"> <Link to="/">Back to Main Site</Link> </div>
 
             </div>
-
-
-            {
-                showModal ? 
-                
-                <div className="barNew">
-
-                    <div className="BABY">
-
-                        <div className="banner">
-
-                            <img src={banner} alt="" />
-
-                        </div>
-
-                        <div className="textArea">
-
-                            Hello {currentUser.firstname},
-
-                            <div className="headerText"> Introducing Dashboard v2.0 </div>
-
-                            <div className="bodyText">
-                            We noticed that you had a couple of pain points using the LASRIC dashboard platform and this had reduced your level of information access on the dashboard v1.0
-
-                            {<br></br>} {<br></br>}
-
-                            The LASRIC product team went back to the drawing sheet to make changes to enhance the overall user experience and subsequent areas of the platform will be updated tailored for your optimum experience  
-                            </div>
-
-
-                        </div>
-
-                        <div className="activity">
-
-                            <div className="explore_btn" onClick={ ()=> bannerB() }> Explore v2.0 </div>
-
-                            <div className="checkbox">
-
-                                <input type="checkbox" id = 'cheq'/>
-                                Don’t show message again
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div> 
-                
-                : null
-
-            }
-            
+                        
 
             <div className="menuAreaBar">
 
-
                 <Link to = '/dashboard' className='dashboard_link active-li'> <i className="fi fi-rr-home"></i> Dashboard  </Link>
-
-                <Link to = '/dashboard/applications' className='dashboard_link'> <i className="fi fi-rr-duplicate"></i> My Applications  </Link>
 
                 <Link to = '/people' className='dashboard_link'> <i className="fi fi-rr-user"></i> Council Members  </Link>
 
@@ -221,6 +201,37 @@ const Dashboard = ({currentUser}) => {
 
 
             </div>
+
+            {
+                burgerM ? <div className="cheng">
+
+                <Link to = '/dashboard' className='dashboard_link active-li'> <i className="fi fi-rr-home"></i> Dashboard  </Link>
+
+                <Link to = '/people' className='dashboard_link'> <i className="fi fi-rr-user"></i> Council Members  </Link>
+
+                <Link to = '/about' className='dashboard_link'> <i className="fi fi-rr-e-learning"></i> About Lasric  </Link>
+
+                <Link to = '/apply' className='dashboard_link'> <i className="fi fi-rr-flag"></i> Callups  </Link>
+
+                <Link to = '/gallery' className='dashboard_link'> <i className="fi fi-rr-picture"></i> Gallery  </Link>
+
+
+                <div className="account-pindrop">
+
+                    <div className="holder-acc">
+
+                        <div className="hold-1"></div>
+                        <div className="hold-2"> { currentUser.firstname.split('')[0] }{ currentUser.lastname.split('')[0] }  </div>
+
+                    </div>
+
+                    <p>{currentUser.firstname || ''} {currentUser.lastname || ''}</p>
+
+                </div>
+
+
+            </div> : null
+            }
                     
             <div className="main-content-dashboard">
                
@@ -228,7 +239,7 @@ const Dashboard = ({currentUser}) => {
                 <div className="header-dashboard">
                 
                     <div className="lasricLogo">
-                        <img src={LasricLogo} alt="logo" />
+                        <div className="las_logo"><img src={LasricLogo} alt="logo" /></div>
                     </div>
 
                     <div className="account-place">
@@ -242,7 +253,11 @@ const Dashboard = ({currentUser}) => {
                         <div className="line-arr"></div>
                         <div className="applyNow" onClick={ () => authOut() } > Sign Out </div>
 
+                        <div className="burgerHome" onClick={() => setBurgerM(!burgerM)}><i class="fi fi-rr-menu-burger"></i></div>
+
                     </div>
+
+                    
                 
                 </div>  
 
@@ -261,7 +276,7 @@ const Dashboard = ({currentUser}) => {
 
                             <div className="star-head"> Applications</div>
                             <div className="line_star"></div>
-                            <div className="value-star"> {app.length} </div>
+                            <div className="value-star"> {statistics.apps.length} </div>
 
                         </div>
 
@@ -269,7 +284,7 @@ const Dashboard = ({currentUser}) => {
 
                             <div className="star-head"> Pending</div>
                             <div className="line_star"></div>
-                            <div className="value-star"> 0 </div>
+                            <div className="value-star"> {statistics.pending.length} </div>
 
                         </div>
 
@@ -277,7 +292,7 @@ const Dashboard = ({currentUser}) => {
 
                             <div className="star-head"> Submitted</div>
                             <div className="line_star"></div>
-                            <div className="value-star">{submitted}</div>
+                            <div className="value-star">  {statistics.submitted.length} </div>
 
                         </div>
 
@@ -300,184 +315,127 @@ const Dashboard = ({currentUser}) => {
                     </div>
 
 
-                    {/* <div className="eventNews">
+                    {/* lower statistics area */}
 
-                        <div className="headtag">
-                            <i className="fi fi-rr-calendar"></i>
-                            Upcoming Events
-                        </div>
+                    <div className="lower_stat">
 
-                        <div className="content-news">
+                        <div className="application_section">
 
-                            <div className="dateBar">
+                            <div className="pending_applicatons">
 
-                                <div className="day">9</div>
-                                <p>mar</p>
+                                <div className="title_name"> <div className="date_icon"><i className="fi fi-rr-file-invoice"> </i></div> Pending Applications ({statistics.pending.length})</div>
+                            
+                                {
+                                    statistics.pending.length ? statistics.pending.map( (data, index) => {
 
-                            </div>
+                                        return (<div className="application" key={index}>
 
-                            <div className="details-news">
+                                            <div className="progress"> 
 
-                                <p>Lasric Webinar</p>
+                                                <Progress width = {`${data.progress}%`} background = "#6c43d5"></Progress>
+                                            
+                                            </div>
 
-                                <div className="topic"> Startup Funding : The LASRIC Solution <i className="fi fi-rr-small-right"></i>  <a href = 'https://lasric.lagosstate.gov.ng/webinar' target="_blank" >View Details</a> </div>
+                                            <div className="keyStat">
 
-                                <p className='countdown'> {countdown.days} Days {countdown.hours} Hours {countdown.minutes} Mins {countdown.seconds} Secs  </p>
+                                                <div className="title"> LASRIC {data.track.toUpperCase()} APPLICATION ({data.progress}%)</div>
+                                                <a href = { `/application/cohort5/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`} className="viewIcon"> <i className="fi fi-sr-eye"></i> </a>
 
-                            </div>
+                                            </div>
+                                            {/* <div className="app_action"> View </div> */}
 
-                        </div>
-
-                    </div> */}
-
-                    {/* <div className="timeline">
-
-                        <div className="timeline-days">You Have {remainingDays} Days Till Deadline</div>
-
-                        <div className="line-time"></div>
-
-                        <div className="timex">
-
-                            <div className="time t1">
-
-                                <div className="time-content date-content"> February 1, 2022 </div>
-
-                                <div className="ball-line">
-
-                                    <div className="cir"><i className="fi fi-rr-check"></i></div>
-                                    <div className="line-cir"></div>
-
-                                </div>
-
-                                <div className="time-content"> Cohort 4 Call for Applications </div>
-
-                            </div>
-
-                            <div className="time t1">
-
-                                <div className="time-content date-content"> March 9, 2022 </div>
-
-                                <div className="ball-line">
-
-                                    <div className="cir"></div>
-                                    <div className="line-cir"></div>
+                                        </div>)
+                                        
+                                    } ) : (
                                     
-                                </div>
+                                        <div className="null_effect">
 
-                                <div className="time-content"> LASRIC Webinar, Startup Funding </div>
+                                            <SethAnimation jsonSrc={"https://assets1.lottiefiles.com/private_files/lf30_cgfdhxgx.json"} lottieStyle = {{width: '120px', height: '120px'}} speed={"1"} />
 
-                            </div>
+                                            You have no pending applications here
 
-                            <div className="time t1">
-
-                                <div className="time-content date-content"> March 20, 2022 </div>
-
-                                <div className="ball-line">
-
-                                    <div className="cir"></div>
-                                    <div className="line-cir"></div>
-                                    
-                                </div>
-
-                                <div className="time-content"> Submitted Applications Grading Begins </div>
-
-                            </div>
-
-                            <div className="time t1">
-
-                                <div className="time-content date-content"> March 31, 2022 </div>
-
-                                <div className="ball-line">
-
-                                    <div className="cir"></div>
-                                    <div className="line-cir"></div>
-                                    
-                                </div>
-
-                                <div className="time-content"> Cohort 4 - Innovation & Stem Applications Closed </div>
-
-                            </div>
-
-                        </div>
-
-                    </div> */}
-
-
-                    {/* Messages Part */}
-
-                    {/* <div className="messages-inapp">
-
-                        <div className="titleSide">
-
-                            <i className="fi fi-rr-comment"></i>
-                           Recent Notifications (2)
-
-                        </div>
-
-                        <div className="data_area">
-
-
-                            <div className="my-message">
-
-                                <div className="contentful">
-
-                                    <div className="subject">Welcome to LASRIC </div>
-
-                                    <div className="content">
-                                        Hi, {currentUser.firstname} i am glad to welcome you on board.
-                                        Enhance Lagos with your ideas and innovation today. Apply Today, we are waiting.
-                                    </div>
-
-                                    <div className="author">
-
-                                        <div className="pict">
-                                            <img src="https://pbs.twimg.com/profile_images/1221390995742449664/OY8kFHGT_400x400.jpg" alt="alake photo" />
                                         </div>
-
-                                       <div className="names">
-
-                                        Tunbosun Alake,
-                                            <p>SA, Innovation & Tech, Lagos State</p>
-
-                                       </div>
-                                    </div>
-
-
-                                </div>
-
-                                <div className="contentful">
-
-                                    <img src="" alt="" />
-
-                                    <div className="subject">Introducing Dashboard v2.0 🥁💥 </div>
-
-                                    <div className="content">
-                                    The LASRIC product team went back to the drawing sheet to make changes to enhance the overall user experience and subsequent areas of the platform will be updated tailored for your optimum experience  
-                                    </div>
-
-                                    <div className="author">
-
-                                        <div className="pict">
-                                            <img src={lasricicon} alt="alake photo" />
-                                        </div>
-
-                                       <div className="names">
-
-                                        Product Team,
-                                            <p>LASRIC</p>
-
-                                       </div>
-                                    </div>
-
-
-                                </div>
+                                    
+                                    )
+                                }
 
                             </div>
 
+                            <div className="pending_applicatons">
+
+                                <div className="title_name"> <div className="date_icon"><i className="fi fi-rr-file-invoice"> </i></div> Submitted Applications ({statistics.submitted.length})</div>
+                            
+                                {
+                                    statistics.submitted.length ? statistics.submitted.map( (data, index) => {
+
+                                        return (<div className="application" key={index}>
+
+                                            <div className="progress submitted"> 
+
+                                                <Progress width = {`${data.progress}%`} background = "#6c43d5"></Progress>
+                                            
+                                            </div>
+
+                                            <div className="keyStat">
+
+                                                <div className="title"> LASRIC {data.track.toUpperCase()} APPLICATION ({data.progress}%)</div>
+                                                <a href = { `/application/cohort5/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`} className="viewIcon"> <i className="fi fi-sr-eye"></i> </a>
+
+                                            </div>
+                                            {/* <div className="app_action"> View </div> */}
+
+                                        </div>)
+                                        
+                                    } ) : (
+                                    
+                                        <div className="null_effect">
+
+                                            <SethAnimation jsonSrc={"https://assets1.lottiefiles.com/private_files/lf30_cgfdhxgx.json"} lottieStyle = {{width: '120px', height: '120px'}} speed={"1"} />
+
+                                            You have no submitted applications here
+
+                                        </div>
+                                    
+                                    )
+                                }
+
+                            </div>
+                        
 
                         </div>
 
-                    </div> */}
+                        <div className="events">
+
+                            <div className="title_name"> <div className="date_icon"><i className="fi fi-rr-calendar"> </i></div> Upcoming Events</div>
+
+                            {/* <div className="event">
+
+                                <div className="event_date">
+                                    <div className="day">29</div>
+                                    <div className="month">JUNE</div>
+                                </div>
+
+                                <div className="event_title"> Raising startup funds for your innovative ideas </div>
+
+                                <div className="event_action"> View Event </div>
+                                
+                            </div> */}
+
+                            <div className="empty_data">
+
+                                <div className="content_empty">
+                                    <img src={none} alt="no event yet" />
+                                </div>
+
+                                <h4>There are no upcoming events yet</h4>
+
+                            </div>
+
+                        </div>
+
+                        
+
+                    </div>
 
 
                 </div>

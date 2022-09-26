@@ -103,64 +103,13 @@ const ApplicationsDash = ({currentUser}) => {
             </div> */}
 
 
-            {
-                showModal ? 
-                
-                <div className="barNew">
-
-                    <div className="BABY">
-
-                        <div className="banner">
-
-                            <img src={banner} alt="" />
-
-                        </div>
-
-                        <div className="textArea">
-
-                            Hello {currentUser.firstname},
-
-                            <div className="headerText"> Introducing Dashboard v2.0 </div>
-
-                            <div className="bodyText">
-                            We noticed that you had a couple of pain points using the LASRIC dashboard platform and this had reduced your level of information access on the dashboard v1.0
-
-                            {<br></br>} {<br></br>}
-
-                            The LASRIC product team went back to the drawing sheet to make changes to enhance the overall user experience and subsequent areas of the platform will be updated tailored for your optimum experience  
-                            </div>
-
-
-                        </div>
-
-                        <div className="activity">
-
-                            <div className="explore_btn" onClick={ ()=> bannerB() }> Explore v2.0 </div>
-
-                            <div className="checkbox">
-
-                                <input type="checkbox" id = 'cheq'/>
-                                Don’t show message again
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div> 
-                
-                : null
-
-            }
+            
             
 
             <div className="menuAreaBar">
 
 
                 <Link to = '/dashboard' className='dashboard_link '> <i className="fi fi-rr-home"></i> Dashboard  </Link>
-
-                <Link to = '/dashboard/applications' className='dashboard_link active-li'> <i className="fi fi-rr-duplicate"></i> My Applications  </Link>
 
                 <Link to = '/people' className='dashboard_link'> <i className="fi fi-rr-user"></i> Council Members  </Link>
 

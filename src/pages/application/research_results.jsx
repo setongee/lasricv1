@@ -33,6 +33,8 @@ const ResearchResults = ({currentUser}) => {
 
     const [tableTR, setTableTR] = useState({activity : []})
 
+    const [progress, setProgress] = useState(0);
+
     //useeffect important
 
     useEffect(() => {
@@ -42,9 +44,15 @@ const ResearchResults = ({currentUser}) => {
             if(response !== null) {
 
                 setForm2(response.data.results.data);
-
-                console.log(response)
                 setLoader(false);
+
+                if( response.data.results.status === "completed" ) {
+
+                    setProgress(response.progress)
+
+                } else {
+                    setProgress ( response.progress + 25 )
+                }
 
             } else {
 
@@ -144,7 +152,7 @@ const ResearchResults = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateResearchResultApplication(appid, form2, cohort)
+        updateResearchResultApplication(appid, form2, cohort, progress)
         
 
     }

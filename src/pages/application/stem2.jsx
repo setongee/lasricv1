@@ -31,6 +31,9 @@ const Stem2 = ({currentUser}) => {
     const userid = currentUser.uid;
 
     const appid = `LASRIC_${callupid}_${userid}`;
+
+    const [progress, setProgress] = useState(0);
+
     //useeffect important
 
     useEffect(() => {
@@ -42,6 +45,14 @@ const Stem2 = ({currentUser}) => {
                 setForm2(response.data.problem.data);
                 setLoader(false);
 
+                if( response.data.problem.status === "completed" ) {
+
+                    setProgress(response.progress)
+
+                } else {
+                    setProgress ( response.progress + 16.67 )
+                }
+
             } else {
 
                 setLoader(false)
@@ -50,8 +61,6 @@ const Stem2 = ({currentUser}) => {
         });
         
     }, []);
-
-    
 
 
     const handleChange = (e) => {
@@ -98,7 +107,9 @@ const Stem2 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateStemApplication(appid, form2, cohort)
+
+
+        updateStemApplication(appid, form2, cohort, progress)
 
         console.log("success")
         

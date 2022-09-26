@@ -33,6 +33,8 @@ const Innovation2 = ({currentUser}) => {
 
     const appid = `LASRIC_${callupid}_${userid}`;
 
+    const [progress, setProgress] = useState(0);
+
     const navigate = useNavigate();
 
     //useeffect important
@@ -45,6 +47,14 @@ const Innovation2 = ({currentUser}) => {
 
                 setForm2(response.data.vision.data);
                 setLoader(false);
+
+                if( response.data.vision.status === "completed" ) {
+
+                    setProgress(response.progress)
+
+                } else {
+                    setProgress ( response.progress + 16.67 )
+                }
 
             } else {
 
@@ -102,7 +112,7 @@ const Innovation2 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateApplication(appid, form2, cohort)
+        updateApplication(appid, form2, cohort, progress)
         .then(() => navigate(`/application/${cohort}/innovation/${callupid}/proposition`));
 
         console.log("success")
@@ -221,7 +231,7 @@ const Innovation2 = ({currentUser}) => {
                                 />
                             </div>
                             
-                            <button className="submitArea" onClick={() => handleSubmit}> Submit & Continue </button>
+                            <button className="submitArea" onClick={() => handleSubmit}> Save & Continue </button>
 
                         </div>
 

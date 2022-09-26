@@ -7,7 +7,7 @@ export const createResearchApplication = async (callid, userid, formData, track,
 
    
 
-    await setDoc(doc(db, "applications_data" , cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, 
+    await setDoc(doc(db, "applications_data" , cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, userid : userid, progress : 25, 
     
     data : {
 
@@ -96,30 +96,33 @@ export const updatePersonalpplication = async (appid, formData, cohort) => {
 
 }
 
-export const updateResearchProject = async (appid, formData, cohort) => {
+export const updateResearchProject = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
      const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "data.project.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.project.status" : "completed" });
 
 }
 
-export const updateResearchResultApplication = async (appid, formData, cohort) => {
+export const updateResearchResultApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "data.results.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.results.status" : "completed" });
 
 }
 
-export const updateBudgetApplication = async (appid, formData, cohort) => {
+export const updateBudgetApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
 
     await updateDoc(documentRef, { "data.budget.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.budget.status" : "completed" });
 
 }

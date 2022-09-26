@@ -12,8 +12,6 @@ const ResearchProject = ({currentUser}) => {
 
     const params = useParams()
 
-    console.log(params);
-
     const [loader, setLoader] = useState(true);
     const [errors, setErrors] = useState([]);
     const [stat, setStat] = useState('pending')
@@ -27,6 +25,8 @@ const ResearchProject = ({currentUser}) => {
 
     const appid = `LASRIC_${callupid}_${userid}`;
 
+    const [progress, setProgress] = useState(0);
+
     //useeffect important
 
     useEffect(() => {
@@ -37,6 +37,14 @@ const ResearchProject = ({currentUser}) => {
 
                 setForm2(response.data.project.data);
                 setLoader(false);
+
+                if( response.data.project.status === "completed" ) {
+
+                    setProgress(response.progress)
+
+                } else {
+                    setProgress ( response.progress + 25 )
+                }
 
             } else {
 
@@ -69,8 +77,6 @@ const ResearchProject = ({currentUser}) => {
                 }
             })
         } 
-        
-        console.log(form2)
     
     } 
 
@@ -94,7 +100,7 @@ const ResearchProject = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateResearchProject(appid, form2, cohort)
+        updateResearchProject(appid, form2, cohort, progress)
 
         console.log("success")
         

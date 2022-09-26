@@ -31,6 +31,9 @@ const Stem5 = ({currentUser}) => {
 
     const appid = `LASRIC_${callupid}_${userid}`;
 
+    const [progress, setProgress] = useState(0);
+
+
     //useeffect important
 
     useEffect(() => {
@@ -41,6 +44,14 @@ const Stem5 = ({currentUser}) => {
 
                 setForm2(response.data.scalability.data);
                 setLoader(false);
+
+                if( response.data.scalability.status === "completed" ) {
+
+                    setProgress(response.progress)
+
+                } else {
+                    setProgress ( response.progress + 16.67 )
+                }
 
             } else {
 
@@ -98,7 +109,7 @@ const Stem5 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateStemScalabilityApplication(appid, form2, cohort)
+        updateStemScalabilityApplication(appid, form2, cohort, progress)
 
         console.log("success")
         

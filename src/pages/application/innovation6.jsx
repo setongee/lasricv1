@@ -32,6 +32,8 @@ const Innovation4 = ({currentUser}) => {
 
     const navigate = useNavigate();
 
+    const [progress, setProgress] = useState(0)
+
     //useeffect important
 
     useEffect(() => {
@@ -42,6 +44,14 @@ const Innovation4 = ({currentUser}) => {
 
                 setForm2(response.data.milestones.data);
                 setLoader(false);
+
+                if( response.data.milestones.status === "completed" ) {
+
+                    setProgress(response.progress)
+
+                } else {
+                    setProgress ( response.progress + 16.67 )
+                }
 
             } else {
 
@@ -94,7 +104,7 @@ const Innovation4 = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateMilestonesApplication(appid, form2, cohort)
+        updateMilestonesApplication(appid, form2, cohort, progress)
 
         console.log("success")
         
@@ -199,7 +209,7 @@ const Innovation4 = ({currentUser}) => {
                             
                             
                             
-                            <button className="submitArea" onClick={() => handleSubmit}> Submit & Continue </button>
+                            <button className="submitArea" onClick={() => handleSubmit}> Save & Continue </button>
 
                         </div>
 

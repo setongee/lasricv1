@@ -36,6 +36,7 @@ const ResearchBudget = ({currentUser}) => {
     const userid = currentUser.uid;
     const appid = `LASRIC_${callupid}_${userid}`;
 
+    const [progress, setProgress] = useState(0);
 
     //useeffect important
 
@@ -46,9 +47,15 @@ const ResearchBudget = ({currentUser}) => {
             if(response !== null) {
 
                 setForm2(response.data.budget.data);
-
-                console.log(response)
                 setLoader(false);
+
+                if( response.data.budget.status === "completed" ) {
+
+                    setProgress(response.progress)
+
+                } else {
+                    setProgress ( response.progress + 25 )
+                }
 
             } else {
 
@@ -192,7 +199,7 @@ const ResearchBudget = ({currentUser}) => {
 
     const successSubmit = () => {
 
-        updateBudgetApplication(appid, form2, cohort)
+        updateBudgetApplication(appid, form2, cohort, progress)
 
     }
 

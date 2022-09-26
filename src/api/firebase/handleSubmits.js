@@ -6,7 +6,7 @@ import axios from 'axios'
 
 export const createApplication = async (callid, userid, formData, track, cohort) => {
 
-    await setDoc(doc(db, "applications_data", cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, 
+    await setDoc(doc(db, "applications_data", cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, userid : userid, progress : 16.67, 
     
     data : {
 
@@ -114,6 +114,7 @@ export const submitApplication = async (appid, callid, userid, track, firstname,
 
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "submitted" : true });
+    await updateDoc(documentRef, { "progress" : 100 });
 
     const data = {userid : currentUser.uid, email : currentUser.email, firstname : firstname, track : track}
     console.log(data)
@@ -133,7 +134,7 @@ const addToSubmitted = async (callid, userid, track, firstname, lastname, cohort
 
 }
 
-export const updateApplication = async (appid, formData, cohort) => {
+export const updateApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
@@ -141,11 +142,12 @@ export const updateApplication = async (appid, formData, cohort) => {
 
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "data.vision.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.vision.status" : "completed" });
 
 }
 
-export const updateEconomicsApplication = async (appid, formData, cohort) => {
+export const updateEconomicsApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
@@ -153,11 +155,12 @@ export const updateEconomicsApplication = async (appid, formData, cohort) => {
 
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "data.economics.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.economics.status" : "completed" });
 
 }
 
-export const updateMilestonesApplication = async (appid, formData, cohort) => {
+export const updateMilestonesApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
@@ -165,11 +168,12 @@ export const updateMilestonesApplication = async (appid, formData, cohort) => {
 
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "data.milestones.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.milestones.status" : "completed" });
 
 }
 
-export const updateOrganizationApplication = async (appid, formData, cohort) => {
+export const updateOrganizationApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
@@ -177,11 +181,12 @@ export const updateOrganizationApplication = async (appid, formData, cohort) => 
 
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "data.organization.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.organization.status" : "completed" });
 
 }
 
-export const updatePropositionApplication = async (appid, formData, cohort) => {
+export const updatePropositionApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
@@ -189,11 +194,12 @@ export const updatePropositionApplication = async (appid, formData, cohort) => {
 
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "data.proposition.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.proposition.status" : "completed" });
 
 }
 
-export const updatePersonalApplication = async (appid, formData, cohort) => {
+export const updatePersonalApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
@@ -201,6 +207,7 @@ export const updatePersonalApplication = async (appid, formData, cohort) => {
 
     const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.personal.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.personal.status" : "completed" });
 
 }

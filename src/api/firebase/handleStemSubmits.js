@@ -5,7 +5,7 @@ import axios from "axios";
 
 export const createStemApplication = async (callid, userid, formData, track, cohort) => {
 
-    await setDoc(doc(db, "applications_data", cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, 
+    await setDoc(doc(db, "applications_data", cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, userid : userid, progress : 16.67, 
     
     data : {
 
@@ -85,7 +85,7 @@ export const submitStemApplication = async (appid, callid, userid, track, firstn
 
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "submitted" : true });
-
+    await updateDoc(documentRef, { "progress" : 100 });
     await axios.post('/api/sendEmail', {email : currentUser.email, firstname : firstname, track : track, userid : currentUser.uid});
 
     //await updateCallupApplications(callid, `LASRIC_${callid}_${userid}`);
@@ -101,61 +101,67 @@ const addToSubmitted = async (callid, userid, track, firstname, lastname, cohort
 
 }
 
-export const updateStemApplication = async (appid, formData, cohort) => {
+export const updateStemApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
     const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.problem.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.problem.status" : "completed" });
 
 }
 
-export const updateStemRelevanceApplication = async (appid, formData, cohort) => {
+export const updateStemRelevanceApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
     const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.relevance.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.relevance.status" : "completed" });
 
 }
 
-export const updateStemImpactApplication = async (appid, formData, cohort) => {
+export const updateStemImpactApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
     const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.impact.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.impact.status" : "completed" });
 
 }
 
-export const updateStemExperienceApplication = async (appid, formData, cohort) => {
+export const updateStemExperienceApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
     const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.experience.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.experience.status" : "completed" });
 
 }
 
-export const updateStemScalabilityApplication = async (appid, formData, cohort) => {
+export const updateStemScalabilityApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
     const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.scalability.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.scalability.status" : "completed" });
 
 }
 
-export const updateStemPersonalApplication = async (appid, formData, cohort) => {
+export const updateStemPersonalApplication = async (appid, formData, cohort, progress) => {
 
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
     const documentRef = doc(db, "applications_data", cohort, "applications", appid);
     await updateDoc(documentRef, { "data.personal.data" : formData });
+    await updateDoc(documentRef, { "progress" : progress });
     await updateDoc(documentRef, { "data.personal.status" : "completed" });
 
 }

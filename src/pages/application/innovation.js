@@ -735,7 +735,7 @@ const Innovation = ({currentUser}) => {
                     {
                         stat === "pending" ? 
                         <button id="form-proceed" onClick={handleSubmit}>
-                            Proceed
+                            Save & Proceed
                         </button> :
                         <button id="form-proceed completed" style={{backgroundColor : "green"}} onClick={(e) => e.preventDefault()} >
                             Submitted
