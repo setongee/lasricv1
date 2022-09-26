@@ -86,7 +86,7 @@ export const submitStemApplication = async (appid, callid, userid, track, firstn
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "submitted" : true });
     await updateDoc(documentRef, { "progress" : 100 });
-    await axios.post('/api/sendEmail', {email : currentUser.email, firstname : firstname, track : track, userid : currentUser.uid});
+    // await axios.post('/api/sendEmail', {email : currentUser.email, firstname : firstname, track : track, userid : currentUser.uid});
 
     //await updateCallupApplications(callid, `LASRIC_${callid}_${userid}`);
 

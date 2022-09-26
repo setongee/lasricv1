@@ -141,10 +141,10 @@ const Dashboard = ({currentUser}) => {
     position: absolute;
     transition: all .4s ease-in-out;`
 
-    const authOut = async () => {
+    const authOut = () => {
 
         console.log('Signing Out...')
-        await signOut(auth).then(() => navigate('/login') )
+        signOut(auth).then(() => window.location.reload(true) )
 
     }
 

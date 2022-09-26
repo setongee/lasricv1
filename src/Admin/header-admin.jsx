@@ -1,7 +1,18 @@
 import React from 'react';
 import Logo from '../assets/svg/lasric_logo.svg'
 
+import { signOut, getAuth } from 'firebase/auth';
+
 const HeaderAdmin = ({user}) => {
+
+    const auth = getAuth()
+
+    const authOut = () => {
+
+        console.log('Signing Out...')
+        signOut(auth).then(() => window.location.reload(true) )
+
+    }
 
     return (
 
@@ -23,10 +34,12 @@ const HeaderAdmin = ({user}) => {
                     {user.firstname.split("")[0]}
                     {user.lastname.split("")[0]}
                 </div>
-
+{/* 
                 <div className="icon">
-                <i className="fi fi-rr-angle-small-down"></i>
-                </div>
+                    <i className="fi fi-rr-angle-small-down"></i>
+                </div> */}
+
+                <div className="dropdownAuth" onClick={() => authOut() } >Sign Out</div>
 
             </div>
 
