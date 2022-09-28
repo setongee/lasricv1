@@ -11,6 +11,7 @@ import { EditorState, convertToRaw, draftToHtml, convertFromRaw } from 'draft-js
 import { Editor } from 'react-draft-wysiwyg';
 import { setCouncilDocument } from '../api/firebase/auth';
 import { setCouncilInfomation, addNewCouncil } from '../api/firebase/admin/admin_applications';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const Councilmemberlisting = () => {
 
@@ -19,7 +20,21 @@ const Councilmemberlisting = () => {
 
         firstname : "",
         lastname : '',
-        img : '',
+        img : 'https://www.seekpng.com/png/detail/514-5147412_default-avatar-icon.png',
+        email : '',
+        psw : '',
+        track : [],
+        uid : '',
+        profile : "",
+        internal : true
+
+    }
+
+    const defaultData = {
+
+        firstname : "",
+        lastname : '',
+        img : 'https://www.seekpng.com/png/detail/514-5147412_default-avatar-icon.png',
         email : '',
         psw : '',
         track : [],
@@ -40,6 +55,23 @@ const Councilmemberlisting = () => {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [internal, setInternal] = useState(previewData.internal)
     const [successModal, setSuccessModal] = useState(false);
+    const [content, setContent] = useState( "" )
+
+    const handleFileChange = e => {
+
+        const image = document.getElementById("profilePix")
+        image.src = URL.createObjectURL(e.target.files[0])
+        setContent(e.target.files[0]);
+
+    }
+
+    const handleFileUpload = () => {
+
+        const fileInput = document.getElementById("contentImage")
+        console.log(fileInput);
+        fileInput.click();
+
+    }
 
 
     const onEditorStateChange = (editorState) => {
@@ -124,6 +156,41 @@ const Councilmemberlisting = () => {
 
     const [newCouncil, setNewCouncil] = useState({})
 
+    const uploading = () => {
+
+        const storage = getStorage();
+        const storageRef = ref(storage, `council / ${previewData.firstname} /  council_${previewData.firstname}_${previewData.lastname}` );
+    
+            //uploading to firebase begins
+            uploadBytes(storageRef, content)
+            .then( () => {
+    
+                getDownloadURL(storageRef)
+                .then( url => {
+                    
+                    setPreviewData( {...previewData, img : url } );
+
+                    addNewCouncil( {...previewData, img : url }).then(() => {
+
+                        setSuccessModal(true);
+            
+                        setNewCouncil(previewData);
+            
+                        setTimeout(() => {
+            
+                            setSuccessModal(false);
+                            closePreviewUser()
+                            
+                        }, 1000);
+            
+                    })
+                    
+                })
+                
+            });       
+
+    }
+
 
     const submitCouncilInfo = async () => {
 
@@ -131,21 +198,9 @@ const Councilmemberlisting = () => {
         addTrackCouncil();
         editorFinished();
         previewData.internal = internal;
+        uploading();
 
-        addNewCouncil(previewData).then(() => {
-
-            setSuccessModal(true);
-
-            setNewCouncil(previewData);
-
-            setTimeout(() => {
-
-                setSuccessModal(false);
-                closePreviewUser()
-                
-            }, 1000);
-
-        })
+        
 
     }
 
@@ -181,7 +236,7 @@ const Councilmemberlisting = () => {
 
                             <div className="profileImageContainer">
 
-                                <div className="profileImage"><img src={previewData.img} alt="council member Image" /></div>
+                            <div className="profileImage" onClick={() => handleFileUpload()}><img id = "profilePix" src={previewData.img} alt="council member Image" /></div>
                                 
                                 <div className="councilName"> 
 
@@ -204,6 +259,10 @@ const Councilmemberlisting = () => {
 
                                     <p>External</p>
 
+                                </div>
+
+                                <div className="tap">
+                                    Tap to edit
                                 </div>
 
                             </div>
@@ -232,8 +291,10 @@ const Councilmemberlisting = () => {
                                     <input type="text" placeholder='Enter Council Linkedin Profile URL' value={previewData.linkedin} name='linkedin' id='linkedin' onChange={councilOnchange}/>
                                 </div>
 
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Profile Image URL' value={previewData.img} name='img' id='img' onChange={councilOnchange}/>
+                                <div className="inputForm hide">
+
+                                    <input type="file" accept="image/png, image/jpeg" id = "contentImage" onChange={handleFileChange} />
+
                                 </div>
 
                                 <div className="select-box">

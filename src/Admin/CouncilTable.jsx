@@ -276,8 +276,6 @@ const CouncilMember = ({check, newCouncil}) => {
 
     }
 
-    console.log(previewData);
-
     
     return (
 
