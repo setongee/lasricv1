@@ -10,6 +10,8 @@ import { EditorState, convertToRaw, draftToHtml, convertFromRaw } from 'draft-js
 import { Editor } from 'react-draft-wysiwyg';
 import { setCouncilDocument } from '../api/firebase/auth';
 import { setCouncilInfomation, deleteFunction } from '../api/firebase/admin/admin_applications';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 
 
 const CouncilMember = ({check, newCouncil}) => {
@@ -45,18 +47,32 @@ const CouncilMember = ({check, newCouncil}) => {
     const [editorState, setEditorState] = useState({});
     const [internal, setInternal] = useState(previewData.internal)
     const [successModal, setSuccessModal] = useState(false);
-    const [newModel, setNewModel] = useState({})
+    const [newModel, setNewModel] = useState({});
+    const [content, setContent] = useState( "" )
 
+    const handleFileChange = e => {
+
+        const image = document.getElementById("profilePix")
+        image.src = URL.createObjectURL(e.target.files[0])
+        setContent(e.target.files[0]);
+
+    }
+
+    const handleFileUpload = () => {
+
+        const fileInput = document.getElementById("contentImage")
+        console.log(fileInput);
+        fileInput.click();
+
+    }
 
     useEffect(() => {
         
         councilStack.councils.then(e => setData(e));
-
-    }, [newCouncil, newModel]);
-
+        
+    }, [newCouncil, newModel, previewData]);
 
     //console.log(previewData);
-
 
     const onEditorStateChange = (editorState) => {
 
@@ -192,26 +208,50 @@ const CouncilMember = ({check, newCouncil}) => {
 
     }
 
+    const uploading = () => {
+
+        const storage = getStorage();
+        const storageRef = ref(storage, `council / ${previewData.firstname} /  council_${previewData.firstname}_${previewData.lastname}` );
+    
+            //uploading to firebase begins
+            uploadBytes(storageRef, content)
+            .then( () => {
+    
+                getDownloadURL(storageRef)
+                .then( url => {
+                    
+                    setPreviewData( {...previewData, img : url } );
+
+                    setCouncilInfomation(previewData.uid, {...previewData, img : url }).then(() => {
+
+                        setSuccessModal(true);
+            
+                        setTimeout(() => {
+            
+                            setSuccessModal(false);
+                            closePreviewUser()
+                            
+                        }, 1000);
+            
+                    })
+                    
+                })
+                
+            });       
+
+    }
+
 
     const submitCouncilInfo = async () => {
 
         //setCouncilDocument(data.uid, data)
+        uploading()
         addTrackCouncil();
         editorFinished();
         previewData.internal = internal;
         console.log(previewData)
-        setCouncilInfomation(previewData.uid, previewData).then(() => {
-
-            setSuccessModal(true);
-
-            setTimeout(() => {
-
-                setSuccessModal(false);
-                closePreviewUser()
-                
-            }, 1000);
-
-        })
+        
+        
 
     }
 
@@ -262,7 +302,7 @@ const CouncilMember = ({check, newCouncil}) => {
 
                             <div className="profileImageContainer">
 
-                                <div className="profileImage"><img src={previewData.img} alt="council member Image" /></div>
+                                <div className="profileImage" onClick={() => handleFileUpload()}><img id = "profilePix" src={previewData.img} alt="council member Image" /></div>
                                 
                                 <div className="councilName"> 
 
@@ -288,7 +328,9 @@ const CouncilMember = ({check, newCouncil}) => {
 
                                 </div>
 
-                                
+                                <div className="tap">
+                                    Tap to edit
+                                </div>
 
                             </div>
 
@@ -308,8 +350,10 @@ const CouncilMember = ({check, newCouncil}) => {
                                     <input type="email" placeholder='Enter Council Valid Email Address' value={previewData.email} name='email' id='email' onChange={councilOnchange}/>
                                 </div>
 
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Image Url' value={previewData.img} name='img' id='img' onChange={councilOnchange}/>
+                                <div className="inputForm hide">
+
+                                    <input type="file" accept="image/png, image/jpeg" id = "contentImage" onChange={handleFileChange} />
+
                                 </div>
 
                                 <div className="inputForm">
