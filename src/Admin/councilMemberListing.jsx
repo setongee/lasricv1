@@ -236,7 +236,7 @@ const Councilmemberlisting = () => {
 
                             <div className="profileImageContainer">
 
-                            <div className="profileImage" onClick={() => handleFileUpload()}><img id = "profilePix" src={previewData.img} alt="council member Image" /></div>
+                            <div className="profileImage" onClick={() => handleFileUpload() }><img id = "profilePix" src={previewData.img} alt="council member Image" /></div>
                                 
                                 <div className="councilName"> 
 
@@ -293,7 +293,7 @@ const Councilmemberlisting = () => {
 
                                 <div className="inputForm hide">
 
-                                    <input type="file" accept="image/png, image/jpeg" id = "contentImage" onChange={handleFileChange} />
+                                    <input type="file" accept="image/png, image/jpeg" id = "contentImage" onChange={handleFileChange} hidden />
 
                                 </div>
 

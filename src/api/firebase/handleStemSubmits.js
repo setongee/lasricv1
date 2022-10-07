@@ -3,9 +3,9 @@ import { db } from "./config";
 import { data } from "./new-data";
 import axios from "axios";
 
-export const createStemApplication = async (callid, userid, formData, track, cohort) => {
+export const createStemApplication = async (callid, userid, formData, track, cohort, email, phone) => {
 
-    await setDoc(doc(db, "applications_data", cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, userid : userid, progress : 16.67, 
+    await setDoc(doc(db, "applications_data", cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, userid : userid, progress : 16.67, email, phone, 
     
     data : {
 
@@ -86,17 +86,32 @@ export const submitStemApplication = async (appid, callid, userid, track, firstn
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
     await updateDoc(documentRef, { "submitted" : true });
     await updateDoc(documentRef, { "progress" : 100 });
-    // await axios.post('/api/sendEmail', {email : currentUser.email, firstname : firstname, track : track, userid : currentUser.uid});
 
-    //await updateCallupApplications(callid, `LASRIC_${callid}_${userid}`);
+    await addToSubmitted(callid, userid, track, firstname, lastname, cohort, company, appid, currentUser.email, currentUser.phone);
 
-    await addToSubmitted(callid, userid, track, firstname, lastname, cohort, company, appid);
+    await axios.post('/api/sendEmail', {email : currentUser.email, firstname : firstname, track : track, userid : currentUser.uid});
 
 }
 
-const addToSubmitted = async (callid, userid, track, firstname, lastname, cohort, company, appid) => {
+const addToSubmitted = async (callid, userid, track, firstname, lastname, cohort, company, appid, email, phone) => {
 
-    await setDoc(doc(db, "submitted_applications_beta", cohort, "applications", appid), {...data.application, uid : userid , track, firstname, lastname, dateSubmitted : new Date, avgGrade : 0, grade_export : '0%', companySector : company , grades : {}, status : 'pending', callID : callid } )
+    await setDoc(doc(db, "submitted_applications_beta", cohort, "applications", appid), 
+    { 
+        ...data.application, 
+        uid : userid , 
+        track, 
+        firstname, 
+        lastname, 
+        dateSubmitted : new Date, 
+        avgGrade : 0, 
+        grade_export : '0%', 
+        companySector : company , 
+        grades : {}, 
+        status : 'pending', 
+        callID : callid,  
+        email,
+        phone
+    } )
 
 
 }

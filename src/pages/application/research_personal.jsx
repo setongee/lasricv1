@@ -89,7 +89,7 @@ const ResearchPersonal = ({currentUser}) => {
         if(stat === 'pending') {
 
 
-            await createResearchApplication(callupid, userid, form2, track, cohort).then(()=>{
+            await createResearchApplication(callupid, userid, form2, track, cohort, currentUser.email, currentUser.phone).then(()=>{
                 
                 window.localStorage.setItem("appid", true)
     

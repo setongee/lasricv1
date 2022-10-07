@@ -3,7 +3,9 @@ const path = require('path');
 const cors = require("cors")
 const nodemailer = require("nodemailer");
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey("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");
+require('dotenv').config()
+
+sgMail.setApiKey(process.env.REACT_APP_SENDGRID_API_KEY);
 
 const hbs = require('nodemailer-express-handlebars');
 
@@ -25,7 +27,7 @@ app.post('/api/sendemail', (req,res)=>{
 
   const msg = {
     to: req.body.email,
-    from: 'lasric@feather.africa', 
+    from: 'lasricportal@gmail.com', 
     subject: 'LASRIC Application Submitted!!!',
     html: ` <div> 
     
@@ -50,19 +52,31 @@ app.post('/api/sendemail', (req,res)=>{
         console.error(error.response.body)
       }
     });
-  //ES8
-  (async () => {
-    try {
-      await sgMail.send(msg);
-    } catch (error) {
+})
+
+
+app.post('/api/sendemails', (req,res)=>{
+
+  const msg = [
+
+    {
+      to: req.body.emails,
+      from: 'lasricportal@gmail.com', 
+      subject: req.body.subject,
+      html: req.body.html
+    }
+
+  ]
+
+  sgMail
+    .sendMultiple(msg)
+    .then(() => {}, error => {
       console.error(error);
   
       if (error.response) {
         console.error(error.response.body)
       }
-    }
-  })();
-
+    });
 
 })
 

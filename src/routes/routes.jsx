@@ -77,6 +77,7 @@ import ResearchPersonal from '../pages/application/research_personal';
 import ResearchProject from '../pages/application/research_project';
 import ResearchResults from '../pages/application/research_results';
 import ResearchBudget from '../pages/application/research_budget';
+import Messaging from '../Admin/messaging/messaging';
 
 const Router = ({user}) => {
 
@@ -220,6 +221,10 @@ const Router = ({user}) => {
                         <Route path = 'cohort' element = { <Cohort /> } />
 
                     </Route>
+
+                    {/* Messaging Pages */}
+
+                    <Route path = 'messages' element = { <Messaging /> } />
   
                 </Route>
 

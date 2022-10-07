@@ -4,9 +4,9 @@ import { data } from "./new-data";
 
 import axios from 'axios'
 
-export const createApplication = async (callid, userid, formData, track, cohort) => {
+export const createApplication = async (callid, userid, formData, track, cohort, email, phone) => {
 
-    await setDoc(doc(db, "applications_data", cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, userid : userid, progress : 16.67, 
+    await setDoc(doc(db, "applications_data", cohort, "applications", `LASRIC_${callid}_${userid}`), {...data.application, track : track, uid : `LASRIC_${callid}_${userid}`, userid : userid, progress : 16.67, email, phone, 
     
     data : {
 
@@ -117,19 +117,19 @@ export const submitApplication = async (appid, callid, userid, track, firstname,
     await updateDoc(documentRef, { "progress" : 100 });
 
     const data = {userid : currentUser.uid, email : currentUser.email, firstname : firstname, track : track}
-    console.log(data)
-
-    await axios.post('/api/sendemail', data);
+    //console.log(data)
 
     //await updateCallupApplications(callid, `LASRIC_${callid}_${userid}`);
 
-    await addToSubmitted(callid, userid, track, firstname, lastname, cohort, company, appid);
+    await addToSubmitted(callid, userid, track, firstname, lastname, cohort, company, appid, currentUser.email, currentUser.phone);
+
+    await axios.post('/api/sendemail', data);
 
 }
 
-const addToSubmitted = async (callid, userid, track, firstname, lastname, cohort, company, appid) => {
+const addToSubmitted = async (callid, userid, track, firstname, lastname, cohort, company, appid, email, phone) => {
 
-    await setDoc(doc(db, "submitted_applications_beta", cohort, "applications", appid), {...data.application, uid : userid , track, firstname, lastname, dateSubmitted : new Date, avgGrade : 0, grade_export : '0%', companySector : company , grades : {}, status : 'pending', callID : callid } )
+    await setDoc(doc(db, "submitted_applications_beta", cohort, "applications", appid), {...data.application, uid : userid , track, firstname, lastname, dateSubmitted : new Date, avgGrade : 0, grade_export : '0%', companySector : company , grades : {}, status : 'pending', callID : callid, email, phone } )
 
 
 }

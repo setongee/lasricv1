@@ -89,7 +89,7 @@ const Stem1 = ({currentUser}) => {
 
         if(stat === 'pending') {
 
-            await createStemApplication(callupid, userid, form2, track, cohort, 16.67).then(()=>{
+            await createStemApplication(callupid, userid, form2, track, cohort, 16.67, currentUser.email, currentUser.phone).then(()=>{
                 
                 window.localStorage.setItem("appid", true)
     

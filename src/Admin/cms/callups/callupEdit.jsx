@@ -8,6 +8,7 @@ import { Editor } from 'react-draft-wysiwyg';
 import { setLandingDetails, getCMSData, addCallupsDetails, editCallup, updateCallup } from '../../../api/firebase/admin/cms';
 import SethAnimation from '../../../components/lottie/seth-animation';
 import { getCurrentCohortNumber } from '../../../api/firebase/admin/admin_applications';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const CallupEdit = () => {
 
@@ -33,6 +34,23 @@ const CallupEdit = () => {
     const [openPreviewModal, setPreviewModal] = useState(false);
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState(false)
+    const [content, setContent] = useState( "" )
+
+    const handleFileChange = e => {
+
+        const image = document.getElementById("callup_img")
+        image.src = URL.createObjectURL(e.target.files[0])
+        setContent(e.target.files[0]);
+
+    }
+
+    const handleFileUpload = () => {
+
+        const fileInput = document.getElementById("callupPhoto")
+        console.log(fileInput);
+        fileInput.click();
+
+    }
 
 
     const handleChange = e => {
@@ -103,6 +121,60 @@ const CallupEdit = () => {
         data.description = raw
 
     }
+
+    const uploading = () => {
+
+        const storage = getStorage();
+        const storageRef = ref( storage, `cms / callups / cms_callup_${data.title}` );
+    
+            //uploading to firebase begins
+            uploadBytes(storageRef, content)
+            .then( () => {
+    
+                getDownloadURL(storageRef)
+                .then( url => {
+
+                    //the cms details is updated here
+                    updateCallup( `cohort${data.cohortNum}`, params.id, {...data, image : url} ).then( () => {
+
+                        //alert the action has been saved
+                        setLoading(false)
+
+                        setTimeout(() => {
+
+                            setAlert(true)
+                            
+                            setTimeout(() => {
+
+                                const alert = document.querySelector('.alertSuccess');
+                                alert.style.right = '0px'
+                                
+                            }, 100);
+                            
+                        }, 100);
+
+                        setTimeout(() => {
+
+                            const alert = document.querySelector('.alertSuccess');
+                            alert.style.right = '-400px'
+                            
+                            setTimeout(() => {
+
+                                setAlert(false)
+                                
+                            }, 1000);
+
+                            Navigate('/admin/content/callups')
+                            
+                        }, 4000);
+
+                    } )
+                    
+                })
+                
+            });       
+
+    }
       
 
     const submitForm = () => {
@@ -114,41 +186,7 @@ const CallupEdit = () => {
         //editor area is added to content parameter
         editorFinished();
 
-        //the cms details is updated here
-        updateCallup( `cohort${data.cohortNum}`, params.id, data ).then( () => {
-
-            //alert the action has been saved
-            setLoading(false)
-
-            setTimeout(() => {
-
-                setAlert(true)
-                
-                setTimeout(() => {
-
-                    const alert = document.querySelector('.alertSuccess');
-                    alert.style.right = '0px'
-                    
-                }, 100);
-                
-            }, 100);
-
-            setTimeout(() => {
-
-                const alert = document.querySelector('.alertSuccess');
-                alert.style.right = '-400px'
-                
-                setTimeout(() => {
-
-                    setAlert(false)
-                    
-                }, 1000);
-
-                Navigate('/admin/content/callups')
-                
-            }, 4000);
-
-        } )
+        uploading();
 
     }
     
@@ -261,8 +299,9 @@ const CallupEdit = () => {
 
                 <div className="preview_cms_card">
 
-                    <div className="callup_img">
-                        <img src={data.image} alt="callup image" />
+                    <div className="callup_img"  onClick={ () => handleFileUpload() }>
+                        <img src={data.image} alt="callup image" id = "callup_img" />
+                        <div className="tapEdit">Tap to Edit</div>
                     </div>
 
                     <div className="details_pin">
@@ -297,7 +336,7 @@ const CallupEdit = () => {
 
                             <div className="cms-input-holder">
                                 
-                                <input type="text" className="cms-input" name = 'image' id='image' placeholder='Enter Callup Image URL' onChange={ handleChange } value = {data.image} />
+                                <input type="file" accept="image/png, image/jpeg" id = "callupPhoto" onChange={handleFileChange} hidden />
 
                                 <input type="text" className="cms-input" name = 'title' id='title' placeholder='Enter Calliup Title' onChange={ handleChange } value = {data.title} />
 

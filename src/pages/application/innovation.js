@@ -210,7 +210,7 @@ const Innovation = ({currentUser}) => {
 
         if(stat === 'pending') {
 
-            await createApplication(callupid, userid, form1, track, cohort ).then(()=>{
+            await createApplication(callupid, userid, form1, track, cohort, currentUser.email, currentUser.phone ).then(()=>{
                 
                 window.localStorage.setItem("appid", true);
     

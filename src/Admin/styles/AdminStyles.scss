@@ -978,3 +978,202 @@
     margin-left: 10px;
     cursor: pointer;
 }
+
+.messageBox{
+
+    display: flex;
+    margin-top: 30px;
+    background-color: #fff;
+    box-shadow: 3px 5px 30px rgba($color: #000, $alpha: .05);
+    height: 570px;
+    border-radius: 15px;
+
+    .messageOutbox, .message_send{
+
+        .email_listing{
+            overflow: auto;
+            height: 430px;
+        }
+
+        .headingTap{
+            padding: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            border-bottom: 1px solid whitesmoke;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+
+            .fi{
+                margin-right: 10px;
+                margin-top: 2px;
+            }
+        }
+
+        .stats_counter{
+            font-size: 10px;
+            background-color: #f7eeff;
+            width: max-content;
+            border-radius: 100px;
+            padding: 10px 15px;
+            margin: 20px auto;
+            margin-bottom: 10px;
+        }
+
+        .email{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 25px;
+            border-bottom: 1px solid whitesmoke;
+            padding-bottom: 25px;
+            cursor: pointer;
+
+            &:last-child{
+                border: none;
+            }
+            
+            .nameInit{
+                width: 35px;
+                height: 35px;
+                border-radius: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #d0ede7;
+                font-size: 13px;
+                color: #007e65;
+                font-weight: bold;
+            }
+
+            &:nth-child(2n) {
+                .nameInit{
+                    background-color: #e2d0ed;
+                    color: #5a007e;
+                }
+            }
+
+            .emailBar{
+                width: calc(100% - 55px);
+
+                .subject_email{
+                    font-size: 12px;
+                    font-weight: bold;
+                    color: #444;
+                }
+
+                .body_email{
+                    font-size: 12px;
+                    color: #777;
+                }
+
+            }
+            
+        }
+    }
+
+    .message_send, .messageOutbox{
+        padding: 20px 0 20px 20px;
+        width: 49%;
+    }
+
+    .message_send{
+
+        .sendNewMessage{
+
+            margin-top: 20px;
+
+            .recipient{
+                width: 100%;
+
+                select{
+                    width: 100%;
+                    padding: 10px 15px;
+                    border-radius: 5px;
+                    border: 1px solid whitesmoke;
+                    outline: none;
+                    font-size: 12px;
+
+                }
+            }
+
+            .subject{
+                margin: 10px 0;
+
+                input{
+                    width: 100%;
+                    border-radius: 5px;
+                    border: 1px solid whitesmoke;
+                    outline: none;
+                    padding: 10px 15px;
+                    font-size: 12px;
+                    
+                }
+            }
+
+            .message_body{
+
+                .rdw-editor-main{
+                    background-color: #f9f9f9;
+                    height: 270px;
+                    overflow-y: auto;
+                }
+
+                .DraftEditor-root {
+                    padding: 0 20px;
+                    font-size: 12px;
+                  }
+            }
+
+            .button_submit{
+                background-color: #fff;
+                font-size: 12px;
+                padding: 15px 15px;
+                padding-right: 20px;
+                margin-top: 10px;
+                width: max-content;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                box-shadow: 3px 5px 30px rgba($color: #000, $alpha: .04);
+                border: 1px solid whitesmoke;
+                cursor: pointer;
+                transition: all .1s ease-in-out;
+
+                &:hover{
+                    background-color: #f9f9f9;
+                    box-shadow: none;
+                }
+
+                .imageIcon{
+                    width: 20px;
+                    height: 20px;
+                    overflow: hidden;
+                    margin-right: 10px;
+
+                    img{
+                        width: 100%;
+                    }
+                }
+            }
+        }
+        
+    }
+
+}
+
+.messagingInbox{
+
+    .headingMessage{
+
+        h1{
+            font-size: 24px;
+        }
+
+        p{
+            font-size: 14px;
+            color: #777;
+        }
+        
+    }
+}

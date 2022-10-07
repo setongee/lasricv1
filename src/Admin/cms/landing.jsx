@@ -7,6 +7,7 @@ import draftToHtml from 'draftjs-to-html';
 import { Editor } from 'react-draft-wysiwyg';
 import { setLandingDetails, getCMSData } from '../../api/firebase/admin/cms';
 import SethAnimation from '../../components/lottie/seth-animation';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const LandingCMS = () => {
 
@@ -28,6 +29,26 @@ const LandingCMS = () => {
     const [loading, setLoading] = useState(false)
 
     const [alert, setAlert] = useState(false)
+
+    const [content, setContent] = useState( "" )
+
+    const handleFileChange = e => {
+
+        const image = document.getElementById("foundersPhoto")
+        image.src = URL.createObjectURL(e.target.files[0])
+        setContent(e.target.files[0]);
+
+    }
+
+    const handleFileUpload = () => {
+
+        const fileInput = document.getElementById("landing_image")
+        console.log(fileInput);
+        fileInput.click();
+
+    }
+
+
     
     const handleChange = e => {
 
@@ -91,6 +112,58 @@ const LandingCMS = () => {
 
     }
 
+    const uploading = () => {
+
+        const storage = getStorage();
+        const storageRef = ref( storage, `cms / landing page / cms_landing_${data.company}` );
+    
+            //uploading to firebase begins
+            uploadBytes(storageRef, content)
+            .then( () => {
+    
+                getDownloadURL(storageRef)
+                .then( url => {
+
+                    //the cms details is updated here
+                    setLandingDetails({ ...data, image : url }, "landing" ).then( () => {
+
+                        //alert the action has been saved
+                        setLoading(false)
+
+                        setTimeout(() => {
+
+                            setAlert(true)
+                            
+                            setTimeout(() => {
+
+                                const alert = document.querySelector('.alertSuccess');
+                                alert.style.right = '0px'
+                                
+                            }, 100);
+                            
+                        }, 100);
+
+                        setTimeout(() => {
+
+                            const alert = document.querySelector('.alertSuccess');
+                            alert.style.right = '-400px'
+                            
+                            setTimeout(() => {
+
+                                setAlert(false)
+                                
+                            }, 1000);
+                            
+                        }, 4000);
+
+                    } )
+                    
+                })
+                
+            });       
+
+    }
+
     const submitForm = () => {
         
         //loader is initiated here
@@ -100,39 +173,7 @@ const LandingCMS = () => {
         //editor area is added to content parameter
         editorFinished();
 
-        //the cms details is updated here
-        setLandingDetails(data, "landing").then( () => {
-
-            //alert the action has been saved
-            setLoading(false)
-
-            setTimeout(() => {
-
-                setAlert(true)
-                
-                setTimeout(() => {
-
-                    const alert = document.querySelector('.alertSuccess');
-                    alert.style.right = '0px'
-                    
-                }, 100);
-                
-            }, 100);
-
-            setTimeout(() => {
-
-                const alert = document.querySelector('.alertSuccess');
-                alert.style.right = '-400px'
-                
-                setTimeout(() => {
-
-                    setAlert(false)
-                    
-                }, 1000);
-                
-            }, 4000);
-
-        } )
+        uploading();
 
     }
 
@@ -179,13 +220,15 @@ const LandingCMS = () => {
 
                     <h1>Featured Tech Startup of the month.</h1>
 
-                    <div className="techImage">
-                        <img src={data.image} alt="featured Tech Startup" />
+                    <div className="techImage" onClick={ () => handleFileUpload() } >
+                        <img src={data.image} alt="featured Tech Startup" id='foundersPhoto' />
                     </div>
+
+                    <div className="infoEdit">Tap above picture to edit</div>
 
                     <div className="cms-input-holder">
                         
-                        <input type="text" className="cms-input" name = 'image' id='image' placeholder='Enter Founders Photo' onChange={ handleChange } value = {data.image} />
+                        <input type="file" className="cms-input" id='landing_image' accept="image/png, image/jpeg" onChange={ handleFileChange } hidden />
 
                         <input type="text" className="cms-input" name = 'company' id='company' placeholder='Enter Company Name' onChange={ handleChange } value = {data.company} />
 
