@@ -58,6 +58,7 @@ const StemTitle = ({currentUser}) => {
     const [data, setData] = useState(false)
     const Navigate = useNavigate()
     const cohort = params.cohort
+    const [showSections, setShowSections] = useState(false);
 
     const appid = `LASRIC_${callupid}_${currentUser.uid}`
 
@@ -91,6 +92,8 @@ const StemTitle = ({currentUser}) => {
     useEffect(() => {
 
         setActive(paramValue);
+        setShowSections(false);
+        window.scrollTo(0, 0);
         
     }, [paramValue]);
 
@@ -219,62 +222,133 @@ const StemTitle = ({currentUser}) => {
 
         <div>
 
-            {/*title bar*/}
-            <div className="title-bar">
+            <div className="show-tabs-body">
 
-            <div className="panel-control">
-                
-                <Link to = {`/application/${cohort}/stem/${callupid}/personal`} className="tabnine personal"> <div className="icon-tab"> <i className="fi fi-rr-portrait"></i> </div> Personal  { status.personal.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+                <p> 🚨 Using a desktop is best for applications</p>
 
-                {
-                    status.personal.status === "completed" ? (
-
-
-                        <div>
-
-                            <Link to = {`/application/${cohort}/stem/${callupid}/problem`}  className="tabnine problem"> <div className="icon-tab"> <i className="fi fi-rr-eye"></i> </div> Problem { status.problem.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
-                            <Link to = {`/application/${cohort}/stem/${callupid}/relevance`} className="tabnine relevance"> <div className="icon-tab"> <i className="fi fi-rr-layers"></i> </div> Relevance { status.relevance.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
-                            <Link to = {`/application/${cohort}/stem/${callupid}/impact`}  className="tabnine impact"> <div className="icon-tab"> <i className="fi fi-rr-briefcase"></i> </div> Impact { status.impact.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
-                            <Link to = {`/application/${cohort}/stem/${callupid}/scalability`} className="tabnine scalability"> <div className="icon-tab"> <i className="fi fi-rr-bank"></i> </div> Scalability { status.scalability.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
-                            <Link to = {`/application/${cohort}/stem/${callupid}/experience`} className="tabnine experience"> <div className="icon-tab"> <i className="fi fi-rr-chat-arrow-grow"></i> </div> Experience { status.experience.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
-
-                        </div>
-
-
-
-                    ) : (
-
-                        <div className='uncompletedPersonal' onClick = {() => alert("Kindly finish submitting the form in personal to continue...")}>
-                            <div  className="tabnine problem"> <div className="icon-tab"> <i className="fi fi-rr-eye"></i> </div> Problem</div>
-                            <div className="tabnine relevance"> <div className="icon-tab"> <i className="fi fi-rr-layers"></i> </div> Relevance</div>
-                            <div  className="tabnine impact"> <div className="icon-tab"> <i className="fi fi-rr-briefcase"></i> </div> Impact</div>
-                            <div className="tabnine scalability"> <div className="icon-tab"> <i className="fi fi-rr-bank"></i> </div> Scalability</div>
-                            <div className="tabnine experience"> <div className="icon-tab"> <i className="fi fi-rr-chat-arrow-grow"></i> </div> Experience</div>
-                        </div>
-
-                    )
-                }
-
-
-                
-
-                
-
-
-
-                
-
-                
+                <div className="show-tabs" onClick={ () => setShowSections(!showSections)}>Show / Hide Sections</div>
 
             </div>
 
-            <div className="nav">
+            {
+                showSections ? (
+                    <div className="mints">
+
+                <div className="panel-control">
                     
-                {
-                    data ? <div className="submitApplication" > Congrats!, Submitted </div> : submitReady ? <div className="submitApplication" onClick={ () => submitTheApplication() } > Submit Application </div> : <div className="submitApplication notReady" > Submit Application </div>
-                }
+                    <Link to = {`/application/${cohort}/stem/${callupid}/personal`} className="tabnine personal"> <div className="icon-tab"> <i className="fi fi-rr-portrait"></i> </div> Personal  { status.personal.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
 
+                    {
+                        status.personal.status === "completed" ? (
+
+
+                            <div>
+
+                                <Link to = {`/application/${cohort}/stem/${callupid}/problem`}  className="tabnine problem"> <div className="icon-tab"> <i className="fi fi-rr-eye"></i> </div> Problem { status.problem.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+                                <Link to = {`/application/${cohort}/stem/${callupid}/relevance`} className="tabnine relevance"> <div className="icon-tab"> <i className="fi fi-rr-layers"></i> </div> Relevance { status.relevance.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+                                <Link to = {`/application/${cohort}/stem/${callupid}/impact`}  className="tabnine impact"> <div className="icon-tab"> <i className="fi fi-rr-briefcase"></i> </div> Impact { status.impact.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+                                <Link to = {`/application/${cohort}/stem/${callupid}/scalability`} className="tabnine scalability"> <div className="icon-tab"> <i className="fi fi-rr-bank"></i> </div> Scalability { status.scalability.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+                                <Link to = {`/application/${cohort}/stem/${callupid}/experience`} className="tabnine experience"> <div className="icon-tab"> <i className="fi fi-rr-chat-arrow-grow"></i> </div> Experience { status.experience.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+
+                            </div>
+
+
+
+                        ) : (
+
+                            <div className='uncompletedPersonal' onClick = {() => alert("Kindly finish submitting the form in personal to continue...")}>
+                                <div  className="tabnine problem"> <div className="icon-tab"> <i className="fi fi-rr-eye"></i> </div> Problem</div>
+                                <div className="tabnine relevance"> <div className="icon-tab"> <i className="fi fi-rr-layers"></i> </div> Relevance</div>
+                                <div  className="tabnine impact"> <div className="icon-tab"> <i className="fi fi-rr-briefcase"></i> </div> Impact</div>
+                                <div className="tabnine scalability"> <div className="icon-tab"> <i className="fi fi-rr-bank"></i> </div> Scalability</div>
+                                <div className="tabnine experience"> <div className="icon-tab"> <i className="fi fi-rr-chat-arrow-grow"></i> </div> Experience</div>
+                            </div>
+
+                        )
+                    }
+
+
+                    
+
+                    
+
+
+
+                    
+
+                    
+
+                </div>
+
+                <div className="nav">
+                        
+                    {
+                        data ? <div className="submitApplication" > Congrats!, Submitted </div> : submitReady ? <div className="submitApplication" onClick={ () => submitTheApplication() } > Submit Application </div> : <div className="submitApplication notReady" > Submit Application </div>
+                    }
+
+                </div>
+                
             </div>
+                ) : null
+            }
+
+            {/*title bar*/}
+            <div className="title-bar mints">
+
+                <div className="panel-control">
+                    
+                    <Link to = {`/application/${cohort}/stem/${callupid}/personal`} className="tabnine personal"> <div className="icon-tab"> <i className="fi fi-rr-portrait"></i> </div> Personal  { status.personal.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+
+                    {
+                        status.personal.status === "completed" ? (
+
+
+                            <div>
+
+                                <Link to = {`/application/${cohort}/stem/${callupid}/problem`}  className="tabnine problem"> <div className="icon-tab"> <i className="fi fi-rr-eye"></i> </div> Problem { status.problem.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+                                <Link to = {`/application/${cohort}/stem/${callupid}/relevance`} className="tabnine relevance"> <div className="icon-tab"> <i className="fi fi-rr-layers"></i> </div> Relevance { status.relevance.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+                                <Link to = {`/application/${cohort}/stem/${callupid}/impact`}  className="tabnine impact"> <div className="icon-tab"> <i className="fi fi-rr-briefcase"></i> </div> Impact { status.impact.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+                                <Link to = {`/application/${cohort}/stem/${callupid}/scalability`} className="tabnine scalability"> <div className="icon-tab"> <i className="fi fi-rr-bank"></i> </div> Scalability { status.scalability.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+                                <Link to = {`/application/${cohort}/stem/${callupid}/experience`} className="tabnine experience"> <div className="icon-tab"> <i className="fi fi-rr-chat-arrow-grow"></i> </div> Experience { status.experience.status === 'pending' ? null : <i className="fi fi-rr-check complete " ></i>} </Link>
+
+                            </div>
+
+
+
+                        ) : (
+
+                            <div className='uncompletedPersonal' onClick = {() => alert("Kindly finish submitting the form in personal to continue...")}>
+                                <div  className="tabnine problem"> <div className="icon-tab"> <i className="fi fi-rr-eye"></i> </div> Problem</div>
+                                <div className="tabnine relevance"> <div className="icon-tab"> <i className="fi fi-rr-layers"></i> </div> Relevance</div>
+                                <div  className="tabnine impact"> <div className="icon-tab"> <i className="fi fi-rr-briefcase"></i> </div> Impact</div>
+                                <div className="tabnine scalability"> <div className="icon-tab"> <i className="fi fi-rr-bank"></i> </div> Scalability</div>
+                                <div className="tabnine experience"> <div className="icon-tab"> <i className="fi fi-rr-chat-arrow-grow"></i> </div> Experience</div>
+                            </div>
+
+                        )
+                    }
+
+
+                    
+
+                    
+
+
+
+                    
+
+                    
+
+                </div>
+
+                <div className="nav">
+                        
+                    {
+                        data ? <div className="submitApplication" > Congrats!, Submitted </div> : submitReady ? <div className="submitApplication" onClick={ () => submitTheApplication() } > Submit Application </div> : <div className="submitApplication notReady" > Submit Application </div>
+                    }
+
+                </div>
+                
             </div>
 
             <Outlet />

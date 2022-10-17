@@ -100,46 +100,44 @@ const Header = ({user}) => {
                 <i className="fi fi-rr-menu-burger"></i>
             </div>
 
-
-
             {
                 isBurgerOpen ? (
 
                     <div className="menu">
 
-            <div className="menuicon" onClick={() => setIsBurgerOpen(false)}>
-                <i className="fi fi-rr-menu-burger"></i>
-            </div>
+                        <div className="menuicon" onClick={() => setIsBurgerOpen(false)}>
+                            <i className="fi fi-rr-menu-burger"></i>
+                        </div>
 
-                <div className="menulist">
+                        <div className="menulist">
 
-                <Link to={routes.home}>Home</Link>
-                <Link to={routes.about}>About</Link>
-                <Link to={routes.people}>Council</Link>
-                <Link to={routes.gallery}>Gallery</Link>
-                <Link to={routes.beneficiaries}> Beneficiaries </Link>
+                        <Link to={routes.home}>Home</Link>
+                        <Link to={routes.about}>About</Link>
+                        <Link to={routes.people}>Council</Link>
+                        <Link to={routes.gallery}>Gallery</Link>
+                        <Link to={routes.beneficiaries}> Beneficiaries </Link>
 
-                </div>
+                        </div>
 
-                <div className="auth-area">
+                        <div className="auth-area">
 
-                    {
-                        user.uid && user.uid !== undefined ? <div className="account">
-                            <Link to = {`${user.type === 'user' ? '/dashboard' : '/council'}`} >Dashboard</Link>
-                            <i className="fi fi-rr-angle-small-down"></i>
-                        </div> : <div className="account">
-                        <Link to="/login">Login</Link>
-                        <i className="fi fi-rr-angle-small-down"></i>
+                            {
+                                user.uid && user.uid !== undefined ? <div className="account">
+                                    <Link to = {`${user.type === 'user' ? '/dashboard' : '/council'}`} >Dashboard</Link>
+                                    <i className="fi fi-rr-angle-small-down"></i>
+                                </div> : <div className="account">
+                                <Link to="/login">Login</Link>
+                                <i className="fi fi-rr-angle-small-down"></i>
+                            </div>
+                            }
+
+                            <div className="line-div"></div>
+
+                            <Link to="/apply" className="act-btn" >Apply </Link>
+
+                        </div>
+
                     </div>
-                    }
-
-                    <div className="line-div"></div>
-
-                    <Link to="/apply" className="act-btn" >Apply </Link>
-
-                </div>
-
-            </div>
 
                 ) : null
             }

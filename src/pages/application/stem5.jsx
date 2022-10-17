@@ -154,7 +154,7 @@ const Stem5 = ({currentUser}) => {
                         <div className="sections">
                             
                             <div className="section">
-                                <label htmlFor="">Relevance & Proposition</label>
+                                <label htmlFor="">Scalability</label>
                                 <div className="line-section" />
                             </div>
 

@@ -194,7 +194,7 @@ const Stem6 = ({currentUser}) => {
                         <div className="sections">
                             
                             <div className="section">
-                                <label htmlFor="">Relevance & Proposition</label>
+                                <label htmlFor="">Team Experience</label>
                                 <div className="line-section" />
                             </div>
 
@@ -209,7 +209,6 @@ const Stem6 = ({currentUser}) => {
                                     <tr>
                                         <th>Team Member</th>
                                         <th>Role</th>
-                                        <th>Responsibilities</th>
                                         <th>Responsibilities</th>
                                     </tr>
                                     

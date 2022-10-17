@@ -154,7 +154,7 @@ const Stem4 = ({currentUser}) => {
                         <div className="sections">
                             
                             <div className="section">
-                                <label htmlFor="">Relevance & Proposition</label>
+                                <label htmlFor="">Your Impact</label>
                                 <div className="line-section" />
                             </div>
 
