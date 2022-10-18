@@ -3,7 +3,7 @@ import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
 import { createStemApplication, updateStemPersonalApplication  } from '../../api/firebase/handleStemSubmits';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { createResearchApplication, getApplicationData } from '../../api/firebase/handleResearchSubmit';
 
 const ResearchPersonal = ({currentUser}) => {
@@ -24,6 +24,8 @@ const ResearchPersonal = ({currentUser}) => {
     const userid = currentUser.uid;
 
     const appid = `LASRIC_${callupid}_${userid}`;
+
+    let navigate = useNavigate();
 
     //useeffect important
 
@@ -98,6 +100,8 @@ const ResearchPersonal = ({currentUser}) => {
         } else {
             updateStemPersonalApplication(appid, form2, cohort)
         }
+
+        await navigate(`/application/${cohort}/research/${callupid}/project`);
 
     }
 

@@ -141,6 +141,7 @@ const InnovationTitle = ({currentUser}) => {
     useEffect(() => {
 
         setActive(paramValue);
+        window.scrollTo(0, 0);
         
     }, [paramValue]);
 

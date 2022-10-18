@@ -3,7 +3,7 @@ import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
 import { updateStemApplication } from '../../api/firebase/handleStemSubmits';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getApplicationData, updateResearchProject } from '../../api/firebase/handleResearchSubmit';
 
 const ResearchProject = ({currentUser}) => {
@@ -26,6 +26,8 @@ const ResearchProject = ({currentUser}) => {
     const appid = `LASRIC_${callupid}_${userid}`;
 
     const [progress, setProgress] = useState(0);
+
+    let navigate = useNavigate()
 
     //useeffect important
 
@@ -98,12 +100,11 @@ const ResearchProject = ({currentUser}) => {
 
     }
 
-    const successSubmit = () => {
+    const successSubmit =async () => {
 
         updateResearchProject(appid, form2, cohort, progress)
 
-        console.log("success")
-        
+        await navigate(`/application/${cohort}/research/${callupid}/result`);
 
     }
 

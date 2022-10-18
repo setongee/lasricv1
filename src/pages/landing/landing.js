@@ -41,8 +41,9 @@ const Landing = () => {
         content : "",
         sector : ""
 
-    })
+    });
 
+    console.log(techStartUp.web)
 
     const [editorState, setEditorState] = useState("");
 

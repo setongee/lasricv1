@@ -3,7 +3,7 @@ import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
 import { updateStemExperienceApplication } from '../../api/firebase/handleStemSubmits';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Stemtr from '../../components/tabletr/stemtr';
 import ResearchTR from '../../components/tabletr/researchTR';
 import { getApplicationData, updateResearchResultApplication } from '../../api/firebase/handleResearchSubmit';
@@ -34,6 +34,8 @@ const ResearchResults = ({currentUser}) => {
     const [tableTR, setTableTR] = useState({activity : []})
 
     const [progress, setProgress] = useState(0);
+
+    let navigate = useNavigate()
 
     //useeffect important
 
@@ -150,10 +152,11 @@ const ResearchResults = ({currentUser}) => {
 
     }
 
-    const successSubmit = () => {
+    const successSubmit = async () => {
 
-        updateResearchResultApplication(appid, form2, cohort, progress)
-        
+        updateResearchResultApplication(appid, form2, cohort, progress).then(
+            () => navigate(`/application/${cohort}/research/${callupid}/budget`)
+        )
 
     }
 

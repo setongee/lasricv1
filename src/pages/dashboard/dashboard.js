@@ -339,7 +339,7 @@ const Dashboard = ({currentUser}) => {
                                             <div className="keyStat">
 
                                                 <div className="title"> LASRIC {data.track.toUpperCase()} APPLICATION ({data.progress}%)</div>
-                                                <a href = { `/application/cohort5/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`} className="viewIcon"> <i className="fi fi-sr-eye"></i> </a>
+                                                <div onClick={() => navigate(`/application/cohort5/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`)} className="viewIcon"> <i className="fi fi-sr-eye"></i> </div>
 
                                             </div>
                                             {/* <div className="app_action"> View </div> */}
@@ -379,7 +379,7 @@ const Dashboard = ({currentUser}) => {
                                             <div className="keyStat">
 
                                                 <div className="title"> LASRIC {data.track.toUpperCase()} APPLICATION ({data.progress}%)</div>
-                                                <a href = { `/application/cohort5/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`} className="viewIcon"> <i className="fi fi-sr-eye"></i> </a>
+                                                <div onClick={() => navigate(`/application/cohort5/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`)} className="viewIcon"> <i className="fi fi-sr-eye"></i> </div>
 
                                             </div>
                                             {/* <div className="app_action"> View </div> */}

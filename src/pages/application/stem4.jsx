@@ -3,7 +3,7 @@ import { getApplication } from '../../api/firebase/getApplication';
 import './application.scss'
 import SethAnimation from '../../components/lottie/seth-animation';
 import { getApplicationData, updateStemImpactApplication } from '../../api/firebase/handleStemSubmits';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const Stem4 = ({currentUser}) => {
 
@@ -33,6 +33,8 @@ const Stem4 = ({currentUser}) => {
     const appid = `LASRIC_${callupid}_${userid}`;
 
     const [progress, setProgress] = useState(0);
+
+    let navigate = useNavigate()
 
     //useeffect important
 
@@ -110,9 +112,7 @@ const Stem4 = ({currentUser}) => {
     const successSubmit = () => {
 
         updateStemImpactApplication(appid, form2, cohort, progress)
-
-        console.log("success")
-        
+        .then( () => navigate(`/application/${cohort}/stem/${callupid}/scalability`)) 
 
     }
 
