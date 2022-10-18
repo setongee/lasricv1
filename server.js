@@ -54,6 +54,50 @@ app.post('/api/sendemail', (req,res)=>{
     });
 })
 
+//send register email
+
+app.post('/api/sendemail/register', (req,res)=>{
+
+  const link = `lasric.lagosstate.gov.ng/apply`
+
+  const msg = {
+    to: req.body.email,
+    from: 'lasricportal@gmail.com', 
+    subject: 'WELCOME TO LASRIC V5',
+    html: ` <div> 
+    
+              <h1>Hey ${req.body.firstname} ${req.body.lastname},</h1> </br>
+              <p> Welcome to LASRIC - Lagos State Science, Research & Innovation Council platform </p> </br> </br>
+              <p>Create and build the next big thing for Lagos State </p>
+
+              </br> </br>
+
+              <p>Your login details are :  </p>
+              
+              </br> </br>
+
+              email : ${req.body.email}, </br>
+              password : ${req.body.password} </br>
+
+              </br> </br>
+
+              <p> Start Applying Today </p>
+              <a href = ${link} >  ${link} </a>
+
+            </div>`,
+  };
+  //ES6
+  sgMail
+    .send(msg)
+    .then(() => {}, error => {
+      console.error(error);
+  
+      if (error.response) {
+        console.error(error.response.body)
+      }
+    });
+})
+
 
 app.post('/api/sendemails', (req,res)=>{
 

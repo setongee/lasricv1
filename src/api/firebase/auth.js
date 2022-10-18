@@ -2,9 +2,10 @@ import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, getDoc, collection, query, getDocs, where } from "firebase/firestore"; 
 import { db } from "./config";
 import { data } from "./new-data";
+import axios from "axios";
 
 
-export const setDocument = async ( uid, lastname, firstname, email, phone, type, track ) => {
+export const setDocument = async ( uid, lastname, firstname, email, phone, type, track, password ) => {
 
     await setDoc(doc(db, "users", uid), {
 
@@ -27,6 +28,8 @@ export const setDocument = async ( uid, lastname, firstname, email, phone, type,
    if (type === 'admin') {
     setAdminDocument(uid, lastname, firstname, email, type)
    }
+
+   await axios.post('/api/sendemail/register', {email : email, firstname : firstname, lastname, password});
 
 }
 

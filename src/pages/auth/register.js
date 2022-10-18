@@ -3,7 +3,7 @@ import '../../global/styles/Auth.scss'
 import '../../global/styles/fragments.scss'
 import {Link} from 'react-router-dom'
 import { setDocument } from '../../api/firebase/auth';
-import { getAuth, createUserWithEmailAndPassword, sendEmailVerification } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, sendEmailVerification , signOut} from "firebase/auth";
 
 const Register = () => {
 
@@ -27,8 +27,11 @@ const Register = () => {
         password2 : ''
     }
 
+
+    const auth = getAuth()
+
     const [data, setData] = useState(dataSubmitted);
-    const [success, setSuccess] = useState(false)
+    const [success, setSuccess] = useState(false);
 
     useEffect(() => {
         
@@ -40,7 +43,12 @@ const Register = () => {
 
     }, []);
 
-    console.log(data)
+    const authOut = () => {
+
+        console.log('Signing Out...')
+        signOut(auth).then(() => window.location.href = "/login" )
+
+    }
 
     const handleSubmit = async e => {
       
@@ -57,14 +65,15 @@ const Register = () => {
 
                 const user = userCredential.user;
 
-                setDocument(user.uid, lastname, firstname, email, phone, "user")
+                setDocument(user.uid, lastname, firstname, email, phone, "user", "No Track", password)
                 
                 setSuccess(true);
 
                 setTimeout(async () => {
 
                     setSuccess(false); 
-                    window.location.href = "/dashboard"
+                    authOut()
+                    window.location.href = "/login"
 
                 }, 3500);
 
