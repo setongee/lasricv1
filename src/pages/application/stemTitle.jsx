@@ -4,6 +4,7 @@ import { signOut, getAuth } from 'firebase/auth';
 import { doc, onSnapshot } from "firebase/firestore"
 import { db } from '../../api/firebase/config';
 import { submitStemApplication } from '../../api/firebase/handleStemSubmits';
+import CompleteModal from './completeModal';
 
 const StemTitle = ({currentUser}) => {
 
@@ -59,6 +60,10 @@ const StemTitle = ({currentUser}) => {
     const Navigate = useNavigate()
     const cohort = params.cohort
     const [showSections, setShowSections] = useState(false);
+    const [submitted, setSubmitted] = useState(false);
+    const [textSubmit, setText] = useState(false)
+
+    console.log(textSubmit);
 
     const appid = `LASRIC_${callupid}_${currentUser.uid}`
 
@@ -212,15 +217,21 @@ const StemTitle = ({currentUser}) => {
 
     const submitTheApplication = () => {
 
+        setText(true);
+        
         const company = status.personal.data.companyName;
         
-        submitStemApplication(appid, callupid, currentUser.uid, track, currentUser.firstname, currentUser.lastname, cohort, company, currentUser ).then(() => Navigate('/dashboard'));
+        submitStemApplication(appid, callupid, currentUser.uid, track, currentUser.firstname, currentUser.lastname, cohort, company, currentUser ).then(() =>  setSubmitted(true));
 
     }
 
     return (
 
         <div>
+
+            {
+                data ? <CompleteModal profile = {currentUser} /> : null
+            }
 
             <div className="show-tabs-body">
 
@@ -344,7 +355,7 @@ const StemTitle = ({currentUser}) => {
                 <div className="nav">
                         
                     {
-                        data ? <div className="submitApplication" > Congrats!, Submitted </div> : submitReady ? <div className="submitApplication" onClick={ () => submitTheApplication() } > Submit Application </div> : <div className="submitApplication notReady" > Submit Application </div>
+                        data ? <div className="submitApplication" >  Application Submitted </div> : submitReady ? <div className="submitApplication" onClick={ () => submitTheApplication() } > Submit Application </div> : <div className="submitApplication notReady" > Submit Application </div>
                     }
 
                 </div>

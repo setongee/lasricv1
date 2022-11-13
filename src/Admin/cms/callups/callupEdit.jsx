@@ -34,7 +34,9 @@ const CallupEdit = () => {
     const [openPreviewModal, setPreviewModal] = useState(false);
     const [loading, setLoading] = useState(false)
     const [alert, setAlert] = useState(false)
-    const [content, setContent] = useState( "" )
+    const [content, setContent] = useState( null )
+
+    console.log(data.image);
 
     const handleFileChange = e => {
 
@@ -186,7 +188,48 @@ const CallupEdit = () => {
         //editor area is added to content parameter
         editorFinished();
 
-        uploading();
+        if (content !== null) {
+
+            uploading()
+
+        } else {
+
+            updateCallup( `cohort${data.cohortNum}`, params.id, data ).then( () => {
+
+                //alert the action has been saved
+                setLoading(false)
+
+                setTimeout(() => {
+
+                    setAlert(true)
+                    
+                    setTimeout(() => {
+
+                        const alert = document.querySelector('.alertSuccess');
+                        alert.style.right = '0px'
+                        
+                    }, 100);
+                    
+                }, 100);
+
+                setTimeout(() => {
+
+                    const alert = document.querySelector('.alertSuccess');
+                    alert.style.right = '-400px'
+                    
+                    setTimeout(() => {
+
+                        setAlert(false)
+                        
+                    }, 1000);
+
+                    Navigate('/admin/content/callups')
+                    
+                }, 4000);
+
+            } )
+
+        }
 
     }
     
@@ -233,6 +276,7 @@ const CallupEdit = () => {
     }, [data]);
 
 
+    console.log(content);
 
     return (
 

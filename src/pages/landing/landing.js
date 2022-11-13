@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
 import SethAnimation from '../../components/lottie/seth-animation';
-import awardee from '../../assets/svg/aishaRaheem.jpeg'
+import awardee from '../../assets/svg/awardee.jpg'
 import play from '../../assets/svg/play.svg'
 import './styles.scss'
 import partner1 from '../../assets/svg/1.png'
@@ -177,10 +177,10 @@ const Landing = () => {
                     </div>
 
                     <div className="side-info">
-                        “LASRIC provides the network access that is needed…”
+                        “LASRIC believes in growing modern startups to scale, pricepally benefits from this belief...”
 
                         <div className="awardee-author">
-                        Aisha Raheem, {<br></br>} CEO/Co-Founder <strong>Farmz2u</strong>
+                        Luther Lawoyin, {<br></br>} CEO <strong>Pricepally</strong>
                         </div>
 
                     </div>

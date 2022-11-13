@@ -84,12 +84,13 @@ export const submitStemApplication = async (appid, callid, userid, track, firstn
     //await setDoc(doc(db, "applications", userid), {...data.application.data, [page] : formData });
 
     const documentRef = doc(db, "applications_data" , cohort, "applications", appid);
-    await updateDoc(documentRef, { "submitted" : true });
     await updateDoc(documentRef, { "progress" : 100 });
-
+    
     await addToSubmitted(callid, userid, track, firstname, lastname, cohort, company, appid, currentUser.email, currentUser.phone);
-
-    await axios.post('/api/sendEmail', {email : currentUser.email, firstname : firstname, track : track, userid : currentUser.uid});
+    
+    //await axios.post('/api/sendEmail', {email : currentUser.email, firstname : firstname, track : track, userid : currentUser.uid});
+    
+    await updateDoc(documentRef, { "submitted" : true });
 
 }
 

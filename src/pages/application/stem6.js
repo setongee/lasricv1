@@ -210,6 +210,7 @@ const Stem6 = ({currentUser}) => {
                                         <th>Team Member</th>
                                         <th>Role</th>
                                         <th>Responsibilities</th>
+                                        <th>Linkedin Profile</th>
                                     </tr>
                                     
                                     <tr className="team-table-row team-table-row-1">

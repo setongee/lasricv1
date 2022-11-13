@@ -7,8 +7,24 @@
 }
 
 .notice {
-    display : none
+    display : block;
+    margin-left: 3px;
+    color: crimson;
+    font-weight: bold;
+
+    &.opt{
+        display: none;
+    }
 }
+
+label{
+
+    display: flex;
+    align-items: center;
+
+}
+
+
 .title-bar, .mints {
     display: flex;
     position: fixed;
@@ -99,7 +115,7 @@
 }
 
 .submitApplication{
-    background-color: #43D57F;
+    background-color: #111;
     margin: 20px 20px;
     padding: 20px;
     text-align: center;

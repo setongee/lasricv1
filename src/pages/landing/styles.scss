@@ -143,13 +143,11 @@
             height: 400px;
             width: 350px;
             overflow: hidden;
-            border-radius: 15px;
-            display: flex;
-            align-items: flex-end;
+            border-radius: 30px;
             
             img{
+                transform: scale(1);
                 width: 100%;
-                transform: scale(2);
             }
 
         }
@@ -164,12 +162,13 @@
         .side-info{
             position: absolute;
             background-color: #fff;
-            width: 73%;
-            font-size: 28px;
+            width: 100%;
+            font-size: 24px;
             font-family: 'Code Next';
             text-align: right;
-            line-height: 33px;
+            line-height: 28px;
             left: -24%;
+            letter-spacing: -1px;
             margin-top: 380px;
             padding: 30px;
             border-radius: 30px;
@@ -182,8 +181,10 @@
                 color: #777;
                 border-left: 1px solid rgba($color: #000000, $alpha: .2);
                 padding-left: 20px;
-                margin-left: 80px;
+                margin-left: 100px;
                 margin-top: 20px;
+                letter-spacing: -.5px;
+                
             }
 
         }

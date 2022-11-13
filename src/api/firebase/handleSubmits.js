@@ -123,7 +123,7 @@ export const submitApplication = async (appid, callid, userid, track, firstname,
 
     await addToSubmitted(callid, userid, track, firstname, lastname, cohort, company, appid, currentUser.email, currentUser.phone);
 
-    await axios.post('/api/sendemail', data);
+    //await axios.post('/api/sendemail', data);
 
 }
 

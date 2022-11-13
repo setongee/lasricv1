@@ -150,17 +150,7 @@ const Stem1 = ({currentUser}) => {
                             <div className="sub-section">
 
                                 <label htmlFor="">
-                                    1. How do you intend to track your progression to success over time?
-                                </label>
-
-                                <textarea id="trackSuccess" rows={5} placeholder="Please Enter..." onChange={handleChange} required value = {form2.trackSuccess} />
-
-                            </div>
-
-                            <div className="sub-section">
-
-                                <label htmlFor="">
-                                Company Name
+                                1. Company Name
                                 </label>
 
                                 <textarea id="companyName" rows={5} placeholder="Please Enter..." onChange={handleChange} required value = {form2.companyName} />
@@ -170,7 +160,7 @@ const Stem1 = ({currentUser}) => {
                             <div className="sub-section">
 
                                 <label htmlFor="">
-                                What is the Title of your STEM Solution (50 words)
+                                2. What is the Title of your STEM Solution (50 words)
                                 </label>
 
                                 <textarea id="stemTitle" rows={5} placeholder="Please Enter..." onChange={handleChange} required value = {form2.stemTitle} />
@@ -179,7 +169,7 @@ const Stem1 = ({currentUser}) => {
 
                             <div className="sub-section">
 
-                                <label for="">Which of these key areas does your solution target?</label>
+                                <label for="">3. Which of these key areas does your solution target?</label>
 
                                 <select name="" id="keyArea" required  value = {form2.keyArea} onChange={handleChange}>
                                     <option value="None">----------Select----------</option>
@@ -190,6 +180,16 @@ const Stem1 = ({currentUser}) => {
                                     <option value="STEM Content made easy">STEM Content made easy</option>
                                     <option value="Technology application in STEM">Technology application in STEM</option>
                                 </select>
+
+                            </div>
+
+                            <div className="sub-section">
+
+                                <label htmlFor="">
+                                    4. How do you intend to track your progression to success over time?
+                                </label>
+
+                                <textarea id="trackSuccess" rows={5} placeholder="Please Enter..." onChange={handleChange} required value = {form2.trackSuccess} />
 
                             </div>
                             
