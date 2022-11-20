@@ -284,8 +284,11 @@ const CouncilMember = ({check, newCouncil}) => {
             {
                 previewShow ? (
 
-
                     <div className="previewCouncil">
+
+                        {
+                            console.log("previewwwww")
+                        }
 
                         {
                             successModal ? <div className="successModal">
@@ -299,17 +302,6 @@ const CouncilMember = ({check, newCouncil}) => {
                         <div className="councilInformation">
 
                             <div className="profileImageContainer">
-
-                                <div className="profileImage" onClick={() => handleFileUpload()}><img id = "profilePix" src={previewData.img} alt="council member Image" /></div>
-                                
-                                <div className="councilName"> 
-
-                                    <div className="firstname-council"> {previewData.firstname} </div>
-                                    <div className="lastname-council"> {previewData.lastname} </div>
-                                
-                                </div>
-
-                                {/* <div className="uploadImage"><i className="fi fi-rr-upload"></i> Upload</div> */}
 
                                 <div className="toggleArea">
 
@@ -326,94 +318,108 @@ const CouncilMember = ({check, newCouncil}) => {
 
                                 </div>
 
-                                <div className="tap">
-                                    Tap to edit
-                                </div>
-
-                            </div>
-
-                            <form action="">
-
-                                <div className="gradeTrack"> <i className="fi fi-rr-user"></i> Personal Information</div>
-
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Firstname' value={previewData.firstname} name='firstname' id='firstname' onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Lastname' value={previewData.lastname} name='lastname' id='lastname' onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="inputForm">
-                                    <input type="email" placeholder='Enter Council Valid Email Address' value={previewData.email} name='email' id='email' onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="inputForm hide">
-
-                                    <input type="file" accept="image/png, image/jpeg" id = "contentImage" onChange={handleFileChange} />
-
-                                </div>
-
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Job Title' value={previewData.job || "No Job Discription Yet"} name='job' id='job'  onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Linkedin Profile URL' value={previewData.linkedin || "No linkedin profile url yet"} name='linkedin' id='linkedin' onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="select-box">
-
-                                    <div className="gradeTrack"> <i className="fi fi-rr-checkbox"></i> Grading Track</div>
-
-                                    <div className="checkboxx">
-                                        <p>Innovation</p>
-                                        <input type="checkbox"  name = 'innovation' id='innovation' value="innovation" />
-                                    </div>
-
-                                    <div className="checkboxx">
-                                        <p>Research</p>
-                                        <input type="checkbox" name = 'research' id='research' value="research" />
-                                    </div>
-
-                                    <div className="checkboxx">
-                                        <p>Stem</p>
-                                        <input type="checkbox" name = 'stem' id='stem' value="stem" />
-                                    </div>
-
-                                    <div className="checkboxx">
-                                        <p>Secondary School</p>
-                                        <input type="checkbox" name = 'secsch' id='secsch' value="secsch" />
-                                    </div>
-                                    
-                                </div>
-
-                            </form>
-
-                            <div className="gradeTrack"> <i className="fi fi-rr-edit"></i> Council Profile </div>
-
-
-                            <div className="editorDraft">
-
-                                <Editor
-
-                                    editorState={editorState}
-                                    onEditorStateChange={onEditorStateChange}
-                                    toolbar= {
-
-                                        { options : [ 'inline', 'list'] }
-
-                                    }
+                                <div className="profileImage" onClick={() => handleFileUpload()}><img id = "profilePix" src={previewData.img} alt="council member Image" /></div>
                                 
+                                <div className="councilName"> 
 
-                                />
+                                    <div className="firstname-council"> {previewData.firstname} <strong>{previewData.lastname}</strong> </div>
+                                
+                                </div>
+
+                                {/* <div className="tap">
+                                    Tap to edit
+                                </div> */}
+
+                                <div className="buttonReset">Re-Authenticate</div>
 
                             </div>
 
+                            <div className="formAction">
 
-                            <div className="button-submit" onClick={ () => submitCouncilInfo() }> Submit & Save </div>
+                                <form action="">
 
-                            <div className="deleteCouncilMember" onClick={() => handleDelete() }> <i className="fi fi-rr-trash"></i> Delete Member</div>
+                                    <div className="gradeTrack"> <i className="fi fi-rr-user"></i> Personal Information</div>
+
+                                    <div className="inputForm">
+                                        <input type="text" placeholder='Enter Council Firstname' value={previewData.firstname} name='firstname' id='firstname' onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="inputForm">
+                                        <input type="text" placeholder='Enter Council Lastname' value={previewData.lastname} name='lastname' id='lastname' onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="inputForm">
+                                        <input type="email" placeholder='Enter Council Valid Email Address' value={previewData.email} name='email' id='email' onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="inputForm hide">
+
+                                        <input type="file" accept="image/png, image/jpeg" id = "contentImage" onChange={handleFileChange} />
+
+                                    </div>
+
+                                    <div className="inputForm">
+                                        <input type="text" placeholder='Enter Council Job Title' value={previewData.job || "No Job Discription Yet"} name='job' id='job'  onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="inputForm">
+                                        <input type="text" placeholder='Enter Council Linkedin Profile URL' value={previewData.linkedin || "No linkedin profile url yet"} name='linkedin' id='linkedin' onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="select-box">
+
+                                        <div className="gradeTrack"> <i className="fi fi-rr-checkbox"></i> Grading Track</div>
+
+                                        <div className="checkboxx">
+                                            <p>Innovation</p>
+                                            <input type="checkbox"  name = 'innovation' id='innovation' value="innovation" />
+                                        </div>
+
+                                        <div className="checkboxx">
+                                            <p>Research</p>
+                                            <input type="checkbox" name = 'research' id='research' value="research" />
+                                        </div>
+
+                                        <div className="checkboxx">
+                                            <p>Stem</p>
+                                            <input type="checkbox" name = 'stem' id='stem' value="stem" />
+                                        </div>
+
+                                        <div className="checkboxx">
+                                            <p>Secondary School</p>
+                                            <input type="checkbox" name = 'secsch' id='secsch' value="secsch" />
+                                        </div>
+                                        
+                                    </div>
+
+                                </form>
+
+                                <div className="gradeTrack"> <i className="fi fi-rr-edit"></i> Council Profile </div>
+
+
+                                <div className="editorDraft">
+
+                                    <Editor
+
+                                        editorState={editorState}
+                                        onEditorStateChange={onEditorStateChange}
+                                        toolbar= {
+
+                                            { options : [ 'inline', 'list'] }
+
+                                        }
+                                    
+
+                                    />
+
+                                </div>
+
+
+                                <div className="button-submit" onClick={ () => submitCouncilInfo() }> Submit & Save </div>
+
+                                <div className="deleteCouncilMember" onClick={() => handleDelete() }> <i className="fi fi-rr-trash"></i> Delete Member</div>
+
+                            </div>
 
                         </div>
 

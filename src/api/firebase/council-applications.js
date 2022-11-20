@@ -26,7 +26,7 @@ export const getApplicationGrades = async (appid) => {
 
 export const getAllSubmittedApplications = async (uid) => {
 
-    const querySnapshot = await getDocs( query(collection(db, "submittedApplications"),orderBy("dateSubmitted", "desc"))  );
+    const querySnapshot = await getDocs( query(collection(db, "submitted_applications_beta"),orderBy("dateSubmitted", "desc"))  );
 
     const counRef = doc(db, 'council', uid);
     const res = await getDoc(counRef)

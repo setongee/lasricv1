@@ -30,6 +30,8 @@ const All = ({councilProfile}) => {
 
         // })
 
+        console.log(data)
+
     }, []);
     
 

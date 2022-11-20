@@ -22,7 +22,7 @@ const Councilmemberlisting = () => {
         lastname : '',
         img : 'https://www.seekpng.com/png/detail/514-5147412_default-avatar-icon.png',
         email : '',
-        psw : '',
+        psw : 'password',
         track : [],
         uid : '',
         profile : "",
@@ -36,7 +36,7 @@ const Councilmemberlisting = () => {
         lastname : '',
         img : 'https://www.seekpng.com/png/detail/514-5147412_default-avatar-icon.png',
         email : '',
-        psw : '',
+        psw : 'password',
         track : [],
         uid : '',
         profile : "",
@@ -222,6 +222,9 @@ const Councilmemberlisting = () => {
 
 
                     <div className="previewCouncil">
+                        {
+                            console.log("yowaaaa")
+                        }
 
                         {
                             successModal ? <div className="successModal">
