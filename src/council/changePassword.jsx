@@ -6,7 +6,7 @@ import '../global/styles/fragments.scss'
 import ErrorModal from '../components/modals/error_modal';
 import { resetPassword } from '../api/firebase/changePassword';
 
-const ChangePassword = () => {
+const ChangePassword = ({closeModal}) => {
 
     const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
@@ -28,7 +28,7 @@ const ChangePassword = () => {
        
         if (password1 !== password2) {
 
-            alert('Passwords do not match, pls try again!')
+            alert('Passwords do not match, pls try again!');
             
         } else {
 
@@ -38,8 +38,12 @@ const ChangePassword = () => {
                 if (e === 'password_changed') {
 
                     resetFields();
-                    setSuccess(true)
-                    window.location.href = "/council";
+                    setSuccess(true);
+
+                    const body = document.querySelector('body')
+                    body.style.overflow = "visible"
+
+                    closeFunction();
 
                 }
 
@@ -90,13 +94,20 @@ const ChangePassword = () => {
 
     }
 
+    const closeFunction = () => {
+
+        resetFields();        
+        closeModal(false);
+
+    }
+
 
 
     return (
 
         <div className = "Register changePassword" >
 
-            <div className="closePassword" onClick={ () => window.location.href = "/council" } > <i className="fi fi-sr-cross"></i> </div>
+            <div className="closePassword" onClick={ () => closeFunction() } > <i className="fi fi-sr-cross"></i> </div>
 
             {/* <ErrorModal/> */}
 

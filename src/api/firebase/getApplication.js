@@ -3,7 +3,7 @@ import { db } from "./config";
 
 export const getApplication = async (appid) => {
 
-    const docRef = doc(db, "applications", appid);
+    const docRef = doc(db, "applications_data", "cohort5", "applications", appid);
     const docSnap = await getDoc(docRef);
 
     if (docSnap.exists()) {
@@ -21,7 +21,7 @@ export const getApplication = async (appid) => {
 
 export const getCouncilGraders = async (appid) => {
 
-  const docRef = doc(db, "submittedApplications", appid);
+  const docRef = doc(db, "submitted_applications_beta", "cohort5", "applications", appid);
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {

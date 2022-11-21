@@ -9,9 +9,10 @@ import CouncilShow from './councilTabs';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { EditorState, convertToRaw, draftToHtml, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
-import { setCouncilDocument } from '../api/firebase/auth';
+import { createCouncilMember, setCouncilDocument } from '../api/firebase/auth';
 import { setCouncilInfomation, addNewCouncil } from '../api/firebase/admin/admin_applications';
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { CLOSING } from 'ws';
 
 const Councilmemberlisting = () => {
 
@@ -20,9 +21,9 @@ const Councilmemberlisting = () => {
 
         firstname : "",
         lastname : '',
-        img : 'https://www.seekpng.com/png/detail/514-5147412_default-avatar-icon.png',
+        img : 'https://www.kindpng.com/picc/m/78-786207_user-avatar-png-user-avatar-icon-png-transparent.png',
         email : '',
-        psw : 'password',
+        password : 'password',
         track : [],
         uid : '',
         profile : "",
@@ -34,9 +35,9 @@ const Councilmemberlisting = () => {
 
         firstname : "",
         lastname : '',
-        img : 'https://www.seekpng.com/png/detail/514-5147412_default-avatar-icon.png',
+        img : 'https://www.kindpng.com/picc/m/78-786207_user-avatar-png-user-avatar-icon-png-transparent.png',
         email : '',
-        psw : 'password',
+        password : 'password',
         track : [],
         uid : '',
         profile : "",
@@ -96,7 +97,7 @@ const Councilmemberlisting = () => {
         setPreviewShow(false);
 
         //set the data in for viewing
-        setPreviewData({})
+        setPreviewData(defaultData)
 
         document.body.style.overflow = "visible";
         
@@ -170,7 +171,7 @@ const Councilmemberlisting = () => {
                     
                     setPreviewData( {...previewData, img : url } );
 
-                    addNewCouncil( {...previewData, img : url }).then(() => {
+                    createCouncilMember( {...previewData, img : url }).then(() => {
 
                         setSuccessModal(true);
             
@@ -199,11 +200,11 @@ const Councilmemberlisting = () => {
         editorFinished();
         previewData.internal = internal;
         uploading();
+        console.log(previewData)
 
         
 
     }
-
 
 
     return (
@@ -222,9 +223,6 @@ const Councilmemberlisting = () => {
 
 
                     <div className="previewCouncil">
-                        {
-                            console.log("yowaaaa")
-                        }
 
                         {
                             successModal ? <div className="successModal">
@@ -239,24 +237,14 @@ const Councilmemberlisting = () => {
 
                             <div className="profileImageContainer">
 
-                            <div className="profileImage" onClick={() => handleFileUpload() }><img id = "profilePix" src={previewData.img} alt="council member Image" /></div>
-                                
-                                <div className="councilName"> 
-
-                                    <div className="firstname-council"> {previewData.firstname} </div>
-                                    <div className="lastname-council"> {previewData.lastname} </div>
-                                
-                                </div>
-
-                                {/* <div className="uploadImage"><i className="fi fi-rr-upload"></i> Upload</div> */}
-
                                 <div className="toggleArea">
 
                                     <p>Internal</p>
 
                                     <div className="toggleCouncilType" onClick = { () => setInternal(!internal) } >
 
-                                        <div className={`${internal ? 'togglePin' : 'togglePin switch'}`}></div>
+                                        <div className={`${previewData.internal ? 'togglePin' : 'togglePin switch'}`}></div>
+                                        
 
                                     </div>
 
@@ -264,92 +252,105 @@ const Councilmemberlisting = () => {
 
                                 </div>
 
+                                <div className="profileImage" onClick={() => handleFileUpload()}><img id = "profilePix" src={previewData.img} alt="council member Image" /></div>
+                                
+                                <div className="councilName"> 
+
+                                    <div className="firstname-council"> {previewData.firstname} {<br></br>} <strong>{previewData.lastname}</strong> </div>
+                                
+                                </div>
+
                                 <div className="tap">
                                     Tap to edit
                                 </div>
 
-                            </div>
+                                <div className="email_prev"> {previewData.email}</div>
 
-                            <form action="">
-
-                                <div className="gradeTrack"> <i className="fi fi-rr-user"></i> Personal Information</div>
-
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Firstname' value={previewData.firstname} name='firstname' id='firstname' onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Lastname' value={previewData.lastname} name='lastname' id='lastname' onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="inputForm">
-                                    <input type="email" placeholder='Enter Council Valid Email Address' value={previewData.email} name='email' id='email' onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Job Title' value={previewData.job} name='job' id='job'  onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="inputForm">
-                                    <input type="text" placeholder='Enter Council Linkedin Profile URL' value={previewData.linkedin} name='linkedin' id='linkedin' onChange={councilOnchange}/>
-                                </div>
-
-                                <div className="inputForm hide">
-
-                                    <input type="file" accept="image/png, image/jpeg" id = "contentImage" onChange={handleFileChange} hidden />
-
-                                </div>
-
-                                <div className="select-box">
-
-                                    <div className="gradeTrack"> <i className="fi fi-rr-checkbox"></i> Grading Track</div>
-
-                                    <div className="checkboxx">
-                                        <p>Innovation</p>
-                                        <input type="checkbox"  name = 'innovation' id='innovation' value="innovation" />
-                                    </div>
-
-                                    <div className="checkboxx">
-                                        <p>Research</p>
-                                        <input type="checkbox" name = 'research' id='research' value="research" />
-                                    </div>
-
-                                    <div className="checkboxx">
-                                        <p>Stem</p>
-                                        <input type="checkbox" name = 'stem' id='stem' value="stem" />
-                                    </div>
-
-                                    <div className="checkboxx">
-                                        <p>Secondary School</p>
-                                        <input type="checkbox" name = 'secsch' id='secsch' value="secsch" />
-                                    </div>
-                                    
-                                </div>
-
-                            </form>
-
-                            <div className="gradeTrack"> <i className="fi fi-rr-edit"></i> Council Profile </div>
-
-
-                            <div className="editorDraft">
-
-                                <Editor
-
-                                    editorState={editorState}
-                                    onEditorStateChange={onEditorStateChange}
-                                    toolbar= {
-
-                                        { options : [ 'inline', 'list'] }
-
-                                    }
-                                
-
-                                />
+                                <div className="button-submit" onClick={ () => submitCouncilInfo() }> Submit & Save </div>
 
                             </div>
 
+                            <div className="formAction">
 
-                            <div className="button-submit" onClick={ () => submitCouncilInfo() }> Submit & Save </div>
+                                <form action="">
+
+                                    <div className="gradeTrack"> <i className="fi fi-rr-user"></i> Personal Information</div>
+
+                                    <div className="inputForm">
+                                        <input type="text" placeholder='Enter Council Firstname' value={previewData.firstname} name='firstname' id='firstname' onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="inputForm">
+                                        <input type="text" placeholder='Enter Council Lastname' value={previewData.lastname} name='lastname' id='lastname' onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="inputForm">
+                                        <input type="email" placeholder='Enter Council Valid Email Address' value={previewData.email} name='email' id='email' onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="inputForm">
+                                        <input type="text" placeholder='Enter Council Job Title' value={previewData.job} name='job' id='job'  onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="inputForm">
+                                        <input type="text" placeholder='Enter Council Linkedin Profile URL' value={previewData.linkedin} name='linkedin' id='linkedin' onChange={councilOnchange}/>
+                                    </div>
+
+                                    <div className="inputForm hide">
+
+                                        <input type="file" accept="image/png, image/jpeg" id = "contentImage" onChange={handleFileChange} hidden />
+
+                                    </div>
+
+                                    <div className="select-box">
+
+                                        <div className="gradeTrack"> <i className="fi fi-rr-checkbox"></i> Grading Track</div>
+
+                                        <div className="checkboxx">
+                                            <p>Innovation</p>
+                                            <input type="checkbox"  name = 'innovation' id='innovation' value="innovation" />
+                                        </div>
+
+                                        <div className="checkboxx">
+                                            <p>Research</p>
+                                            <input type="checkbox" name = 'research' id='research' value="research" />
+                                        </div>
+
+                                        <div className="checkboxx">
+                                            <p>Stem</p>
+                                            <input type="checkbox" name = 'stem' id='stem' value="stem" />
+                                        </div>
+
+                                        <div className="checkboxx">
+                                            <p>Secondary School</p>
+                                            <input type="checkbox" name = 'secsch' id='secsch' value="secsch" />
+                                        </div>
+                                        
+                                    </div>
+
+                                </form>
+
+                                <div className="gradeTrack"> <i className="fi fi-rr-edit"></i> Council Profile </div>
+
+
+                                    <div className="editorDraft">
+
+                                        <Editor
+
+                                            editorState={editorState}
+                                            onEditorStateChange={onEditorStateChange}
+                                            toolbar= {
+
+                                                { options : [ 'inline', 'list'] }
+
+                                            }
+                                        
+
+                                        />
+
+                                    </div>
+
+                                </div>
 
                         </div>
 

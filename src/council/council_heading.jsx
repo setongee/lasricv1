@@ -14,7 +14,7 @@ const CouncilHeading = ({data, uid}) => {
     const [applicationStats, setApplicationStats] = useState({})
     const [showTrack, setShowTrack] = useState(false);
 
-    const [resetPass, setResetPass] = useState(false)
+    const [resetPass, setResetPass] = useState(false);
 
     useEffect(() => {
 
@@ -55,7 +55,7 @@ const CouncilHeading = ({data, uid}) => {
         <div className="council_heading">
             
             {
-                resetPass ? <ChangePassword /> : null
+                resetPass ? <ChangePassword closeModal = {setResetPass} /> : null
             }
 
             <div className="logo-lasric">

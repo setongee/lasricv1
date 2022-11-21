@@ -1,4 +1,6 @@
 import { getAuth, updatePassword } from "firebase/auth";
+import { updateDoc, doc } from "firebase/firestore";
+import { db } from "./config";
 
 export const resetPassword = async ( newPass ) => {
 
@@ -11,7 +13,11 @@ export const resetPassword = async ( newPass ) => {
 
     await updatePassword(user, newPassword).then(() => {
 
-        status = 'password_changed'
+        status = 'password_changed';
+
+        const counRef = doc(db, 'council', auth.currentUser.uid);
+
+        updateDoc(counRef, { "password" : newPassword });
 
     }).catch((error) => {
 

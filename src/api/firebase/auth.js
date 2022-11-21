@@ -1,4 +1,4 @@
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc, getDoc, collection, query, getDocs, where } from "firebase/firestore"; 
 import { db } from "./config";
 import { data } from "./new-data";
@@ -21,34 +21,75 @@ export const setDocument = async ( uid, lastname, firstname, email, phone, type,
 
     });
 
-   if (type === 'council') {
-    setCouncilDocument(uid, lastname, firstname, email, type, track)
-   }
-
    if (type === 'admin') {
     setAdminDocument(uid, lastname, firstname, email, type)
    }
 
-   await axios.post('/api/sendemail/register', {email : email, firstname : firstname, lastname, password});
+   sendLasricEmail(email, firstname, lastname, password, track)
 
 }
 
-export const setCouncilDocument = async ( uid, lastname, firstname, email, type, track) => {
+const sendLasricEmail = async (email, firstname, lastname, password, track) =>{
 
-    await setDoc(doc(db, "council", uid), {
+    if (track === 'council') {
+        await axios.post('/api/sendemail/council/create', {email : email, firstname : firstname, lastname, password});
+    } else {
+        await axios.post('/api/sendemail/register', {email : email, firstname : firstname, lastname, password});
+    }
 
-        lastname : lastname,
-        firstname : firstname,
-        email : email,
-        type : "council",
-        uid : uid,
-        track : track,
-        psw : "psw",
-        img : ""
+}
+
+export const setCouncilDocument = async ( uid, data ) => {
+
+    await setDoc(doc(db, "council", uid), data);
+
+    await SignInUser('admin@lasric.com', '123456');
+
+}
+
+
+export const createCouncilMember = (data) => {
+
+    const { email, password, lastname, firstname, phone = '08145627389' } = data;
+
+    const auth = getAuth();
+
+    console.log(email, password, lastname, phone)
+
+    createUserWithEmailAndPassword( auth, email, password )
+    .then(async (userCredential) => {
+
+        const user = userCredential.user;
+
+        await setDocument(user.uid, lastname, firstname, email, phone, "council", password)
+        .then(() => {
+
+            setCouncilDocument(user.uid, {...data, uid : user.uid})
+
+        })
+
+    })
+    .catch((error) => {
+
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+
+        alert('Sorry this email address is already in use.')
 
     });
 
 }
+
+
+const SignInUser = (email, password) => {
+
+    const auth = getAuth();
+
+    signInWithEmailAndPassword(auth, email, password);
+
+}
+
 
 
 export const getCouncilData = async () => {

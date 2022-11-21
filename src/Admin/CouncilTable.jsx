@@ -22,7 +22,7 @@ const CouncilMember = ({check, newCouncil}) => {
         lastname : '',
         img : '',
         email : '',
-        psw : '',
+        password : 'password',
         track : [],
         uid : '',
         profile : "",
@@ -326,11 +326,13 @@ const CouncilMember = ({check, newCouncil}) => {
                                 
                                 </div>
 
-                                {/* <div className="tap">
+                                <div className="tap">
                                     Tap to edit
-                                </div> */}
+                                </div>
 
-                                <div className="buttonReset">Re-Authenticate</div>
+                                <div className="email_prev"> {previewData.email}</div>
+
+                                <div className="button-submit" onClick={ () => submitCouncilInfo() }> Submit & Save </div>
 
                             </div>
 
@@ -413,9 +415,6 @@ const CouncilMember = ({check, newCouncil}) => {
                                     />
 
                                 </div>
-
-
-                                <div className="button-submit" onClick={ () => submitCouncilInfo() }> Submit & Save </div>
 
                                 <div className="deleteCouncilMember" onClick={() => handleDelete() }> <i className="fi fi-rr-trash"></i> Delete Member</div>
 

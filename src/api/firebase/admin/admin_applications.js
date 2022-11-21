@@ -159,19 +159,19 @@ export const setUsersInUser2 = async (uid, data) => {
 
 //Add COUNCIL INFORMATION
 
-export const addNewCouncil = async (data) => {
+// export const addNewCouncil = async (data) => {
 
-    const newCounciilRef = await addDoc(collection(db, "council"), data)
+//     const newCounciilRef = await addDoc(collection(db, "council"), data)
 
-    const councilCreated = await doc(db, "council", newCounciilRef.id);
+//     const councilCreated = await doc(db, "council", newCounciilRef.id);
 
-    await updateDoc(councilCreated, {
+//     await updateDoc(councilCreated, {
 
-        uid: newCounciilRef.id
+//         uid: newCounciilRef.id
 
-    });
+//     });
 
-}
+// }
 
 
 export const deleteFunction = async (document, uid) => {

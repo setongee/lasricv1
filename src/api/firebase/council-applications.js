@@ -6,7 +6,7 @@ import { data } from "./new-data";
 
 export const getApplicationGrades = async (appid) => {
 
-    const documentRef = doc(db, "submittedApplications", appid);
+    const documentRef = doc(db, "submitted_applications_beta", "cohort5", "applications", appid);
     const documentRefSnap = await getDoc(documentRef);
 
 
@@ -26,7 +26,7 @@ export const getApplicationGrades = async (appid) => {
 
 export const getAllSubmittedApplications = async (uid) => {
 
-    const querySnapshot = await getDocs( query(collection(db, "submitted_applications_beta"),orderBy("dateSubmitted", "desc"))  );
+    const querySnapshot = await getDocs( query(collection(db, "submitted_applications_beta", "cohort5", "applications"),orderBy("dateSubmitted", "desc"))  );
 
     const counRef = doc(db, 'council', uid);
     const res = await getDoc(counRef)
@@ -44,6 +44,8 @@ export const getAllSubmittedApplications = async (uid) => {
 
     });
 
+    console.log(result)
+
     return result;
 
 }
@@ -51,7 +53,7 @@ export const getAllSubmittedApplications = async (uid) => {
 
 export const updateGrade = async (appid, score, uid, gradings) => {
 
-    const documentRef = doc(db, "submittedApplications", appid);
+    const documentRef = doc(db, "submitted_applications_beta", "cohort5", "applications", appid);
     
     await updateDoc(documentRef, { [`grades.${uid}`] : { councilID : uid, gradings : gradings, grade : score, applicationID : appid } })
     .then( () => updateAvgGrade(appid) )
@@ -60,7 +62,7 @@ export const updateGrade = async (appid, score, uid, gradings) => {
 
 const updateAvgGrade = async (appid) => {
 
-    const documentRef = doc(db, "submittedApplications", appid);
+    const documentRef = doc(db, "submitted_applications_beta", "cohort5", "applications", appid);
     const querySnap = await getDoc(documentRef)
     const councilNum = Object.keys(querySnap.data().grades).length;
 

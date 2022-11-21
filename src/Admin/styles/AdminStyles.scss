@@ -658,13 +658,14 @@
         height: 40px;
         position: absolute;
         z-index: 999;
-        top: 60px;
-        display: none;
+        top: 10px;
+        display: flex;
         align-items: center;
         justify-content: center;
         color: #fff;
         border-radius: 50%;
         cursor: pointer;
+        right: 200px;
 
         .fi{
             margin-top: 5px;
@@ -674,7 +675,7 @@
 
     .button-submit{
         background-color: #000;
-        margin-top: 30px;
+        margin-top: 70px;
         border-radius: 100px;
         padding: 20px;
         font-size: 12px;
@@ -682,6 +683,9 @@
         text-align: center;
         font-weight: bold;
         cursor: pointer;
+        width: 80%;
+        position: absolute;
+        bottom: 40px;
     }
     
     .deleteCouncilMember{
@@ -714,8 +718,7 @@
 
     .councilInformation{
 
-        background-color: #fff;
-        width: 950px;
+        width: 70%;
         height: max-content;
         position: fixed;
         top: 0px;
@@ -732,12 +735,20 @@
             align-items: center;
             background-color: #fff;
             padding: 33px 30px;
-            height: 100vh;
-            width: 350px;
+            width: 30%;
             border-right: 1px solid whitesmoke;
             overflow: hidden;
             flex-direction: column;
             align-items: center;
+            order: 2;
+            height: 520px;
+
+            .email_prev{
+                font-size: 13px !important;
+                color: #444;
+                text-decoration: underline;
+                margin-top: 20px;
+            }
 
             .buttonReset{
                 background-color: rgb(132, 57, 230);
@@ -797,10 +808,13 @@
             
             overflow-y: scroll;
             height: 100vh;
-            width: 600px;
+            width: 70%;
             padding: 0 30px;
             padding-top: 5px;
             padding-bottom: 28px;
+            background-color: #fff;
+            box-shadow: 10px 0 30px rgba($color: #000, $alpha: .03);
+            z-index: 9;
 
         }
 
@@ -827,12 +841,13 @@
 
         .councilName{
             font-size: 14px;
+            margin-top: 30px;
 
             .lastname-council, .firstname-council{
-                font-size: 24px;
-                letter-spacing: -1px;
+                font-size: 18px;
+                letter-spacing: -.5px;
                 text-align: center;
-                line-height: 28px;
+                line-height: 23px;
                 margin-top: 30px;
             }
         }
@@ -866,7 +881,7 @@
 
         .tap{
             position: absolute;
-            margin-top: 90px;
+            margin-top: 220px;
             font-size: 11px;
             margin-left: -7px;
             color: #777;
