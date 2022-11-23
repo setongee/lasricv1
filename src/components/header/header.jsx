@@ -11,6 +11,8 @@ import LasricLogo from '../../assets/svg/lasric_logo.svg'
 
 const Header = ({user}) => {
 
+    console.log(user)
+
     const  routes = {
         
         //pages

@@ -244,12 +244,34 @@ const CouncilMember = ({check, newCouncil}) => {
 
     const submitCouncilInfo = async () => {
 
-        //setCouncilDocument(data.uid, data)
-        uploading()
-        addTrackCouncil();
-        editorFinished();
-        previewData.internal = internal;
-        console.log(previewData)
+        if (content !== "") {
+
+            addTrackCouncil();
+            editorFinished();
+            previewData.internal = internal;
+            uploading()
+
+        } else {
+
+            addTrackCouncil();
+            editorFinished();
+            previewData.internal = internal;
+
+            setCouncilInfomation(previewData.uid, previewData).then(() => {
+
+                setSuccessModal(true);
+    
+                setTimeout(() => {
+    
+                    setSuccessModal(false);
+                    closePreviewUser()
+                    
+                }, 1000);
+    
+            })
+
+        }
+        
         
         
 

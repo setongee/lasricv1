@@ -173,7 +173,6 @@ export const setUsersInUser2 = async (uid, data) => {
 
 // }
 
-
 export const deleteFunction = async (document, uid) => {
 
     await deleteDoc(doc(db, document, uid));
