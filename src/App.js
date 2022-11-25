@@ -40,14 +40,11 @@ function App() {
 
       onSnapshot(doc(db, "users", uid), (doc) => {
           setCurrentUser(doc.data());
-          console.log(doc.data())
       });
 
     }
     
   }, [uid, authenticate, track])
-
-  console.log(auth.currentUser)
   
 
   return (

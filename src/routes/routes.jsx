@@ -78,6 +78,7 @@ import ResearchProject from '../pages/application/research_project';
 import ResearchResults from '../pages/application/research_results';
 import ResearchBudget from '../pages/application/research_budget';
 import Messaging from '../Admin/messaging/messaging';
+import GradeResearch from '../council/dashboard/gradeResearch';
 
 const Router = ({user}) => {
 
@@ -260,6 +261,8 @@ const Router = ({user}) => {
                     <Route path = 'grade/innovation/:appid' element = {< GradeInnovationApplication councilProfile = {currentUser} />} />
 
                     <Route path = 'grade/secsch/:appid' element = {< GradeSecSch councilProfile = {currentUser} />} />
+
+                    <Route path = 'grade/research/:appid' element = {< GradeResearch councilProfile = {currentUser} />} />
 
                 </Route>
                 

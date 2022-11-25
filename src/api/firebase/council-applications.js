@@ -44,8 +44,6 @@ export const getAllSubmittedApplications = async (uid) => {
 
     });
 
-    console.log(result)
-
     return result;
 
 }
