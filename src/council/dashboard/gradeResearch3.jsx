@@ -4,19 +4,18 @@ import { useLocation } from 'react-router-dom';
 
 import Stemtr from '../../components/tabletr/stemtr';
 
-import '../researchAPP.scss'
-
 import { getApplication } from '../../api/firebase/getApplication';
 import { updateGrade, getApplicationGrades } from '../../api/firebase/council-applications';
 
 import SethAnimation from '../../components/lottie/seth-animation';
 import GradingTableTR from '../../components/tabletr/gradingTableTR';
 import GradingResearchTR from '../../components/tabletr/gradingResearchTR';
-import ResearchTRP2 from '../../components/tabletr/gradingResearch3';
 
 const GradeResearch = ({councilProfile}) => {
 
-    const Navigate = useNavigate();
+    const Navigate = useNavigate()
+
+        console.log("heyyo")
 
         const formData23 = {
 
@@ -62,63 +61,15 @@ const GradeResearch = ({councilProfile}) => {
 
         const [tableTR, setTableTR] = useState({team : []})
 
-        const [gradeScore, setGradeScore] = useState(0);
-        
-
         const [score, setScore] = useState({
 
-            problem : '',
-            coResearchers : '',
-            title : '',
-            execSummary : '',
-            intro : '',
-            probState : '',
-            obj : '',
-            lite : '',
-            meth : '',
-            res : '',
-            resultsGrade : '',
-            budgetGrade : '',
-            financials : '',
-            environmentalImpact : '',
-            ref : ''
+            personal : '',
+            experience : '',
+            relevance : '',
+            impact : '',
+            scalability : ''
 
         })
-
-        const handleGradeChange = (e) => {
-
-            const {id, value} = e.target;
-
-            const max = Number(e.target.dataset.max);
-
-            if (value !== "") {
-
-                var numbers = /^[-+]?[0-9]+$/;
-        
-                if (!value.match(numbers)){
-
-                    alert('Please input only numbers to grade application')
-                
-                }                
-            }
-
-            if (value > max){
-
-                alert(`Grade for this area connot be above ${max} marks`)
-
-            } else {
-
-                setScore(scores => {
-
-                    return {
-                    ...scores,
-                    [id] : value
-                    }
-                })
-
-            }
-                                
-        }
 
         const [loadSubmit, setLoadSubmit] = useState(false)
 
@@ -143,6 +94,7 @@ const GradeResearch = ({councilProfile}) => {
                 if(response !== null ) {
 
                     setForm2(response.data);
+                    console.log(response.data);
 
                 }
             });
@@ -161,12 +113,6 @@ const GradeResearch = ({councilProfile}) => {
             } )
             
         }, []);
-
-        useEffect(() => {
-            
-            updateScore();
-
-        }, [score]);
 
 
         const handleTableDelete = async (e, val) => {
@@ -213,18 +159,48 @@ const GradeResearch = ({councilProfile}) => {
                 })
             } 
         
-        }
+        } 
+
+        const handleGradeChange = (e) => {
+
+            const {id, value} = e.target;
+            
+            var numbers = /^[-+]?[0-9]+$/;
         
-        const updateScore = () => {
+            if (value !== "") {
+                
+                if (!value.match(numbers)){
 
-            const dip = Object.values(score).reduce((a, b) => Number(a) + Number(b));
-            setGradeScore(dip);
+                    alert('Please input only numbers to grade application')
+                    
+                }
+            }
 
+            if (value > 20){
+
+                alert('Grade for this area connot be above 20 marks')
+
+            } else {
+
+                setScore(data => {
+
+                    return {
+                    ...data,
+                    [id] : value
+                    }
+                })
+            }
+            
+
+            
+    
         }
+
+        const dip = Object.values(score).reduce((a, b) => Number(a) + Number(b));
 
         const handleSubmitGrade = async () => {
 
-            await updateGrade(rip, gradeScore, councilProfile.uid, score).then(() => Navigate('/council'))
+            await updateGrade(rip, dip, councilProfile.uid, score).then(() => Navigate('/council'))
 
         }
 
@@ -232,7 +208,7 @@ const GradeResearch = ({councilProfile}) => {
 
         return (
 
-            <div className="gradingApplication newSeth">
+            <div className="gradingApplication">
 
                 {
                     loadSubmit ? (
@@ -252,21 +228,15 @@ const GradeResearch = ({councilProfile}) => {
 
                             Your Grading
 
-                            <h1>{gradeScore}%</h1>
+                            <h1>{dip}%</h1>
 
                     </div>
 
-                    {
-                        score.problem !== '' && score.coResearchers !== '' && score.title !== '' && score.execSummary !== '' && score.intro !== '' && score.probState !== '' && score.obj !== '' && score.lite !== '' && score.meth !== '' && score.res !== '' && score.resultsGrade !== '' && score.budgetGrade !== '' && score.financials !== '' && score.environmentalImpact !== '' && score.ref !== '' 
-                        
-                        ? 
-                        
-                        <div className="activity" onClick={()=>handleSubmitGrade()}> Submit Grading </div>
-                        
-                        : 
-                        
-                        <div className="activity" onClick={()=>handleSubmitGrade()}> Submit Grading </div>
-                    }
+
+
+                    <div className="activity" onClick={()=>handleSubmitGrade()}>
+                    Submit Grading
+                    </div>
 
                 </div>
 
@@ -279,6 +249,11 @@ const GradeResearch = ({councilProfile}) => {
                             <form className='lasric-apply-form gradingPart'>
 
                                 <div className="sections">
+                                    
+                                    <div className="section">
+                                        <label >Personal</label>
+                                        <div className="line-section" />
+                                    </div>
 
                                     <div className="sub-section">
                                         <label >1. Institution </label>
@@ -294,16 +269,13 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 5)</strong>
+                                                <strong>Grade this Area (Max of 5)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "problem" onChange={handleGradeChange} value = {score.problem || ""} data-max = { Number("5") }/>
+                                        <input type="text" placeholder = "Enter your Score" id = "problem" onChange={handleGradeChange} value = {score.personal} data-max = { Number("5") } />
 
                                     </div>
-                                    
-                                </div>
 
-                                <div className="sections">
 
                                     <div className="sub-section">
 
@@ -318,35 +290,36 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 5)</strong>
+                                                <strong>Grade this Area (Max of 5)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "coResearchers" onChange={handleGradeChange} value = {score.coResearchers} data-max = { Number("5") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "problem" onChange={handleGradeChange} value = {score.coResearchers} data-max = { Number("5") } />
                             
                                     </div>
-
+                                    
                                 </div>
 
                                 <div className="sections">
+                                    
+                                    <div className="section">
+                                        <label >Project</label>
+                                        <div className="line-section" />
+                                    </div>
 
                                     <div className="sub-section">
-                                        <label>Project Title </label>
+                                        <label for="">Project Title </label>
                                         <textarea name="" rows="5" placeholder="Please Enter..." id="projectTitle"  onChange={handleChange} value={form2.project.data.projectTitle}></textarea>
                                     </div>
 
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 10)</strong>
+                                                <strong>Grade this Area (Max of 10)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "title" onChange={handleGradeChange} value = {score.title} data-max = { Number("10") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "title" onChange={handleGradeChange} value = {score.title} data-max = { Number("10") } />
                             
-                                    </div>  
-                                    
-                                </div> 
-
-                                <div className="sections">
+                                    </div>
 
                                     <div className="sub-section">
                                         <label for="">Executive Summary</label>
@@ -356,16 +329,12 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 10)</strong>
+                                                <strong>Grade this Area (Max of 10)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "execSummary" onChange={handleGradeChange} value = {score.execSummary} data-max = { Number("10") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "execSummary" onChange={handleGradeChange} value = {score.execSummary} data-max = { Number("10") } />
                             
                                     </div>
-
-                                </div>
-
-                                <div className="sections">
 
                                     <div className="sub-section">
                                         <label for="">Introduction</label>
@@ -375,16 +344,13 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 5)</strong>
+                                                <strong>Grade this Area (Max of 5)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "intro" onChange={handleGradeChange} value = {score.intro} data-max = { Number("5") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "intro" onChange={handleGradeChange} value = {score.intro} data-max = { Number("5") } />
                             
                                     </div>
                                     
-                                </div>
-
-                                <div className="sections">
 
                                     <div className="sub-section">
                                         <label for="">Problem Statement/Justification/Conceptual framework</label>
@@ -394,16 +360,13 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 5)</strong>
+                                                <strong>Grade this Area (Max of 5)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "probState" onChange={handleGradeChange} value = {score.probState} data-max = { Number("5") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "probState" onChange={handleGradeChange} value = {score.probState} data-max = { Number("5") } />
                             
                                     </div>
 
-                                </div>
-                                    
-                                <div className="sections">
 
                                     <div className="sub-section">
                                         <label for="">Objective(s) of the Study</label>
@@ -413,16 +376,12 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 5)</strong>
+                                                <strong>Grade this Area (Max of 5)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "obj" onChange={handleGradeChange} value = {score.obj} data-max = { Number("5") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "obj" onChange={handleGradeChange} value = {score.obj} data-max = { Number("5") } />
                             
                                     </div>
-
-                                </div>
-                                    
-                                <div className="sections">
 
                                     <div className="sub-section">
                                         <label for=""> Literature Review </label>
@@ -432,16 +391,12 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 5)</strong>
+                                                <strong>Grade this Area (Max of 5)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "lite" onChange={handleGradeChange} value = {score.lite} data-max = { Number("5") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "lite" onChange={handleGradeChange} value = {score.lite} data-max = { Number("5") } />
                             
                                     </div>
-                                    
-                                </div>
-
-                                <div className="sections">
 
                                     <div className="sub-section">
                                         <label for=""> Methodology </label>
@@ -451,14 +406,14 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 10)</strong>
+                                                <strong>Grade this Area (Max of 10)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "meth" onChange={handleGradeChange} value = {score.meth} data-max = { Number("10") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "meth" onChange={handleGradeChange} value = {score.meth} data-max = { Number("10") } />
                             
                                     </div>
-
-                                </div>   
+                                    
+                                </div> 
 
                                 <div className="sections">
 
@@ -499,10 +454,10 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 15)</strong>
+                                                <strong>Grade this Area (Max of 15)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "res" onChange={handleGradeChange} value = {score.res} data-max = { Number("15") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "res" onChange={handleGradeChange} value = {score.res} data-max = { Number("15") } />
                             
                                     </div>
 
@@ -548,10 +503,10 @@ const GradeResearch = ({councilProfile}) => {
                                     <div className="sub-section grade-value">
 
                                         <label>
-                                                <strong>Grade this section (Max of 15)</strong>
+                                                <strong>Grade this Area (Max of 15)</strong>
                                         </label>
 
-                                        <input type="text" placeholder = "Enter Grade" id = "resultsGrade" onChange={handleGradeChange} value = {score.resultsGrade} data-max = { Number("15") } />
+                                        <input type="text" placeholder = "Enter your Score" id = "meth" onChange={handleGradeChange} value = {score.resultsGrade} data-max = { Number("15") } />
                             
                                     </div>
 
@@ -571,8 +526,8 @@ const GradeResearch = ({councilProfile}) => {
                                             <tr>
 
                                                 <th>Description of Item</th>
-                                                <th> Amount (N)  </th>
-                                                <th>Total (N) </th>
+                                                <th> Amount </th>
+                                                <th>Total</th>
 
                                             </tr>
                                             
@@ -582,6 +537,8 @@ const GradeResearch = ({councilProfile}) => {
                                                 <td> <input name = "budget1" required type="text" id="amount" value = {form2.budget.data.budget.budget1.amount} /> </td>
                                                 <td> <input name = "budget1" required type="text" id="total" value = {form2.budget.data.budget.budget1.total} /> </td>
 
+                                                <td style={{width:'10%', textAlign : 'center', padding :0, border:'none' }}> </td>
+
                                             </tr>
 
                                             {
@@ -589,83 +546,13 @@ const GradeResearch = ({councilProfile}) => {
                                                     if(index === 0) {
                                                         return null
                                                     } else {
-                                                        return <ResearchTRP2 customName="budget" data = {form2.budget.data.budget} bill = {budget} index = {index} key = {index} />
+                                                        return <GradingResearchTR customName="budget" data = {form2.budget.data.budget} bill = {budget} index = {index} key = {index} />
                                                     }
                                                 } ) : null
                                             }
                     
                                         </table>
 
-                                    </div>
-
-                                    <div className="sub-section grade-value">
-
-                                        <label>
-                                                <strong>Grade this section (Max of 10)</strong>
-                                        </label>
-
-                                        <input type="text" placeholder = "Enter Grade" id = "budgetGrade" onChange={handleGradeChange} value = {score.budgetGrade} data-max = { Number("10") } />
-                            
-                                    </div>
-
-                                </div>
-
-                                <div className="sections">
-
-                                    <div className="sub-section">
-                                        <label> Financial /other control measures (Institutional, Researchers/individual) </label>
-                                        <textarea name="" rows="5" placeholder="Please Enter..." id="financialMeasures" onChange={handleChange} value={form2.budget.data.financialMeasures}></textarea>
-                                    </div>
-
-                                    <div className="sub-section grade-value">
-
-                                        <label>
-                                                <strong>Grade this section (Max of 2)</strong>
-                                        </label>
-
-                                        <input type="text" placeholder = "Enter Grade" id = "financials" onChange={handleGradeChange} value = {score.financials} data-max = { Number("2") } />
-                            
-                                    </div>
-
-                                </div>
-
-                                <div className="sections">
-
-                                    <div className="sub-section">
-                                        <label>Environmental impact (Social/physical/health etc)</label>
-                                        <textarea name="" rows="5" placeholder="Please Enter..." id="environmentalImpact" onChange={handleChange} value={form2.budget.data.environmentalImpact}></textarea>
-                                    </div>
-
-                                    <div className="sub-section grade-value">
-
-                                        <label>
-                                                <strong>Grade this section (Max of 2)</strong>
-                                        </label>
-
-                                        <input type="text" placeholder = "Enter Grade" id = "environment" onChange={handleGradeChange} value = {score.environment} data-max = { Number("2") } />
-                            
-                                    </div>
-
-                                </div>
-
-                                <div className="sections">
-
-                                    <div className="sub-section">
-
-                                        <label>References</label>
-
-                                        <textarea name="" rows="5" placeholder="Please Enter..." id="references" onChange={handleChange} value={form2.budget.data.references}></textarea>
-
-                                    </div>
-
-                                    <div className="sub-section grade-value">
-
-                                        <label>
-                                                <strong>Grade this section (Max of 2)</strong>
-                                        </label>
-
-                                        <input type="text" placeholder = "Enter Grade" id = "ref" onChange={handleGradeChange} value = {score.ref} data-max = { Number("2") } />
-                            
                                     </div>
 
                                 </div>
@@ -678,7 +565,7 @@ const GradeResearch = ({councilProfile}) => {
 
                     {/* overall grading */}
                             
-                    {/* <div>
+                    <div>
 
                         {
                             !score.problem || !score.experience || !score.relevance || !score.impact || !score.scalability === "" ? (
@@ -694,7 +581,7 @@ const GradeResearch = ({councilProfile}) => {
                                 </div>
                         }
                                 
-                    </div> */}
+                    </div>
                 
                 </div>
 

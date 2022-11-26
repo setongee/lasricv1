@@ -5,8 +5,11 @@ import ChangePassword from './changePassword';
 
 import LasricLogo from '.././assets/svg/lasric_logo.svg'
 
+import { useParams } from 'react-router-dom';
+
 const CouncilHeading = ({data, uid}) => {
 
+    let params = useParams();
     const authState = getAuth()
 
     const baseurl = '/council/dashboard/applications'

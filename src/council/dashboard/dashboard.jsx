@@ -3,10 +3,13 @@ import { useLocation, Outlet } from 'react-router-dom';
 import '../councilArea.scss'
 import CouncilHeading from '../council_heading';
 import { getAllSubmittedApplications } from '../../api/firebase/council-applications';
+import { useParams } from 'react-router-dom';
 
 const CouncilDashboard = ({user}) => {
 
     const Path = useLocation().pathname.split('/')[1];
+
+    let params = useParams()
 
     const alldata = getAllSubmittedApplications(user.uid);
 
@@ -24,7 +27,7 @@ const CouncilDashboard = ({user}) => {
 
             <CouncilHeading data = {data} uid = {user.uid} />
 
-            <div className="nameSpace">
+            <div className= { Object.keys(params).length ? "nameSpace gradeKey" : "nameSpace" } >
 
                 <div className="welcome-council">
 
