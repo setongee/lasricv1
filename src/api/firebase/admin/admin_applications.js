@@ -32,7 +32,7 @@ export const setUser2InUsers = async () => {
 
 export const Godwin = async () => {
 
-    const newCounciilRef = await collection(db, "submittedApplications", "cohort4", "applications")
+    const newCounciilRef = await collection(db, "submitted_applications_beta", "cohort5", "applications")
     const queryUsers = await getDocs(newCounciilRef)
 
     //console.log(queryUsers)
@@ -51,16 +51,16 @@ export const updateSubApps = async (uid, id) => {
 
     result.forEach(app => {
 
-        const docRef = doc(db, "submitted_applications_beta", "cohort4", "applications", app.uid);
-        const response = getDoc(docRef);
+        const docRef = doc(db, "submitted_applications_beta", "cohort5", "applications", `LASRIC_${app.callID}_${app.uid}`);
+        // const response = getDoc(docRef);
 
-        console.log(app.data.education.data.school)
+        // console.log(app.data.education.data.school)
 
-        if (app.data.education.data.school !== undefined) {
+        // if (app.data.education.data.school !== undefined) {
 
-            updateDoc(docRef, { "companySector" : app.data.education.data.school });
+        //     updateDoc(docRef, { "companySector" : app.data.education.data.school });
             
-        }
+        // }
 
 
         // response.then( play => {
@@ -80,6 +80,10 @@ export const updateSubApps = async (uid, id) => {
 
         //fg
 
+        console.log(app.avgGrade)
+
+        updateDoc(docRef, { "grade_export" : `${Math.round(app.avgGrade * 10) / 10}%` });
+
     })  
 
 }
@@ -89,7 +93,7 @@ export const fixSubmittedApps = async (track) => {
     
     //const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
 
-    const bintConv = query (  collection( db, "applications_data", "cohort5" , "applications"), where("track", "==", "secsch" )  )
+    const bintConv = collection( db, "submitted_applications_beta", "cohort5" , "applications")
     const querySnapshot = await getDocs(bintConv);
 
     const allApplications = []

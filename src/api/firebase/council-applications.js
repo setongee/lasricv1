@@ -68,9 +68,10 @@ const updateAvgGrade = async (appid) => {
 
         const newGrade = querySnap.data().grades
         const total = Object.values(newGrade).reduce((t, {grade}) => t + grade, 0)
-        const avgGrade = total / councilNum
+        const avgGrade = total / councilNum;
 
         updateDoc(documentRef, { "avgGrade" : avgGrade });
+        updateDoc(documentRef, { "grade_export" : `${Math.round(avgGrade * 10) / 10}%` });
     }
 
 }
