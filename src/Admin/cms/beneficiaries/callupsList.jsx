@@ -22,7 +22,7 @@ const BeneficiariesList = () => {
 
         async function fetchData() {
 
-          const response = await getCMSCallupData("beneficiaries", cohort);
+          const response = await getCMSCallupData("beneficiaries", cohort, "all");
           setData(response);
 
         }

@@ -74,7 +74,7 @@ const BeneficiariesItem = ({dataPlan, onDelete, deleteVal}) => {
     return (
 
 
-        <div className='cms-joint'>
+        <div className='cms-joint admin_callup'>
 
             {
                 loading ? <div className="loaderScreen">
@@ -96,13 +96,9 @@ const BeneficiariesItem = ({dataPlan, onDelete, deleteVal}) => {
                 </div> : null
             }
 
-            <div className="callups_section">
+            <div className="callups_section ">
 
                 <div className="preview_cms_card beneficiary">
-
-                    <div className="callup_img">
-                        <img src={data.foundersImg} alt="Founders image" />
-                    </div>
 
                     <div className="logoCompany">
                         <img src={data.logo} alt="company logo image" />

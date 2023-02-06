@@ -33,7 +33,7 @@ export const editBeneficiaryDetails = async (cohort, uid) => {
 
 export const updateBeneficiary = async (cohort, uid, data) => {
 
-    const docRef = await doc(db, "cms", "beneficiaries", cohort, uid)
+    const docRef = await doc(db, "cms", "beneficiaries", cohort, uid);
     await setDoc(docRef, data);
 
 }
@@ -106,19 +106,63 @@ export const getCMSData = async (cms_area) => {
 
 }
 
-export const getCMSCallupData = async (cms_area, cohort) => {
+// export const getCMSCallupData = async (cms_area, cohort) => {
 
-    const docRef = await collection(db, "cms", cms_area, cohort)
-    const documenter = await getDocs(docRef)
+//     const docRef = await collection(db, "cms", cms_area, cohort)
+//     const documenter = await getDocs(docRef)
+
+//     const callupsData = [];
+
+//     documenter.forEach( callup => {
+//         callupsData.push({
+//             data : callup.data(),
+//             uid : callup.id
+//         });
+//     })
+
+//     return callupsData;
+
+// }
+
+export const getCMSCallupData = async (cms_area, cohort, track) => {
+
 
     const callupsData = [];
+    
 
-    documenter.forEach( callup => {
-        callupsData.push({
-            data : callup.data(),
-            uid : callup.id
-        });
-    })
+    if (track !== "all") {
+
+        const docRef = await query(collection(db, "cms", cms_area, cohort), where( "track", "==" , track ));
+
+        const documenter = await getDocs(docRef)
+
+        documenter.forEach( callup => {
+            callupsData.push({
+                data : callup.data(),
+                uid : callup.id
+            });
+        })
+
+        console.log(callupsData)
+
+    } else {
+
+        const docRef = await collection(db, "cms", cms_area, cohort);
+
+        const documenter = await getDocs(docRef)
+
+        documenter.forEach( callup => {
+            callupsData.push({
+                data : callup.data(),
+                uid : callup.id
+            });
+        })
+
+        console.log(callupsData)
+
+    }
+
+   
 
     return callupsData;
 

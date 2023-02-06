@@ -8,10 +8,11 @@ import { Editor } from 'react-draft-wysiwyg';
 import { addBeneficiaryDetails, editBeneficiaryDetails, updateBeneficiary } from '../../../api/firebase/admin/cms';
 import SethAnimation from '../../../components/lottie/seth-animation';
 import { getCurrentCohortNumber } from '../../../api/firebase/admin/admin_applications';
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-const BeneficiariesEdit = () => {
+const BeneficiariesCreate = () => {
 
-    const Navigate = useNavigate();
+    const Navigate = useNavigate()
     const Params = useParams();
 
     const [data, setData] = useState({
@@ -28,7 +29,68 @@ const BeneficiariesEdit = () => {
 
     const [openPreviewModal, setPreviewModal] = useState(false);
     const [loading, setLoading] = useState(false)
-    const [alert, setAlert] = useState(false)
+    const [alert, setAlert] = useState(false);
+    const [content, setContent] = useState("");
+    const [content2, setContent2] = useState( "" );
+
+    // const handleFileChange = e => {
+
+    //     const image = document.getElementById("callup_img")
+    //     image.src = URL.createObjectURL(e.target.files[0])
+    //     setContent(e.target.files[0]);
+
+    // }
+
+    useEffect(() => {
+
+        async function fetchData() {
+
+          const response = await editBeneficiaryDetails(Params.cohort, Params.id);
+
+          setData(response)
+
+        }
+
+        fetchData();
+
+    }, []);
+
+    const handleFileChange = e => {
+
+        const image = document.getElementById("foundersImage")
+        image.src = URL.createObjectURL(e.target.files[0])
+        setContent(e.target.files[0]);
+
+    }
+
+    const handleFileChange2 = e => {
+
+
+        const image = document.getElementById("logoCompany")
+        image.src = URL.createObjectURL(e.target.files[0])
+        setContent2(e.target.files[0]);
+
+    }
+
+    // const handleFileUpload = () => {
+
+    //     const fileInput = document.getElementById("callupPhoto")
+    //     fileInput.click();
+
+    // }
+
+    const handleFileUpload = (e) => {
+        const fileInput = document.getElementById("founders")
+        fileInput.click();
+
+    }
+
+    const handleFileUpload2 = (e) => {
+
+        const fileInput = document.getElementById("company_logo")
+        fileInput.click();
+
+    }
 
     
     const handleChange = e => {
@@ -53,19 +115,19 @@ const BeneficiariesEdit = () => {
 
     }
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        async function fetchData() {
+    //     async function fetchData() {
 
-          const response = await editBeneficiaryDetails(Params.cohort, Params.id);
+    //       const response = await getCMSData("callups", "");
 
-          setData(response)
+    //       setData(response)
 
-        }
+    //     }
 
-        fetchData();
+    //     fetchData();
 
-      }, []);
+    //   }, []); 
 
     // useEffect(() => {
 
@@ -80,6 +142,84 @@ const BeneficiariesEdit = () => {
     //     }
 
     // }, [data]);
+
+    const uploading2 = (url_logo) => {
+
+        const storage = getStorage();
+        const storageRef = ref( storage, `cms / beneficiaries / logos / logo_${data.company}` );
+    
+            //uploading to firebase begins
+            uploadBytes(storageRef, content2)
+            .then( () => {
+    
+                getDownloadURL(storageRef)
+                .then( url => {
+
+                    //the cms details is updated here
+
+                    data.logo = url;
+                    data.foundersImg = url_logo
+
+                    updateBeneficiary(`cohort${data.cohortNum}`, Params.id, data ).then( () => {
+
+                        //alert the action has been saved
+                        setLoading(false)
+
+                        setTimeout(() => {
+
+                            setAlert(true)
+                            
+                            setTimeout(() => {
+
+                                const alert = document.querySelector('.alertSuccess');
+                                alert.style.right = '0px'
+                                
+                            }, 100);
+                            
+                        }, 100);
+
+                        setTimeout(() => {
+
+                            const alert = document.querySelector('.alertSuccess');
+                            alert.style.right = '-400px'
+                            
+                            setTimeout(() => {
+
+                                setAlert(false)
+                                
+                            }, 1000);
+
+                            Navigate('/admin/content/beneficiaries')
+                            
+                        }, 4000);
+
+                    } )
+                    
+                })
+                
+            });       
+
+    }
+
+    const uploading = () => {
+
+        const storage = getStorage();
+        const storageRef = ref( storage, `cms / beneficiaries / foundersImage / founders_${data.company}` );
+    
+            //uploading to firebase begins
+            uploadBytes(storageRef, content)
+            .then( () => {
+    
+                getDownloadURL(storageRef)
+                .then( url => {
+
+                    uploading2(url)
+                    
+                })
+                
+            });       
+
+    }
       
 
     const submitForm = () => {
@@ -88,41 +228,7 @@ const BeneficiariesEdit = () => {
         setLoading(true);
         window.scrollTo(0, 0);
 
-        //the cms details is updated here
-        updateBeneficiary(`cohort${data.cohortNum}`, Params.id, data ).then( () => {
-
-            //alert the action has been saved
-            setLoading(false)
-
-            setTimeout(() => {
-
-                setAlert(true)
-                
-                setTimeout(() => {
-
-                    const alert = document.querySelector('.alertSuccess');
-                    alert.style.right = '0px'
-                    
-                }, 100);
-                
-            }, 100);
-
-            setTimeout(() => {
-
-                const alert = document.querySelector('.alertSuccess');
-                alert.style.right = '-400px'
-                
-                setTimeout(() => {
-
-                    setAlert(false)
-                    
-                }, 1000);
-
-                Navigate('/admin/content/beneficiaries')
-                
-            }, 4000);
-
-        } )
+        uploading()
 
     }
 
@@ -175,12 +281,14 @@ const BeneficiariesEdit = () => {
 
                 <div className="preview_cms_card beneficiary">
 
-                    <div className="callup_img">
-                        <img src={data.foundersImg} alt="Founders image" />
+                    <div className="callup_img"  onClick={(e) => handleFileUpload()} >
+                        <img src={data.foundersImg} alt="Founders image" id = "foundersImage" />
+                        <div className="tapEdit">Tap to Edit</div>
                     </div>
 
-                    <div className="logoCompany">
-                        <img src={data.logo} alt="company logo image" />
+                    <div className="logoCompany" onClick={(e) => handleFileUpload2()}>
+                        <img src={data.logo} alt="company logo image" id='logoCompany' />
+                        <div className="tapEdit">Tap to Edit</div>
                     </div>
 
                     <div className="details_pin">
@@ -209,13 +317,13 @@ const BeneficiariesEdit = () => {
                 
                         <form className="cms-fill">
 
-                            <h1>Create a new beneficiary</h1>
+                            <h1> Edit Beneficiary </h1>
 
                             <div className="cms-input-holder">
-                                
-                                <input type="text" className="cms-input" name = 'logo' id='logo' placeholder='Enter Company Logo' onChange={ handleChange } value = {data.logo} />
 
-                                <input type="text" className="cms-input" name = 'foundersImg' id='foundersImg' placeholder='Enter Company Founders Image' onChange={ handleChange } value = {data.foundersImg} />
+                                <input type="file" accept="image/png, image/jpeg" id = "founders" onChange={handleFileChange} hidden />
+
+                                <input type="file" accept="image/png, image/jpeg" id = "company_logo" onChange={handleFileChange2} hidden />
 
                                 <input type="text" className="cms-input" name = 'company' id='company' placeholder='Enter Company Name' onChange={ handleChange } value = {data.company} />
 
@@ -238,7 +346,7 @@ const BeneficiariesEdit = () => {
 
                             </div>
                             
-                            <div className="submitButtonCMS" onClick={ () => submitForm() }> Edit Beneficiary </div>
+                            <div className="submitButtonCMS" onClick={ () => submitForm() }> Create Beneficiary </div>
 
 
                         </form>
@@ -256,4 +364,4 @@ const BeneficiariesEdit = () => {
     );
 }
 
-export default BeneficiariesEdit;
+export default BeneficiariesCreate;

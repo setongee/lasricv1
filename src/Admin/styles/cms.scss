@@ -470,14 +470,15 @@
     .callups_section{
 
         display: flex;
-        margin-bottom: 20px;
+        margin-right: 50px;
+        margin-bottom: 60px;
 
         .preview_cms_card{
-            width: 350px;
+            width: 320px;
             height: max-content;
-            background-color: #fff;
             box-shadow: 5px 10px 20px rgba($color: #000, $alpha: .03);
             position: relative;
+            margin: 0 !important;
 
             &.beneficiary{
 
@@ -774,18 +775,38 @@
     .sidedItem{
         align-items: center;
         display: flex;
+        width: 100%;
+        padding-bottom: 30px;
+        border-bottom: 1px solid whitesmoke;
+        margin-bottom: 30px;
 
         .selectTrack{
-
-            display: flex;
-            align-items: center;
-            margin-right: 20px;
 
             p{
                 font-size: 13px;
                 margin-right: 15px;
                 color: #999;
             }
+
+            display: flex;
+            justify-content: space-between;
+            width: 100% !important;
+
+            .trackCohort{
+
+                display: flex;
+                align-items: center;
+                margin-right: 20px;
+
+                p{
+                    font-size: 13px;
+                    margin-right: 15px;
+                    color: #999;
+                }
+
+            }
+
+            
             
             select{
                 outline: none;
@@ -793,6 +814,33 @@
                 padding: 15px;
                 border-radius: 8px;
                 font-size: 13px;
+            }
+
+            .filterTrackHMO{
+                margin-left: 50px;
+                display: flex;
+                align-items: center;
+
+                .tracks{
+                    display: flex;
+                    align-items: center;
+
+                    .active{
+                        border-bottom: 2px solid #330076;
+                        color: #330076 ;
+                        font-weight: bold;
+                    }
+
+                    p{
+                        margin-right: 30px !important;
+                        color: #000;
+                        cursor: pointer;
+
+                        &:hover{
+                            color: #25dba3;
+                        }
+                    }
+                }
             }
         }
     }

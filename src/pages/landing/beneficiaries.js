@@ -13,6 +13,7 @@ const Beneficiaries = () => {
 
     const [data, setData] = useState([]);
     const [cohort, setCohort] = useState("cohort0");
+    const [track, setTrack] = useState("all");
     const [deleteListener, setDeleteListener] = useState(true)
     const [loadPage, setLoadPage] = useState(true);
 
@@ -20,14 +21,16 @@ const Beneficiaries = () => {
 
         async function fetchData() {
 
-          const response = await getCMSCallupData("beneficiaries", cohort);
+          setData([])
+
+          const response = await getCMSCallupData("beneficiaries", cohort, track);
           setData(response);
 
         }
 
         fetchData();
 
-      }, [cohort]);
+      }, [cohort, track]);
 
 
       useEffect(() => {
@@ -35,7 +38,12 @@ const Beneficiaries = () => {
         async function fetchCohort() {
 
           const cohort = await getCurrentCohortNumber().then( (e) => e[0].present)
-          setCohort(`cohort${Number(cohort) - 1}`);
+          
+          if ( Number(cohort) > 0 ) {
+
+             setCohort('cohort1');
+
+          }
 
           // Fill in the past cohorts in the options
           const selectOptionsBody = document.querySelector('#select_track');
@@ -59,6 +67,8 @@ const Beneficiaries = () => {
                 setLoadPage(false)
             
             }  
+
+            selectOptionsBody.childNodes[0].selected = 'true'
 
           }
 
@@ -90,6 +100,7 @@ const Beneficiaries = () => {
                     </div>
                 </div> : null
             }
+            
 
             <div className="topic">Beneficiaries</div>
 
@@ -99,11 +110,30 @@ const Beneficiaries = () => {
 
                     <div className="selectTrack">
 
-                        <p>Filter by Cohort</p>
-
-                        <select name="select_track" id="select_track" onChange={handleChange} >
+                        <div className="trackCohort">
                             
-                        </select>
+                            <p>Filter by Cohort</p>
+
+                            <select name="select_track" id="select_track" onChange={handleChange} >
+                                
+                            </select>
+
+                        </div>
+
+                        <div className="filterTrackHMO">
+
+                            <p>Filter by track : </p>
+
+                            <div className="tracks">
+
+                                <p className='all active' onClick={ () => setTrack("all") } >All</p>
+                                <p className='innovation' onClick={ () => setTrack("innovation") } >Innovation</p>
+                                <p className='research' onClick={ () => setTrack("research") } >Research</p>
+                                <p className='stem' onClick={ () => setTrack("stem") } >Stem</p>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
@@ -113,33 +143,48 @@ const Beneficiaries = () => {
 
             <div className="callupItem beneficiary_map">
 
-                {
-                    data.length ? data.map((data, index) => {
+                    <div className="list_timp">
 
-                        return <BeneficiariesItemLanding dataPlan = {data} key = {index} onDelete = {setDeleteListener} deleteVal = {deleteListener} />
+                    {
+                        data.length ? data.map((data, index) => {
+
+                            return <BeneficiariesItemLanding dataPlan = {data} key = {index} onDelete = {setDeleteListener} deleteVal = {deleteListener} />
+                            
+                        }) : <div className="no-data-state noDataState_landing">
+
+                        <div className="none_anim">
+
+                            <img src={EmptyData} alt="empty data state" />
+
+                        </div>
+        
+                        <div className="info_msg">
+                            
+                                {/* No beneficiaries added yet
+                                {<br></br>}
+                                {<br></br>}
+                            Kindly check back later on as awardees will be updated duly */}
+
+                            Oops! Nothing here to show
+
                         
-                    }) : <div className="no-data-state noDataState_landing">
+                        </div>
 
-                    <div className="none_anim">
+                        </div>
 
-                        <img src={EmptyData} alt="empty data state" />
-
-                    </div>
-    
-                <div className="info_msg">
-                    
-                        No beneficiaries added yet
-                        {<br></br>}
-                        {<br></br>}
-                    Kindly check back later on as awardees will be updated duly
-
-                
-                </div>
+                    }
 
                 </div>
-                }
 
             </div>
+
+
+            <div className="footerPlace">
+
+                <p> {data.length} results found </p>
+
+            </div>
+
 
         </div>
 

@@ -1795,6 +1795,14 @@
     margin-top: 100px;
     padding: 30px 12%;
 
+    .footerPlace{
+        text-align: center;
+        margin-top: 60px;
+        font-size: 14px;
+        text-transform: uppercase;
+        color: #999;
+    }
+
     .loadPage{
         left: 0;
     }
@@ -1806,6 +1814,18 @@
     }
 
     .beneficiary_map{
+
+        display: flex;
+        justify-content: center;
+
+
+        .list_timp{
+            display: flex;
+            flex-wrap: wrap;
+            width: 1120px;
+            gap: 80px;
+            justify-content: center;
+        }
 
         .noDataState_landing{
             padding: 0 !important;
@@ -1838,12 +1858,34 @@
         .beneficiary_item{
             display: flex;
             margin: 0 !important;
+            flex-direction: column;
+            align-items: center;
+            width: 150px;
+            color: #777;
+
+            .foundersCorner{
+
+                font-size: 12px;
+                text-align: center;
+
+            }
+
+            .logoBen{
+                width: 120px;
+                height: 120px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+
+                img{
+                    width: 100%;
+                }
+            }
         }
 
         .beneficiary_card{ 
-            width: 350px !important;
-            margin-right: 14px !important;
-            margin-bottom: 14px !important;
+            width: 320px !important;
+            margin: 0 !important;
         }
     }
 }

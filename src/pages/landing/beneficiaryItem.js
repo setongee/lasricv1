@@ -21,45 +21,26 @@ const BeneficiariesItemLanding = ({dataPlan, onDelete, deleteVal}) => {
     }, []);
 
 
+    const webURL = () => {
+
+        window.location = data.website
+
+    }
+
 
     return (
 
 
-        <div className='cms-joint beneficiary_item'>
+        <div className='cms-joint beneficiary_item' onClick={ () => webURL() } >
 
-            <div className="callups_section beneficiary_card_hold">
 
-                <div className="preview_cms_card beneficiary beneficiary_card">
+            <div className="logoBen">
 
-                    <div className="callup_img">
-                        <img src={data.foundersImg} alt="Founders image" />
-                    </div>
-
-                    <div className="logoCompany">
-                        <img src={data.logo} alt="company logo image" />
-                    </div>
-
-                    <div className="details_pin">
-
-                        <div className="callup_details">
-                            {data.founders}
-                        </div>
-
-                        <div className="callup_title">{data.company}</div>
-
-                        <div className="callup_footer">
-
-                            <p><a href = {data.website} target = '_blank' > Visit Website <i className="fi fi-rr-arrow-small-right"></i> </a></p>
-                            <div className="callup_track"> <div className="track_icon"><i className="fi fi-rr-bulb"></i></div> {data.track} </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-                
+                <img src={data.logo} alt="company logo image" />
 
             </div>
+
+            <div className="foundersCorner"> {data.founders} </div>
 
         </div>
 
@@ -67,3 +48,7 @@ const BeneficiariesItemLanding = ({dataPlan, onDelete, deleteVal}) => {
 }
 
 export default BeneficiariesItemLanding;
+
+
+
+
