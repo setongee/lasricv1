@@ -35,7 +35,8 @@ const Council = () => {
                     data.length ? data.map(img => {
                         return <div className="councilImageHolder">
 
-                        <div className="imageContainer" style={{ backgroundImage : `url(${img.img})`}} >
+                        <div className="imageContainer"  >
+                            <img src={img.img} alt={`council member - ${img.firstname}_${img.lastname}`} />
                         </div>
     
                         <div className="councilMemberName">

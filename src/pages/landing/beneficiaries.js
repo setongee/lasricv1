@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import '../../Admin/styles/cms.scss'
 import { useNavigate } from 'react-router-dom';
-import { setLandingDetails, getCMSData, addCallupsDetails, getCMSCallupData } from '../../api/firebase/admin/cms';
+import { setLandingDetails, getCMSData, addCallupsDetails, getCMSCallupData, getCMSCallupDataBeneficiary } from '../../api/firebase/admin/cms';
 import SethAnimation from '../../components/lottie/seth-animation';
 import { getCurrentCohortNumber } from '../../api/firebase/admin/admin_applications';
 import BeneficiariesItemLanding from './beneficiaryItem';
@@ -23,7 +23,7 @@ const Beneficiaries = () => {
 
           setData([])
 
-          const response = await getCMSCallupData("beneficiaries", cohort, track);
+          const response = await getCMSCallupDataBeneficiary("beneficiaries", cohort, track);
           setData(response);
 
         }

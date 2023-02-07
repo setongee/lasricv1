@@ -106,25 +106,25 @@ export const getCMSData = async (cms_area) => {
 
 }
 
-// export const getCMSCallupData = async (cms_area, cohort) => {
+export const getCMSCallupData = async (cms_area, cohort) => {
 
-//     const docRef = await collection(db, "cms", cms_area, cohort)
-//     const documenter = await getDocs(docRef)
+    const docRef = await collection(db, "cms", cms_area, cohort)
+    const documenter = await getDocs(docRef)
 
-//     const callupsData = [];
+    const callupsData = [];
 
-//     documenter.forEach( callup => {
-//         callupsData.push({
-//             data : callup.data(),
-//             uid : callup.id
-//         });
-//     })
+    documenter.forEach( callup => {
+        callupsData.push({
+            data : callup.data(),
+            uid : callup.id
+        });
+    })
 
-//     return callupsData;
+    return callupsData;
 
-// }
+}
 
-export const getCMSCallupData = async (cms_area, cohort, track) => {
+export const getCMSCallupDataBeneficiary = async (cms_area, cohort, track) => {
 
 
     const callupsData = [];

@@ -37,7 +37,12 @@ const BeneficiariesList = () => {
         async function fetchCohort() {
 
           const cohort = await getCurrentCohortNumber().then( (e) => e[0].present)
-          setCohort(`cohort${cohort}`);
+
+          if ( Number(cohort) > 0 ) {
+
+            setCohort('cohort1');
+
+         }
 
           // Fill in the past cohorts in the options
           const selectOptionsBody = document.querySelector('#select_track');
@@ -61,6 +66,8 @@ const BeneficiariesList = () => {
             }  
 
           }
+
+          selectOptionsBody.childNodes[0].selected = 'true'
 
         }
 
