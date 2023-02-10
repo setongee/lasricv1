@@ -23,6 +23,81 @@ const Beneficiaries = () => {
 
           setData([])
 
+          switch (track) {
+        
+            case 'all':
+    
+                var act = document.querySelector('.tracks .active');
+                
+                if(act !== null) {
+    
+                    act.classList.remove('active');
+                    document.querySelector('.all').classList.add('active')
+    
+                } else {
+    
+                    document.querySelector('.all').classList.add('active')
+    
+                }
+                
+                break;
+            
+            case 'innovation':
+    
+                var act = document.querySelector('.tracks .active');
+                
+                if(act !== null) {
+    
+                    act.classList.remove('active');
+                    document.querySelector('.innovation').classList.add('active')
+    
+                } else {
+    
+                    document.querySelector('.innovation').classList.add('active')
+                    
+                }
+                
+                break;
+    
+            case 'research':
+    
+                var act = document.querySelector('.tracks .active');
+                
+                if(act !== null) {
+    
+                    act.classList.remove('active');
+                    document.querySelector('.research').classList.add('active')
+    
+                } else {
+    
+                    document.querySelector('.research').classList.add('active')
+                    
+                }
+                
+                break;
+    
+                case 'stem':
+    
+                    var act = document.querySelector('.tracks .active');
+                    
+                    if(act !== null) {
+        
+                        act.classList.remove('active');
+                        document.querySelector('.stem').classList.add('active')
+        
+                    } else {
+        
+                        document.querySelector('.stem').classList.add('active')
+                        
+                    }
+                    
+                    break;
+        
+            default:
+                break;
+        }
+
+
           const response = await getCMSCallupDataBeneficiary("beneficiaries", cohort, track);
           setData(response);
 

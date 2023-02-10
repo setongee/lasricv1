@@ -33,6 +33,7 @@ const Council = () => {
 
                 {
                     data.length ? data.map(img => {
+                        
                         return <div className="councilImageHolder">
 
                         <div className="imageContainer"  >

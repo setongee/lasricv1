@@ -23,7 +23,7 @@ const BeneficiariesItemLanding = ({dataPlan, onDelete, deleteVal}) => {
 
     const webURL = () => {
 
-        window.location = data.website
+        window.open(data.website, '_blank')
 
     }
 
