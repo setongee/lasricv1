@@ -81,7 +81,6 @@ const Dashboard = ({currentUser}) => {
     querySnapshot.forEach((doc) => {
 
         apps.push(doc.data())
-        console.log(doc.data());
 
     });
 
@@ -120,13 +119,9 @@ const Dashboard = ({currentUser}) => {
 
         dataFeed.pending = pending
 
-        console.log(data);
-
         const pendingKeyTotal = pending.filter(e => {
             return e.data
         })
-
-        //console.log(pendingKeyTotal);
 
         await setStatistics(dataFeed);
 
@@ -154,7 +149,6 @@ const Dashboard = ({currentUser}) => {
 
     const authOut = () => {
 
-        console.log('Signing Out...')
         signOut(auth).then(() => window.location.reload(true) )
 
     }
