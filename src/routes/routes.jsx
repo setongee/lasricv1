@@ -79,6 +79,9 @@ import ResearchResults from '../pages/application/research_results';
 import ResearchBudget from '../pages/application/research_budget';
 import Messaging from '../Admin/messaging/messaging';
 import GradeResearch from '../council/dashboard/gradeResearch';
+import Awardees from '../Admin/awardees';
+import MEForm from '../pages/dashboard/M&EForm';
+import MEFormView from '../pages/dashboard/M&EFormView';
 
 const Router = ({user}) => {
 
@@ -128,6 +131,10 @@ const Router = ({user}) => {
                     
                 <Route path = 'dashboard/applications' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <ApplicationsDash currentUser = {user} /> : <Login/>  }/>
 
+                <Route path = '/m&e/:uid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <MEForm currentUser = {user} /> : <Login/>  } />
+
+                {/* <Route path = '/m&e/:uid' element = {<MEForm />} /> */}
+
                 <Route path = 'people' element = {<Council/>} />
                 <Route path = 'beneficiaries' element = { <Beneficiaries/> } />
                 {/* <Route path = 'gallery' element = {<Galleryimage />} /> */}
@@ -155,6 +162,7 @@ const Router = ({user}) => {
 
                 </Route>
 
+
                 <Route path = 'application/:cohort/stem/:callid' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <StemTitle currentUser = {user} /> : <Login/>  }>
 
                     <Route path = 'personal' element = {<Stem1 currentUser = {user} />} />
@@ -163,7 +171,6 @@ const Router = ({user}) => {
                     <Route path = 'impact' element = {<Stem4 currentUser = {user} />} />
                     <Route path = 'scalability' element = {<Stem5 currentUser = {user}/>} />
                     <Route path = 'experience' element = {<Stem6 currentUser = {user}/>} />
-
 
                 </Route>
 
@@ -175,13 +182,12 @@ const Router = ({user}) => {
                     <Route path = 'result' element = {<ResearchResults currentUser = {user}/>} />
                     <Route path = 'budget' element = {<ResearchBudget currentUser = {user} />} />
 
-
                 </Route>
 
 
                 {/* admin routes */}
 
-                <Route path = 'admin' element = { Object.keys(currentUser).length && currentUser.type === "admin" ?  <Admin user = {currentUser} /> : <AdminLogin/>  } >
+                    <Route path = 'admin' element = { Object.keys(currentUser).length && currentUser.type === "admin" ?  <Admin user = {currentUser} /> : <AdminLogin/>  } >
 
                     {/* Overview Page */}
 
@@ -193,6 +199,13 @@ const Router = ({user}) => {
                     <Route path = 'applications/stem/:appid/view' element = { <ViewApplicationStem /> } />
                     <Route path = 'applications/innovation/:appid/view' element = { <InnovationAdminView /> } />
                     <Route path = 'applications/secsch/:appid/view' element = { <ViewSecSch /> } />
+
+                    {/* Application Pages */}
+
+                    <Route path = 'awardees' element = { <Awardees /> } />
+                    <Route path = 'awardees/form/:uid' element = { <MEFormView /> } />
+
+
 
                     {/* Council Pages */}
 

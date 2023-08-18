@@ -70,6 +70,24 @@ const Admin = ({user}) => {
             
             break;
 
+
+        case 'awardees':
+
+            var act = document.querySelector('.active');
+            
+            if(act !== null) {
+
+                act.classList.remove('active');
+                document.querySelector('.awardees').classList.add('active')
+
+            } else {
+
+                document.querySelector('.awardees').classList.add('active')
+                
+            }
+            
+        break;
+
         case 'council':
 
             var act = document.querySelector('.active');
@@ -182,6 +200,11 @@ const Admin = ({user}) => {
                 <div className="menuItem applications"  onClick={() => { Navigate('/admin/applications'); openBody() } } >
                     <div className="icon"><i className="fi fi-rr-document-signed"></i></div>
                     <div className="menuName">Applications</div>
+                </div>
+
+                <div className="menuItem awardees"  onClick={() => { Navigate('/admin/awardees'); openBody() } } >
+                    <div className="icon"><i className="fi fi-rr-gift"></i></div>
+                    <div className="menuName">Awardees</div>
                 </div>
 
                 <div className="menuItem council"  onClick={() => { Navigate('/admin/council') } } >

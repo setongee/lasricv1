@@ -26,6 +26,18 @@ const AdminTable = ({check, track, exportData}) => {
 
     useEffect(() => {
         
+       if (check === 'selected') {
+
+        applicationsStack['interview'].then(e => setData(e)); 
+
+        applicationsStack['interview'].then((e) => {
+
+            exportData(e)
+
+        }); 
+
+       } else {
+
         applicationsStack[check].then(e => setData(e)); 
 
         applicationsStack[check].then((e) => {
@@ -33,6 +45,8 @@ const AdminTable = ({check, track, exportData}) => {
             exportData(e)
 
         }); 
+
+       }
 
 
     }, [check, track]);

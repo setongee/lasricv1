@@ -168,6 +168,35 @@
 // }
 
 
+//Maintenance and Evaluation Styles
+
+.submitME{
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    background-color: #faf6fd;
+    padding: 40px;
+    border-radius: 20px;
+    margin-top: 40px !important;
+
+    .infoMen{
+
+        h1{
+            font-size: 21px;
+        }
+
+        p{
+            font-size: 14px;
+            margin-top: 5px;
+            color: #777;
+        }
+    }
+
+}
+
+
 
 .dashboard{
 
@@ -454,6 +483,31 @@
         .homeBar{
 
             margin-top: 39px;
+
+            .submitME{
+
+                margin-bottom: 40px;
+                margin-top: 10px;
+                
+                .openForm{
+                    background-color: #6a00ff;
+                    width: max-content;
+                    color: #fff;
+                    padding: 20px 25px;
+                    font-size: 13px;
+                    font-weight: bold;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    transition: all .4s ease-in-out;
+
+                    &:hover{
+
+                        background-color: hsl(265, 100%, 40%);
+
+                    }
+                }
+
+            }
 
             .topBar{
 
@@ -1043,6 +1097,15 @@
 
 
 @media (max-width: 1024px) {
+
+    .submitME{
+        flex-direction: column;
+        align-items: flex-start;
+
+        .openForm{
+            margin-top: 40px;
+        }
+    }
 
     .desknotice{
         display: flex;

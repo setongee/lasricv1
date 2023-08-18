@@ -46,6 +46,8 @@ const Applications = () => {
         }
 
     }
+
+    console.log(dataExport)
     
     
     useEffect(() => {
@@ -120,6 +122,8 @@ const Applications = () => {
                     }
                     
                     break;
+
+                
         
             default:
                 break;
@@ -157,7 +161,7 @@ const Applications = () => {
 
                     </select>
 
-                    <CSVLink data={dataExport} headers={headers} filename={`LASRIC 2022 Cohort${cohort}_${track}_${filterContent} Applications_Export.csv`} className="btn_download" > Export</CSVLink>
+                    <CSVLink data={[]} headers={headers} filename={`LASRIC 2022 Cohort${cohort}_${track}_${filterContent} Applications_Export.csv`} className="btn_download" > Export</CSVLink>
 
                 </form>
 

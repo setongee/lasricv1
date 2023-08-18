@@ -1202,3 +1202,360 @@
         
     }
 }
+
+
+
+
+
+//Admin Awardees
+
+.awardeesArea{
+
+    .downloadPin{
+        background-color: red;
+        position: absolute;
+        z-index: 999999;
+    }
+
+    .loadingScreen{
+        background-color: #fff;
+        position: fixed;
+        z-index: 999;
+        width: 83%;
+        right: 0;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .load{
+            width: 200px;
+            height: 200px;
+            margin-top: -350px;
+            margin-left: -100px;
+
+            img{
+                width: 100%;
+            }
+        }
+    }
+
+    .absolute_dezz{
+
+        position: fixed;
+        height: 100vh;
+        width: 100%;
+        background-color: rgba($color: #000, $alpha: .3);
+        left: 0;
+        top: 0;
+        z-index: 999999999;
+        display: flex;
+        justify-content: right;
+
+    }
+
+    .list_awardees_here{
+
+        height: 100%;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+    }
+       
+
+        .addAwardeesP{
+            background-color: #fff;
+            width: 82%;
+            height: 100vh;
+            padding: 50px;
+            overflow-y: scroll;
+
+            &.awardee_real{
+                width: 100%;
+                padding: 0;
+                margin-top: -50px;
+            }
+
+            .checkGood{
+                background-color: rgba($color: #fff, $alpha: .85);
+                position: absolute;
+                top: 0;
+                right: 0;
+                z-index: 99999999;
+                width: calc(82%);
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                .imagePhoth{
+                    height: 300px;
+                    width: 300px;
+
+                    img{
+                        width: 100%;
+                    }
+                }
+            }
+            
+
+            .highlight{
+
+                position: relative;
+
+                .topic{
+                    margin-bottom: 50px;
+                    position: fixed;
+                    width: 82%;
+                    top: 0;
+                    right: 0;
+                    background-color: #fff;
+                    padding: 50px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+
+                    h1{
+                        font-weight: 300;
+                        margin-bottom: 10px;
+                    }
+
+                    p{
+                        font-size: 15px;
+                        color: #777;
+                    }
+
+                    .pushToAwardeeSection{
+
+                        padding: 15px 20px;
+                        font-size: 13px;
+                        background-color: #1db889;
+                        width: max-content;
+                        color: #fff;
+                        font-weight: bold;
+                        border-radius: 8px;
+                        cursor: pointer;
+
+                        &.cancel{
+                            border: 1px solid crimson;
+                            background-color: #fff;
+                            color: crimson;
+                        }
+
+                    }
+
+                    .control{
+                        display: flex;
+                        column-gap: 20px;
+                    }
+                }
+
+                .tableHeader_hl{
+    
+                    display: flex;
+                    align-items: center;
+
+                    &.headingTop{
+
+
+                        //border-bottom: 1px solid rgba($color: #000, $alpha: .1);
+                        padding: 25px 20px;
+                        background-color: whitesmoke;
+                        margin-top: 145px;
+
+
+                    }
+    
+                    .initials_x{
+                        width: 50px;
+                    }
+    
+                    .heading_awardee{
+                        width: 250px;
+                        font-size: 13px;
+                        font-weight: bold;
+                        margin-right: 50px;
+    
+                        &.fullname{
+                            text-transform: capitalize;
+                            width: 350px;
+                        }
+
+                        &.comp{
+                                
+                            width: 250px !important;
+                            margin-right: 100px;
+
+                        }
+
+                        &.tiktok{
+                            max-width: 15px;
+                            max-height: 15px;
+                            margin-right: 20px;
+                        }
+                    }
+
+                    &.list_awardee{
+
+                        border-bottom: 1px solid rgba($color: #000, $alpha: .1);
+                        padding: 25px 20px;
+                        cursor: pointer;
+
+                        &:hover{
+                            background-color: #f9f9f9;
+                        }
+
+                        .heading_awardee{
+                            width: 250px;
+                            font-size: 13px;
+                            font-weight: normal;
+                            margin-right: 50px;
+
+                            &.btnA{
+
+                                .view{
+                                    background-color: #000;
+                                    padding: 10px 15px;
+                                    border-radius: 8px;
+                                    width: max-content;
+                                    color: #fff;
+                                    font-weight: bold;
+                                    font-size: 12px;
+                                }
+                            }
+        
+                            &.fullname{
+                                text-transform: capitalize !important;
+                                display: flex;
+                                width: 350px;
+                                align-items: center;
+
+                                .initA{
+                                    margin-right: 20px;
+                                    background-color:#4d74e0;
+                                    color: #fff;
+                                    font-weight: bold;
+                                    height: 40px;
+                                    width: 40px;
+                                    border-radius: 100%;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    pointer-events : none;
+                                }
+                            }
+
+                            &.comp{
+                                
+                                white-space: nowrap;
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                width: 250px !important;
+                                margin-right: 100px;
+
+                            }
+    
+                            &.tiktok{
+                                max-width: 15px;
+                                max-height: 15px;
+                                margin-right: 20px;
+                            }
+                        }
+
+                    }
+    
+                }
+            }
+
+    }
+
+    .header_awardees{
+
+        display: flex;
+        align-items: center;
+        position: fixed;
+        width: calc(83% + 20px);
+        justify-content: space-between;
+        background-color: #fff;
+        z-index: 9999;
+        right: 0;
+        padding: 30px 30px;
+        margin-top: -30px;
+       
+        .addAwardee{
+            font-size: 12px;
+            padding: 15px 20px;
+            background-color: #1dbb8c;
+            cursor: pointer;
+            border-radius: 8px;
+            color: #fff;
+            font-weight: bold;
+            color: #fff !important;
+
+            a{
+                color: #fff;
+            }
+
+            &.downloadX{
+
+                background-color: #4d74e0;
+
+            }
+        }
+
+        .buttonsZone{
+            display: flex;
+            column-gap: 10px;
+            color: #fff;
+        }
+
+    }
+
+    .awardeeList{
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 600px;
+
+        .emptyState{
+
+            background-color: #fff;
+            border: 1px solid #eee;
+            min-width: 500px;
+            width: 800px;
+            border-radius: 20px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 400px;
+            font-size: 13px;
+            overflow: hidden;
+
+
+            .lottieArr{
+                width: 300px;
+                overflow: hidden;
+                height: 200px;
+                margin-top: -30px;
+
+                img{
+                    width: 100%;
+                }
+            }
+
+            .message{
+                margin-top: 0px;
+            }
+
+
+        }
+
+    }
+
+
+}

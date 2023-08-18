@@ -365,6 +365,198 @@ export const getInterviewBucketApps = async (track) => {
 }
 
 
+export const getPotentiaalApps = async () => {
+
+    const passmark = await getPassmark().then( e => e.grade );
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const data = []
+
+
+    const fetchBucket = query(collection(db, "submitted_applications_beta", `cohort${cohortN}`, "applications"), where("grade", "==", 0), where("avgGrade", ">=", passmark), orderBy("avgGrade", "desc"));
+
+    const querySnapshot = await getDocs(fetchBucket);
+
+    querySnapshot.forEach((doc) => {
+
+        data.push({data : doc.data(), id : doc.id});
+
+    });
+    
+
+    return data;
+
+}
+
+export const getAwardees = async () => {
+
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present);
+
+    const data = []
+
+    const fetchBucket = collection(db, "awardees", `cohort${cohortN}`, "applicants");
+
+    const querySnapshot = await getDocs(fetchBucket);
+
+    querySnapshot.forEach((doc) => {
+
+        data.push({data : doc.data(), id : doc.id});
+
+    });
+    
+
+    return data;
+
+
+}
+
+export const addAwardees = async (payload, aid) => {
+
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const docRef = doc(db, "awardees", `cohort${cohortN}`, 'applicants', payload.uid);
+
+    await setDoc(docRef, payload);
+
+    updateStatusOnApplication(aid, payload.uid);
+
+    return {
+        status : 'ok',
+        message : 'Awardee(s) added successfully!'
+    };
+
+}
+
+
+const updateStatusOnApplication = async (aid, uid) => {
+
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present);
+    const documentRef = doc(db, "submitted_applications_beta", `cohort${cohortN}`, "applications", aid);
+    await updateDoc(documentRef, { "grade" : 1 });
+
+    createAwardeePlace(uid);
+
+}
+
+
+const createAwardeePlace = async (uid) => {
+
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present);
+
+    const data = {
+
+        cohort : `cohort${cohortN}`,
+        form : {}
+
+    }
+
+    const docRef = doc(db, "awardeesBank", uid);
+    await setDoc(docRef, data);
+
+
+}
+
+export const getAwardeeBank = async (uid) => {
+
+    const data = []
+
+    const fetchBucket = collection(db, "awardeesBank");
+
+    const querySnapshot = await getDocs(fetchBucket);
+
+    querySnapshot.forEach((doc) => {
+    
+        data.push({data : doc.data(), id : doc.id});
+
+    });
+    
+    const filterUID = data.filter( res => {
+
+        return res.id === uid;
+
+    } )
+
+    return filterUID;
+
+}
+
+export const getAwardeeDetails = async (uid, cohort) => {
+
+    const data = []
+
+    const docRef = doc(db, "awardees", cohort, 'applicants', uid);
+
+    const getTheDoc = await getDoc(docRef);
+
+    return getTheDoc.data();
+
+}
+
+
+export const getSubmittedAwardeesBank = async () => {
+
+    const cohortN = await getCurrentCohortNumber().then(cohortNum => cohortNum[0].present)
+
+    const data = []
+
+    const fetchBucket = query(collection(db, "awardeesBank"), where("cohort", "==", `cohort${cohortN}`), where("status", "==", true));
+
+    const querySnapshot = await getDocs(fetchBucket);
+
+    querySnapshot.forEach((doc) => {
+
+        data.push(doc.data().form);
+
+    });
+
+    //console.log(data)
+
+    return data;
+
+
+
+}
+
+
+
+export const updateMaintenaceForm = async (uid, cohort, data) => {
+
+    const dateUpdated = new Date;
+
+    //update status in awardees using cohortNumber
+    const docRef = doc(db, "awardees", cohort, 'applicants', uid);
+
+    const getTheDoc = await getDoc(docRef)
+    
+    if (getTheDoc.exists()) {
+
+        await updateDoc(docRef, { "status" : true });
+        await updateDoc(docRef, { "dataUpdated" : dateUpdated });
+
+        //update in awardeesBank using uid
+
+        const awardeesBankData = doc(db, "awardeesBank", uid);
+        await updateDoc(awardeesBankData, { "form" : data });
+        await updateDoc(awardeesBankData, { "status" : true });
+        await updateDoc(awardeesBankData, { "updated" : dateUpdated });
+
+
+    } else {
+
+        alert("User Doesn't Exist");
+
+    }
+
+    return {
+        status : "ok",
+        message : "Form submitted successfully!"
+    }
+
+
+}
+
+
+
 // GET Pending Applications
 
 export const getPendingApps = async (track) => {
@@ -501,6 +693,8 @@ export const getCurrentCohortNumber = async () => {
 
 }
 
+getSubmittedAwardeesBank()
+
 // get current passmark
 
 export const getPassmark = async () => {
@@ -634,6 +828,7 @@ export const filterDataByTrack = async (track, data) => {
 
 
 }
+
 
 
 

@@ -16,6 +16,7 @@ import { signOut, getAuth } from 'firebase/auth';
 
 import styled from 'styled-components'
 import {keyframes} from 'styled-components'
+import { getAwardeeBank } from '../../api/firebase/admin/admin_applications';
 
 const Dashboard = ({currentUser}) => {
 
@@ -28,6 +29,8 @@ const Dashboard = ({currentUser}) => {
    const [submitted, setSubmitted] = useState(0)
    const [showModal, setShowModal] = useState(true);
 
+   const [valid, setValid] = useState([]);
+
    const [burgerM, setBurgerM] = useState(false);
 
    const [statistics, setStatistics] = useState({
@@ -37,6 +40,8 @@ const Dashboard = ({currentUser}) => {
     accepted : 0,
     rejected : 0
    })
+
+   const [ME, setME] = useState([]);
 
    const bannerB = () => {
 
@@ -80,7 +85,13 @@ const Dashboard = ({currentUser}) => {
 
     });
 
-    appsStatistics(apps)
+    appsStatistics(apps);
+
+    getAwardeeBank(currentUser.uid)
+    .then(res => {
+        setValid(res);
+    });
+
 
 }, [user]);
 
@@ -270,6 +281,29 @@ const Dashboard = ({currentUser}) => {
 
                     </div>
 
+                    {
+                        valid.length ? 
+
+                        <div className="submitME">
+
+                            <div className="infoMen">
+
+                                <h1>Monitoring and Evaluation Form!</h1>
+                                <p>Hey, kickstart or update your M&E form so that LASRIC can recieve your input!</p>
+
+                            </div>
+
+                            {
+                                !valid[0].data.status ? <div className="openForm" onClick={() => navigate(`/m&e/${currentUser.uid}`) } >  Start your M&E form </div> : <div className="openForm" onClick={() => navigate(`/m&e/${currentUser.uid}`) } >  View your M&E form </div>
+                            }
+
+                            
+
+                        </div> 
+                        
+                        : null
+                    }
+
                     <div className="statBar">
 
                         <div className="status">
@@ -313,7 +347,6 @@ const Dashboard = ({currentUser}) => {
                         </div>
 
                     </div>
-
 
                     {/* lower statistics area */}
 
