@@ -336,7 +336,7 @@ return (
             <h1> Awardees </h1>
 
             <div className="buttonsZone">
-                <div className="addAwardee downloadX"> <CSVLink data={dataExport} headers={headers} filename={`LASRIC 2023 Applications_Export.csv`} className="btn_download" > Export Responses </CSVLink> </div>
+                <div className="addAwardee downloadX"> <CSVLink data={dataExport} headers={headers} filename={`LASRIC Awardees_Export.csv`} className="btn_download" > Export Responses </CSVLink> </div>
                 <div className="addAwardee" onClick={() => openPotentialAwardeesModaL()} > Add Awardee </div>
             </div>
             

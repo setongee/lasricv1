@@ -151,7 +151,6 @@ const GradeResearch = ({councilProfile}) => {
 
             getApplicationGrades(rip)
             .then( data => {
-
                 if (data.length) {
 
                     const result = data[0].grades[councilProfile.uid].gradings;
@@ -167,6 +166,7 @@ const GradeResearch = ({councilProfile}) => {
             updateScore();
 
         }, [score]);
+
 
 
         const handleTableDelete = async (e, val) => {

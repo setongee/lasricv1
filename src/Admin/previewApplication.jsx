@@ -16,11 +16,6 @@ const Previewapplication = ({data, closeModal, appid}) => {
         }
     })
 
-    console.log(data);
-    
-    const [councilGraded, setCouncilGraded] = useState([])
-
-
     const INIT_1 = data.firstname.split('')[0].toUpperCase();
     const INIT_2 = data.lastname.split('')[0].toUpperCase();
     const FULLINIT = `${INIT_1}${INIT_2}`;
@@ -42,10 +37,6 @@ const Previewapplication = ({data, closeModal, appid}) => {
     useEffect(() => {
        
         getTheUser().then(e => setUser(e))
-        getCouncilGraders(appid).then(e => setCouncilGraded(e))
-
-        // const body = document.querySelector('body')
-        // body.style.overflow = 'hidden'
         
     }, []);
 
@@ -122,17 +113,15 @@ const Previewapplication = ({data, closeModal, appid}) => {
 
             <div className="councilgraded">
 
-                <div className="title"> Council Member Graded <strong>({councilGraded.length}) </strong> </div>
+                <div className="title"> Council Member Graded <strong>({ Object.keys(data.grades).length }) </strong> </div>
 
                 {
-                    councilGraded.length ? councilGraded.map((data, index) =>
+                    Object.keys(data.grades)?.length ? Object.entries(data.grades).map((data, index) =>
                     
-                    <Councilmemberprint data = {data} key = {index} />
+                    <Councilmemberprint data = {data[0]} key = {index} />
                     
                     ) : null
-                }
-
-                
+                }                
 
             </div>
 

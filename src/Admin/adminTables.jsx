@@ -61,7 +61,11 @@ const AdminTable = ({check, track, exportData}) => {
         setPreviewData(data)
 
         //set the appid
-        setAppID(appuid)
+        setAppID(appuid);
+
+        // stop bg from scrolling
+        const body = document.querySelector('body')
+        body.style.overflow = 'hidden'
         
     }
 
@@ -72,6 +76,10 @@ const AdminTable = ({check, track, exportData}) => {
 
         //set the data in for viewing
         setPreviewData({})
+
+        // allow bg from scrolling
+        const body = document.querySelector('body')
+        body.style.overflow = 'visible'
 
         
     }

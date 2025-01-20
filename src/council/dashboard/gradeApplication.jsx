@@ -134,6 +134,7 @@ const Navigate = useNavigate()
         } )
         
     }, []);
+    
 
 
     const handleTableDelete = async (e, val) => {
