@@ -19,6 +19,7 @@ const Header = ({user}) => {
         people : '/people',
         beneficiaries : '/beneficiaries',
         gallery : '/gallery',
+        contact : '/contact',
 
         //auth
         registers : '/register',
@@ -65,6 +66,7 @@ const Header = ({user}) => {
             <Link to={routes.people}>Council</Link>
             <Link to={routes.gallery}>Gallery</Link>
             <Link to={routes.beneficiaries}> Beneficiaries </Link>
+            <Link to={routes.contact}> Contact </Link>
 
         </div>
 

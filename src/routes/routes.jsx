@@ -82,6 +82,7 @@ import GradeResearch from '../council/dashboard/gradeResearch';
 import Awardees from '../Admin/awardees';
 import MEForm from '../pages/dashboard/M&EForm';
 import MEFormView from '../pages/dashboard/M&EFormView';
+import Contact from '../pages/landing/contact';
 
 const Router = ({user}) => {
 
@@ -126,6 +127,7 @@ const Router = ({user}) => {
                 <Route path = 'register' element = {<Register/>} />
                 <Route path = 'login' element = {<Login/>} />
                 <Route path = 'apply' element = {<Callup/>} />
+                <Route path = 'contact' element = {<Contact/>} />
 
                 <Route path = 'dashboard' element = { Object.keys(currentUser).length && currentUser.type === 'user' ? <Dashboard currentUser = {user} /> : <Login/>  }/>
                     
