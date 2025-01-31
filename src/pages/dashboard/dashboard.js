@@ -72,7 +72,7 @@ const Dashboard = ({currentUser}) => {
 
     setUser(currentUser)
 
-    const citiesRef = collection(db, "applications_data", "cohort5", "applications")
+    const citiesRef = collection(db, "applications_data", "cohort6", "applications")
     const q = query(citiesRef, where("userid", "==", currentUser.uid));
     const querySnapshot = await getDocs(q)
 
@@ -366,7 +366,7 @@ const Dashboard = ({currentUser}) => {
                                             <div className="keyStat">
 
                                                 <div className="title"> LASRIC {data.track.toUpperCase()} APPLICATION ({data.progress}%)</div>
-                                                <div onClick={() => navigate(`/application/cohort5/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`)} className="viewIcon"> <i className="fi fi-sr-eye"></i> </div>
+                                                <div onClick={() => navigate(`/application/cohort6/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`)} className="viewIcon"> <i className="fi fi-sr-eye"></i> </div>
 
                                             </div>
                                             {/* <div className="app_action"> View </div> */}
@@ -406,7 +406,7 @@ const Dashboard = ({currentUser}) => {
                                             <div className="keyStat">
 
                                                 <div className="title"> LASRIC {data.track.toUpperCase()} APPLICATION ({data.progress}%)</div>
-                                                <div onClick={() => navigate(`/application/cohort5/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`)} className="viewIcon"> <i className="fi fi-sr-eye"></i> </div>
+                                                <div onClick={() => navigate(`/application/cohort6/${data.track}/${stringSplitter(data.uid, "_")[1]}/personal`)} className="viewIcon"> <i className="fi fi-sr-eye"></i> </div>
 
                                             </div>
                                             {/* <div className="app_action"> View </div> */}

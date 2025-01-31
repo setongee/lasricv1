@@ -7,6 +7,7 @@ import ig from '../../assets/icons/ig.png'
 const Contact = () => {
     
   return (
+
     <div className="contactPageLanding">
 
         <div className="top__header">  
@@ -25,7 +26,9 @@ const Contact = () => {
         </div>
 
     </div>
+
   )
+  
 }
 
 export default Contact
