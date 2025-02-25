@@ -9,8 +9,11 @@ import Footer from './components/footer/footer';
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, onSnapshot } from "firebase/firestore";
 import { db } from './api/firebase/config';
+import { useLocation } from 'react-router-dom';
 
 function App() {
+
+  let location = useLocation();
 
   const [authenticate, setAuthenticate] = useState(false)
   const [currentUser, setCurrentUser] = useState({})
@@ -45,6 +48,12 @@ function App() {
     }
     
   }, [uid, authenticate, track])
+
+  useEffect(() => {
+    
+    document.body.style.overflowY = "auto"
+
+  }, [location.pathname]);
   
 
   return (

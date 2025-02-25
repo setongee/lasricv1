@@ -3,31 +3,20 @@ import { getCouncilMember, getCouncilGraders } from '../api/firebase/getApplicat
 
 
 
-const Councilmemberprint = ({data}) => {
+const Councilmemberprint = ({data, scr}) => {
 
     const [dataMember, setDataMember] = useState({
-        data : {
-            firstname : "",
-            lastname : "",
-            img : ""
-        }
+
+        firstname : "",
+        lastname : "",
+        img: ""
+
     })
-    
-    const getTheUser = async () => {
-
-        const user = {
-            data : {}
-        }
-
-        await getCouncilMember(data[0]).then( e => user.data = e )
-
-        return await user
-
-    }
 
     useEffect(() => {
-       
-        getTheUser().then(e => setDataMember(e))
+
+        getCouncilMember(data).then( e => setDataMember(e) );
+        console.log(scr)
 
     }, []);
 
@@ -38,14 +27,14 @@ const Councilmemberprint = ({data}) => {
             <div className="icon"> 
                 
                 <div className="councilImage">
-                    <img src={dataMember.data.img} alt="lasric" />
+                    <img src={dataMember?.img} alt="lasric" />
                 </div>  
 
-                {dataMember.data.firstname} {dataMember.data.lastname}  
+                {dataMember?.firstname} {dataMember?.lastname}  
             
             </div>
 
-            <div className="graded"> {data[1].grade || 0}% </div>
+            <div className="graded"> {scr.grade || 0}% </div>
 
         </div>
 

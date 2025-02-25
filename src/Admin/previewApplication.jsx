@@ -118,7 +118,7 @@ const Previewapplication = ({data, closeModal, appid}) => {
                 {
                     Object.keys(data.grades)?.length ? Object.entries(data.grades).map((data, index) =>
                     
-                    <Councilmemberprint data = {data[0]} key = {index} />
+                    <Councilmemberprint data = {data[0]} scr = {data[1]} key = {index} />
                     
                     ) : null
                 }                

@@ -10,8 +10,6 @@ const Graded = ({councilProfile}) => {
     const [data, setData] = useState([])
 
     useEffect(() => {
-
-        
         
         alldata
         .then( data =>{

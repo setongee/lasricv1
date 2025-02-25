@@ -45,10 +45,7 @@ const Applications = () => {
 
         }
 
-    }
-
-    console.log(dataExport);
-    
+    }    
     
     useEffect(() => {
 
