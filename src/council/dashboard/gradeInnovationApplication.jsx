@@ -14,7 +14,6 @@ import gradingTableTR from '../../components/tabletr/gradingTableTR';
 import GradingTableTR from '../../components/tabletr/gradingTableTR';
 import TableTr5 from '../../components/tabletr/Innovation5TR';
 import GradingTableTr5 from '../../components/tabletr/gradingTR5';
-import { summarizeData } from '../api/logic';
 
 const GradeInnovationApplication = ({councilProfile}) => {
 
