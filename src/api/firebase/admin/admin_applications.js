@@ -728,7 +728,7 @@ export const getCouncilMemberListing = async () => {
 
 export const getCouncilGradeTrack = async (track) => {
 
-    const fetchApplications = collection(db, "submitted_applications_beta", "cohort5", "applications");
+    const fetchApplications = collection(db, "submitted_applications_beta", "cohort6", "applications");
     const querySnapshot = await getDocs(fetchApplications);
 
     const allApplications = {
@@ -793,7 +793,7 @@ const fullDataNeeded = async (trackTotal, track) => {
 
 export const getCouncilApps = async (uid) => {
 
-    const fetchApplications = collection(db, "submitted_applications_beta", "cohort5", "applications");
+    const fetchApplications = collection(db, "submitted_applications_beta", "cohort6", "applications");
     const querySnapshot = await getDocs(fetchApplications);
 
     const allApplications = {}

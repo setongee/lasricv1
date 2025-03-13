@@ -14,10 +14,11 @@ import gradingTableTR from '../../components/tabletr/gradingTableTR';
 import GradingTableTR from '../../components/tabletr/gradingTableTR';
 import TableTr5 from '../../components/tabletr/Innovation5TR';
 import GradingTableTr5 from '../../components/tabletr/gradingTR5';
+import { summarizeData } from '../api/logic';
 
 const GradeInnovationApplication = ({councilProfile}) => {
 
-const Navigate = useNavigate()
+const Navigate = useNavigate();
 
 const formData23 = {
 
@@ -146,6 +147,7 @@ const formData23 = {
             if(response !== null ) {
 
                 setForm2(response.data);
+                // summarizeData(response.data)
 
             }
 

@@ -45,6 +45,7 @@ const CouncilShow = ({data, showPrev, appuid}) => {
             <div className="tableHead"> {data.track.join(", ")} </div>
 
             <div className="tableHead">  {graded} of <strong>{trackTotal.total}</strong>  </div>
+
             <div className="tableHead" style={{color : "green", fontWeight : "bold", fontSize : "12px" }}> Active </div>
 
             {/* <div className="tableHead" style={{color : "green", fontWeight : "bold", fontSize : "12px" }}> { !data.internal ? <div style={{color : "green"}}> Internal </div> : <div style={{color : "blue"}}> External </div> } </div> */}
